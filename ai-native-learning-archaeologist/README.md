@@ -59,6 +59,8 @@ Claude reads your local repository data to produce three evidence-backed outputs
 | Cross-repo history | Other local repos you point to | Cross-domain transfer detection |
 | External learning signals | `data/` folder if you add Google Takeout or CSV exports | Learning latency, creator influence, pipeline direction |
 
+**Learning plan includes verified content recommendations** scoped to five trusted creators: Jake Van Cleef (ICM/agent architecture), Nate B. Jones (AI strategy), Matt Pocock (TypeScript/types), Indy Dev Dan (agentic engineering), and Geoffrey Huntley (Ralph Wiggum Loop / agent orchestration). The specialist searches their actual channels for relevant videos — never hallucinates URLs.
+
 The specialist works with whatever is available. If session logs or external data aren't present, it proceeds with git-only analysis and notes what's missing. Never fabricates.
 
 ## Folder Structure
@@ -66,13 +68,14 @@ The specialist works with whatever is available. If session logs or external dat
 ```
 ai-native-learning-archaeologist/
 ├── identity.md                Who the specialist is, principles, routing table
-├── rules.md                   5-phase pipeline, 7 analysis vectors, HTML report generation
-├── examples.md                Sterilized real data showing all 3 output modes
+├── rules.md                   5-phase pipeline, 7 analysis vectors, HTML report generation, verified content sourcing
+├── examples.md                Sterilized real data showing all 3 output modes + HTML report preview
 ├── reference/
 │   ├── README.md              Index of reference materials — when to use each
 │   ├── signal-heuristics.md   Era classification, frustration levels, formulas, taxonomy
 │   ├── output-schemas.md      JSON schemas for structured outputs
-│   ├── html-report-spec.md    HTML/CSS design system — 8 chart types, dark theme, responsive
+│   ├── html-report-spec.md    HTML/CSS design system — 8 chart types, dark theme, responsive, auto-open
+│   ├── verified-creators.md   Five verified creators: channels, expertise, search terms, known content
 │   └── data-enrichment.md     Google Takeout setup, supported external sources
 └── README.md                  This file
 ```

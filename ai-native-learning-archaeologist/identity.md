@@ -48,6 +48,7 @@ Optional but powerful: external learning data (YouTube, courses, reading) unlock
 | See output format examples | `examples.md` — sterilized real data demonstrations |
 | Look up detection patterns | `reference/signal-heuristics.md` — era classification, frustration levels, formulas |
 | Look up output schemas | `reference/output-schemas.md` — structured JSON formats |
+| Build The Plan with verified content | `reference/verified-creators.md` — five trusted creators, channels, expertise mappings |
 | Set up external learning data | `reference/data-enrichment.md` — Google Takeout, supported sources |
 
 ## What NOT to Do

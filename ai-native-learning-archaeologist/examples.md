@@ -65,6 +65,7 @@ All numbers are real measurements from actual development projects. All identify
 - ROI: 10/10 | Time: 2-3 hrs | Prerequisites: none
 - Why you: 3 hooks spawned, 18% of intents are wiring, triple redundancy in audit
 - Learn: Dependency injection, module boundaries, interface contracts
+- **Verified content:** Jake Van Cleef — "Stop Building AI Agents. Use This Folder System Instead." (youtube.com/watch?v=MkN-ss2Nl10). Why: teaches module boundary thinking through folder architecture — same mental model applied to code.
 - Practice: Pick any unwired module. Write integration test proving Module A output feeds Module B input. See it fail. Wire it.
 - Verify when: You write wire-up code BEFORE module code, not after.
 
@@ -72,6 +73,7 @@ All numbers are real measurements from actual development projects. All identify
 - ROI: 10/10 | Time: 4-5 hrs | Prerequisites: Topic 1
 - Why you: 1.4% test commits, entire suite broken, msg/commit went 9.90→0.85 when you started specifying
 - Learn: Red-Green-Refactor, behavioral testing, mocking for AI-dependent code
+- **Verified content:** Matt Pocock — "TypeScript Crash Course with Matt Pocock" (youtube.com/watch?v=p6dO9u0M7MQ). Why: specification-driven development through types — the same discipline applied to tests.
 - Practice: Pick one module. Write 3 tests before code: valid input→non-empty, invalid→error, output matches schema. Watch fail. Make pass.
 - Verify when: You feel wrong committing without a test.
 
@@ -116,3 +118,43 @@ The data below was produced when YouTube watch history was correlated with commi
 **Creator-to-technology triggers:** Specific YouTube creators correlated with implementation bursts in specific technologies. Pattern: creator demonstrates technique → developer implements within 0-3 days. The top 5 influential creators accounted for 60% of all strong correlations.
 
 **Learning pipeline direction:** MIXED — 55% proactive (watched before building) + 45% reactive (watched after encountering a problem). Proactive watches correlated with higher-quality first implementations (fewer fix commits within 48 hours).
+
+---
+
+## Example 6: HTML Report — What the Browser Opens
+
+This is what the user sees after the analysis completes. A single HTML file (`learning-archaeologist-report.html`) auto-opens in the browser.
+
+**Report structure (4 interactive tabs):**
+
+### Overview Tab
+- Header badge: "🔮 Learning Archaeologist"
+- Project stats: 1,818 commits · 26 active days · 14 eras · 47-day span
+- **Metrics grid:** 4 sparkline cards showing velocity, AI collaboration, LVI, peak creative hour
+- **Breakthroughs list:** Specification precision (11.6x fewer corrections), Hook architecture (zero recurrences), Just-in-time learning (18 days → 1 day), AI trust transition (commanding → collaborating)
+
+### The Actuals Tab
+- **Era Timeline:** Horizontal stacked bar — 14 segments proportional to commits per era, color-coded by intent (cyan=building, green=deepening, purple=exploring, amber=integrating)
+- **Learning Velocity Curve:** Area chart with `clip-path` polygon. Y = LVI per era. Shows acceleration from Era 1 (LVI 0.3) to Era 7 (LVI 4.2)
+- **AI Maturity Trajectory:** Purple line chart. Y = MER. Labels L1→L2→L3 at each inflection point
+- **Hourly Heatmap:** 24-cell grid. 21:00 glows brightest (14.2% of commits). Dead hours (09:00-17:00) are near-black
+- **Before/After Table:** Side-by-side metrics with color-coded changes (green for positive, red for negative)
+
+### The Gaps Tab
+- **Severity Donut:** `conic-gradient` showing 1 BLOCKS (red, 60%), 1 REWORK (yellow, 30%), 1 LIMITS (purple, 10%)
+- **Rework Breakdown:** Horizontal gradient bars — Integration 60%, Testing 25%, Tooling 10%, Architecture 5%
+- **Gap Cards:** Each gap is a card with `border-left: 3px solid [severity-color]`. Evidence badges (`a1b2c3d`, `e4f5g6h`) are clickable cyan pills
+- **Blind Spots Grid:** 3 cards in a row — Cache invalidation, CI/CD, Abstraction
+
+### The Plan Tab
+- **Curriculum Timeline:** Vertical connected timeline. Topic 1 (Wiring) → Topic 2 (Tests) → Topic 3 (Model awareness). Each node shows rank, title, ROI, hours
+- **ROI Scatter Plot:** X = hours (2-5), Y = ROI (8-10), bubble size = rework % addressed. All bubbles in green quadrant
+- **Topic Cards:** Expanded view with verified content section — exact video title, real YouTube URL, one-sentence fit explanation
+
+**Technical details:**
+- Single file, inline CSS, zero dependencies
+- Dark theme (`#0a0a0f` background, `#38bdf8` cyan accent)
+- Responsive: stacks to 2-column metrics on tablet, full-width cards on mobile
+- All charts are CSS-only — no Chart.js, no D3, no external fonts
+- Evidence badges have `title` tooltips showing commit date and context
+- `[UNVERIFIED]` findings render at `opacity: 0.65` with dashed left border
