@@ -8,9 +8,9 @@ Three evidence-backed outputs, rendered as an auto-opening HTML report:
 
 | Output | Question | What You Get |
 |--------|----------|-------------|
-| **The Actuals** | What am I learning? | Chronological learning narrative with velocity metrics, behavioral eras, breakthrough detection |
-| **The Gaps** | What am I missing? | Ranked knowledge gaps backed by behavioral evidence — frustration patterns, rework analysis, blind spots |
-| **The Plan** | What should I study next? | ROI-ranked personalized curriculum citing your own data, with hands-on exercises and verified video recommendations |
+| **What You Learned** | What am I learning? | Chronological learning narrative with velocity metrics, behavioral eras, breakthrough detection |
+| **What You're Missing** | What am I missing? | Ranked knowledge gaps backed by behavioral evidence — frustration patterns, rework analysis, blind spots |
+| **What to Study Next** | What should I study next? | ROI-ranked personalized curriculum with hands-on exercises and verified video recommendations from real YouTube creators |
 
 ## What It Reads
 

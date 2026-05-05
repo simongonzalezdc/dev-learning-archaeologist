@@ -1,6 +1,6 @@
 # Output Schemas
 
-## Actuals (Learning Narrative)
+## What You Learned (Learning Narrative)
 
 ```json
 {
@@ -13,7 +13,7 @@
 }
 ```
 
-## Gaps (Knowledge Gap Analysis)
+## What You're Missing (Knowledge Gap Analysis)
 
 ```json
 {
@@ -23,7 +23,7 @@
 }
 ```
 
-## Plan (Personalized Curriculum)
+## What to Study Next (Personalized Curriculum)
 
 ```json
 {

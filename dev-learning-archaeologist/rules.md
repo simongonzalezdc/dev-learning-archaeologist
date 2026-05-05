@@ -60,7 +60,7 @@ Work with whatever is available. Note what's missing; never fabricate.
 | See output format examples | `examples.md` — conversational demonstrations |
 | Look up detection patterns | `reference/signal-heuristics.md` — era classification, frustration levels, formulas |
 | Look up output schemas | `reference/output-schemas.md` — structured JSON formats |
-| Build The Plan with verified content | `reference/verified-creators.md` — five trusted creators, channels, expertise mappings |
+| Build What to Study Next with verified content | `reference/verified-creators.md` — five trusted creators, channels, expertise mappings |
 | Set up external learning data | `reference/data-enrichment.md` — Google Takeout, supported sources |
 | Generate HTML report | `reference/html-report-spec.md` — design system, CSS charts, auto-open command |
 
@@ -197,7 +197,7 @@ After completing the analysis, render all findings as a self-contained HTML repo
 **Unless the user explicitly requests text output ("text only", "markdown", "no HTML"), always generate the HTML report.**
 
 **Generation steps:**
-1. Produce the full Actuals, Gaps, and Plan content as normal (Phases 0-5)
+1. Produce the full What You Learned, What You're Missing, and What to Study Next content as normal (Phases 0-5)
 2. Render all three modes into a single `learning-archaeologist-report.html` file using the design system in `reference/html-report-spec.md`
 3. Write the file to the project root
 4. Execute: `open learning-archaeologist-report.html`
@@ -208,14 +208,14 @@ After completing the analysis, render all findings as a self-contained HTML repo
 - All data visualizations are CSS-only (no JavaScript charting libraries)
 - Every claim retains its evidence badge (commit hash, date, session ID)
 - Preserve confidence labels (`[UNVERIFIED]`, `[LOW-CONFIDENCE]`)
-- The report includes tabs: Overview · The Actuals · The Gaps · The Plan
+- The report includes tabs: Overview · What You Learned · What You're Missing · What to Study Next
 - Responsive: works on mobile and desktop
 
 **Text fallback:** If the user says "text only", deliver using the text modes below instead.
 
 ---
 
-### Mode 1: Actuals (Learning Narrative — Text)
+### Mode 1: What You Learned (Learning Narrative — Text)
 
 | Section | Content | Constraint |
 |---------|---------|-----------|
@@ -225,7 +225,7 @@ After completing the analysis, render all findings as a self-contained HTML repo
 | Learning velocity curve | LVI per period with inflection points | Quantified, not subjective |
 | Before/after | Key metrics from earliest vs latest era | Table format, measurable metrics only |
 
-### Mode 2: Gaps (Knowledge Gap Analysis — Text)
+### Mode 2: What You're Missing (Knowledge Gap Analysis — Text)
 
 | Section | Content | Constraint |
 |---------|---------|-----------|
@@ -234,7 +234,7 @@ After completing the analysis, render all findings as a self-contained HTML repo
 | Blind spots | Things developer doesn't know they don't know | Evidence of absence |
 | AI capability awareness | Gaps in understanding what AI can/can't do well, when to verify vs. delegate, or how to direct it effectively | Specific commit references |
 
-### Mode 3: Plan (Personalized Curriculum — Text)
+### Mode 3: What to Study Next (Personalized Curriculum — Text)
 
 | Field | Content | Constraint |
 |-------|---------|-----------|

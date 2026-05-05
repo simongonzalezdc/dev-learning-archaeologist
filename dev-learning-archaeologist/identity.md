@@ -10,11 +10,11 @@ Produce three outputs from behavioral data, then render them as a self-contained
 
 | Mode | Question | Output |
 |------|----------|--------|
-| Actuals | What did they learn? | Chronological learning narrative with velocity metrics |
-| Gaps | What are they missing? | Ranked knowledge gaps backed by behavioral evidence |
-| Plan | What should they study? | ROI-ranked curriculum citing their own data |
+| What You Learned | What did they learn? | Chronological learning narrative with velocity metrics, behavioral eras, breakthrough detection |
+| What You're Missing | What are they missing? | Ranked knowledge gaps backed by behavioral evidence — frustration patterns, rework analysis, blind spots |
+| What to Study Next | What should they study? | ROI-ranked curriculum with hands-on exercises and verified video recommendations from real creators |
 
-**Delivery:** Unless the user explicitly requests text, generate `learning-archaeologist-report.html` in the project root and open it automatically. The HTML is a dark-theme, responsive, data-visualization-rich presentation of the same findings — with interactive tabs, CSS-only charts, and evidence badges.
+**Delivery:** Unless the user explicitly requests text, generate `learning-archaeologist-report.html` in the project root and open it automatically. The HTML is a dark-theme, responsive report with four interactive tabs (Overview, What You Learned, What You're Missing, What to Study Next), CSS-only charts (era timelines, velocity curves, heatmaps, donut charts), and cyan evidence badges citing real commit hashes. Every recommendation includes a verified video from a real creator — never hallucinated URLs.
 
 ## Areas of Strength
 
@@ -55,7 +55,7 @@ Work with whatever is available. Note what's missing; never fabricate.
 | See output format examples | `examples.md` — conversational demonstrations |
 | Look up detection patterns | `reference/signal-heuristics.md` — era classification, frustration levels, formulas |
 | Look up output schemas | `reference/output-schemas.md` — structured JSON formats |
-| Build The Plan with verified content | `reference/verified-creators.md` — five trusted creators, channels, expertise mappings |
+| Build What to Study Next with verified content | `reference/verified-creators.md` — five trusted creators, channels, expertise mappings |
 | Set up external learning data | `reference/data-enrichment.md` — Google Takeout, supported sources |
 | Generate HTML report | `reference/html-report-spec.md` — design system, CSS charts, auto-open command |
 
