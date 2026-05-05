@@ -1,41 +1,41 @@
 # AI-Native Learning Archaeologist
 
-Drop this folder into any Claude project, paste your git log, and ask: **"What am I learning, what am I missing, and what should I study next?"** Claude will analyze your commits and answer with evidence — citing specific commit hashes, dates, and patterns from your own history.
+An ICM specialist that turns git history into a learning diagnostic for people who code with AI. Drop this folder into any project, open Claude Code, and ask a single question. The specialist reads your commits, sessions, and behavioral patterns from disk and produces an evidence-backed analysis — no data entry, no copy-paste, no setup.
 
-## 5-Minute First Run
+## How To Use
 
-**Step 1 — Get your git log (30 seconds):**
+**One-step setup:**
 
 ```bash
-git log --all --format="%H|%ai|%an|%s" --reverse
+# Copy the specialist into the project you want analyzed
+cp -r ai-native-learning-archaeologist /path/to/your/project/
+
+# Open Claude Code in that project
+cd /path/to/your/project
+claude
 ```
 
-Copy the output.
-
-**Step 2 — Paste into Claude (10 seconds):**
+**Then say anything.** The specialist knows what to do.
 
 ```
-Here's my git log. Tell me what I'm learning, what I'm missing,
-and what I should study next.
+What am I learning, what am I missing, and what should I study next?
 ```
 
-**Step 3 — Read your diagnostic (4 minutes).** That's it. No setup. No configuration. No understanding the methodology required — the specialist handles the 5-phase pipeline internally.
+Claude reads the specialist files, extracts your git history, finds session logs, and runs the full 5-phase pipeline automatically. Every claim cites a commit hash or date from your actual history.
 
 ---
 
-**Example of what you get back (abbreviated):**
+**What you get back (example):**
 
-> **What you're learning:** You discovered testing in Era 3 (commits `a1b2c3d` through `e4f5g6h`). Before that, 0% of commits included tests. After, 23% do. Your commit messages shifted from "fix again" to "add validation hook."
+> **What you're learning:** You discovered testing in Era 3. Before that, 0% of commits included tests. After, 23% do. Your commit messages shifted from "fix again" to "add validation hook."
 >
 > **What you're missing:** Zero refactoring commits across 180 commits suggests you haven't yet developed an ear for code smell. Every new feature is built fresh instead of composed from existing modules.
 >
 > **What to study next:** "Extract Module" pattern — pick any file you've modified 5+ times and pull its core logic into a reusable function. Verify: the next feature should import it, not recreate it.
 
----
-
 ## What It Does
 
-Claude reads your commits, sessions, and behavioral patterns to produce three evidence-backed outputs:
+Claude reads your local repository data to produce three evidence-backed outputs:
 
 | Output | Question | What You Get |
 |--------|----------|-------------|
@@ -43,31 +43,16 @@ Claude reads your commits, sessions, and behavioral patterns to produce three ev
 | **The Gaps** | What am I missing? | Ranked knowledge gaps backed by behavioral evidence — frustration patterns, rework analysis, blind spots |
 | **The Plan** | What should I study next? | ROI-ranked personalized curriculum citing your own commit data, with hands-on exercises from your codebase |
 
-## How To Use
+## What the Specialist Reads Automatically
 
-**The plain-English way (recommended for first use):**
+| Data Source | Where It Finds It | Unlocks |
+|-------------|-------------------|---------|
+| Git history | `.git/` in the current project — `git log` output | All outputs. Minimum viable input. |
+| Session logs | `.claude/` directory (Claude Code), `.cursor/` or Copilot exports | Frustration detection, AI maturity scoring |
+| Cross-repo history | Other local repos you point to | Cross-domain transfer detection |
+| External learning signals | `data/` folder if you add Google Takeout or CSV exports | Learning latency, creator influence, pipeline direction |
 
-Paste your git log, then ask naturally:
-
-```
-Here's my git log. What am I learning, what gaps do I have,
-and what should I study next?
-```
-
-**The structured way (if you want to control the output):**
-
-```
-Analyze this repository's git history using the AI-Native Learning Archaeologist
-methodology. Start with Phase 0 (ground truth), then proceed through all 5 phases.
-```
-
-**Richer analysis with more data:**
-
-| Data Source | Unlocks | How to Get |
-|------------|---------|-----------|
-| Session logs | Frustration detection, AI maturity scoring | Copy from `.claude/` directory (Claude Code), export from Cursor/Copilot |
-| Cross-repo history | Cross-domain transfer detection | Provide paths to other local repos |
-| Google Takeout (YouTube) | Learning latency, creator influence, pipeline direction | See `reference/data-enrichment.md` |
+The specialist works with whatever is available. If session logs or external data aren't present, it proceeds with git-only analysis and notes what's missing. Never fabricates.
 
 ## Folder Structure
 
