@@ -25,23 +25,30 @@ Claude reads the specialist files, extracts your git history, finds session logs
 
 ---
 
-**What you get back (example):**
+**What you get back:**
 
-> **What you're learning:** You discovered testing in Era 3. Before that, 0% of commits included tests. After, 23% do. Your commit messages shifted from "fix again" to "add validation hook."
->
-> **What you're missing:** Zero refactoring commits across 180 commits suggests you haven't yet developed an ear for code smell. Every new feature is built fresh instead of composed from existing modules.
->
-> **What to study next:** "Extract Module" pattern — pick any file you've modified 5+ times and pull its core logic into a reusable function. Verify: the next feature should import it, not recreate it.
+An HTML report auto-opens in your browser with four interactive tabs:
+
+- **Overview** — Executive summary, key metrics with sparklines, breakthrough moments
+- **The Actuals** — Era timeline (stacked bar), learning velocity curve (area chart), AI maturity trajectory, hourly commit heatmap
+- **The Gaps** — Severity donut chart, rework breakdown (horizontal bars), ranked gap cards with evidence badges
+- **The Plan** — Curriculum timeline, ROI scatter plot, hands-on exercises with verify criteria
+
+Every claim is backed by a clickable evidence badge showing the commit hash. All charts are CSS-only — no external dependencies, loads instantly, works offline.
+
+> **Example insight from a real report:** "You discovered testing in Era 3 (`a1b2c3d` → `e4f5g6h`). Before that, 0% of commits included tests. After, 23% do. Your commit messages shifted from 'fix again' to 'add validation hook.'"
 
 ## What It Does
 
-Claude reads your local repository data to produce three evidence-backed outputs:
+Claude reads your local repository data to produce three evidence-backed outputs, then renders them as a beautiful HTML report with interactive data visualizations:
 
 | Output | Question | What You Get |
 |--------|----------|-------------|
 | **The Actuals** | What am I learning? | Chronological learning narrative with velocity metrics, behavioral eras, and breakthrough detection |
 | **The Gaps** | What am I missing? | Ranked knowledge gaps backed by behavioral evidence — frustration patterns, rework analysis, blind spots |
 | **The Plan** | What should I study next? | ROI-ranked personalized curriculum citing your own commit data, with hands-on exercises from your codebase |
+
+**All delivered as a self-contained HTML report** — dark theme, responsive, CSS-only charts (velocity curves, heatmaps, donut charts, scatter plots), evidence badges, and interactive tabs. Opens automatically in your browser. Text output available on request.
 
 ## What the Specialist Reads Automatically
 
@@ -59,12 +66,13 @@ The specialist works with whatever is available. If session logs or external dat
 ```
 ai-native-learning-archaeologist/
 ├── identity.md                Who the specialist is, principles, routing table
-├── rules.md                   5-phase pipeline, 7 analysis vectors, quality constraints
+├── rules.md                   5-phase pipeline, 7 analysis vectors, HTML report generation
 ├── examples.md                Sterilized real data showing all 3 output modes
 ├── reference/
 │   ├── README.md              Index of reference materials — when to use each
 │   ├── signal-heuristics.md   Era classification, frustration levels, formulas, taxonomy
 │   ├── output-schemas.md      JSON schemas for structured outputs
+│   ├── html-report-spec.md    HTML/CSS design system — 8 chart types, dark theme, responsive
 │   └── data-enrichment.md     Google Takeout setup, supported external sources
 └── README.md                  This file
 ```

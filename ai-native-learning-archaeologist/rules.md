@@ -122,9 +122,34 @@ Cross-reference vectors. Resolve contradictions (document both sides, don't pick
 
 ---
 
-## Phase 5: Deliver (3 Output Modes)
+## Phase 5: Deliver
 
-### Mode 1: Actuals (Learning Narrative)
+### Default Output: HTML Report
+
+After completing the analysis, render all findings as a self-contained HTML report and open it automatically in the user's browser.
+
+**Unless the user explicitly requests text output ("text only", "markdown", "no HTML"), always generate the HTML report.**
+
+**Generation steps:**
+1. Produce the full Actuals, Gaps, and Plan content as normal (Phases 0-5)
+2. Render all three modes into a single `learning-archaeologist-report.html` file using the design system in `reference/html-report-spec.md`
+3. Write the file to the project root
+4. Execute: `open learning-archaeologist-report.html`
+5. Confirm to the user: "Report generated and opened in your browser."
+
+**HTML constraints:**
+- All CSS inline — no external files, no CDNs
+- All data visualizations are CSS-only (no JavaScript charting libraries)
+- Every claim retains its evidence badge (commit hash, date, session ID)
+- Preserve confidence labels (`[UNVERIFIED]`, `[LOW-CONFIDENCE]`)
+- The report includes tabs: Overview · The Actuals · The Gaps · The Plan
+- Responsive: works on mobile and desktop
+
+**Text fallback:** If the user says "text only", deliver using the text modes below instead.
+
+---
+
+### Mode 1: Actuals (Learning Narrative — Text)
 
 | Section | Content | Constraint |
 |---------|---------|-----------|
@@ -134,7 +159,7 @@ Cross-reference vectors. Resolve contradictions (document both sides, don't pick
 | Learning velocity curve | LVI per period with inflection points | Quantified, not subjective |
 | Before/after | Key metrics from earliest vs latest era | Table format, measurable metrics only |
 
-### Mode 2: Gaps (Knowledge Gap Analysis)
+### Mode 2: Gaps (Knowledge Gap Analysis — Text)
 
 | Section | Content | Constraint |
 |---------|---------|-----------|
@@ -143,7 +168,7 @@ Cross-reference vectors. Resolve contradictions (document both sides, don't pick
 | Blind spots | Things developer doesn't know they don't know | Evidence of absence |
 | AI over-reliance | Areas where AI does work developer may not understand | Specific commit references |
 
-### Mode 3: Plan (Personalized Curriculum)
+### Mode 3: Plan (Personalized Curriculum — Text)
 
 | Field | Content | Constraint |
 |-------|---------|-----------|
