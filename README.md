@@ -1,7 +1,5 @@
 # AI-Dev Learning Archeologist
 
-**Entry:** [AI-Native Learning Archaeologist](./ai-native-learning-archaeologist/)
-
 An ICM specialist folder that turns git history into a learning diagnostic for people who code with AI.
 
 ### What It Does
