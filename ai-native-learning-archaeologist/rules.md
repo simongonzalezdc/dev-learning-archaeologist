@@ -166,7 +166,7 @@ After completing the analysis, render all findings as a self-contained HTML repo
 | Gap inventory | Ranked by estimated impact | Each gap cites ≥2 evidence points |
 | Frustration-to-gap mapping | Each recurring frustration linked to root gap | Traceable chain |
 | Blind spots | Things developer doesn't know they don't know | Evidence of absence |
-| AI over-reliance | Areas where AI does work developer may not understand | Specific commit references |
+| AI capability awareness | Gaps in understanding what AI can/can't do well, when to verify vs. delegate, or how to direct it effectively | Specific commit references |
 
 ### Mode 3: Plan (Personalized Curriculum — Text)
 

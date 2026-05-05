@@ -19,7 +19,7 @@
 {
   "gaps": [{ "id": "GAP-001", "title": "string", "severity": "BLOCKS|REWORK|LIMITS|COSMETIC", "impact_pct": "float 0-100", "evidence": [{ "type": "commit|session|timing", "ref": "string", "excerpt": "string" }], "root_cause": "string" }],
   "blind_spots": [{ "area": "string", "evidence_of_absence": "string", "potential_impact": "string" }],
-  "ai_over_reliance": [{ "area": "string", "evidence": "string", "risk": "string" }]
+  "ai_capability_gaps": [{ "area": "string", "evidence": "string", "impact": "string" }]
 }
 ```
 
