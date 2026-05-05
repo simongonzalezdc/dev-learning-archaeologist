@@ -1,6 +1,4 @@
-# Skool Competition Entries
-
-## Weekly Comp #3: The Specialist
+# AI-Dev Learning Archeologist
 
 **Entry:** [AI-Native Learning Archaeologist](./ai-native-learning-archaeologist/)
 
