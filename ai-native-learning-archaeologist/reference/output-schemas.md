@@ -48,7 +48,7 @@
 
 ```json
 {
-  "autonomy_evolution": [{ "era": "string", "level": "1-4", "evidence": ["string"], "human_pct": "float", "mer": "float" }],
+  "autonomy_evolution": [{ "era": "string", "level": "L1|L2|L3|L4", "evidence": ["string"], "human_pct": "float", "mer": "float" }],
   "tools": [{ "name": "string", "released": "ISO", "first_used": "ISO", "lag_months": "int", "role": "SCAFFOLDING|EXPANSION|ARCHITECTURE|QUALITY|STRATEGY|SUPERVISION" }],
   "trust": { "direction": "IMPROVING|STABLE|DECLINING", "inflection": { "era": "string", "mer_threshold": "float", "evidence": "string" } },
   "frustration_conversion": { "total": "int", "automated": "int", "rate": "float 0-1", "avg_hours": "float" }

@@ -28,7 +28,7 @@ Produce three outputs from behavioral data:
 | Data | Required For | How to Get |
 |------|-------------|-----------|
 | Git log (timestamps + messages) | All modes — minimum viable input | `git log --all --format="%H\|%ai\|%an\|%s" --reverse` (deduplicate across branches — see Phase 0) |
-| Session logs | Frustration detection, AI maturity scoring | Copy from `.claude/` project directory (Claude Code), or export from Cursor/Copilot |
+| Session logs | Frustration detection, AI maturity scoring | Read from `.claude/` project directory (Claude Code), or export from Cursor/Copilot |
 | Cross-repo history | Cross-domain transfer, multi-project velocity | Provide paths to other local repos |
 | External learning signals | Learning latency measurement, creator influence | **Google Takeout** (see below) |
 
