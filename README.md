@@ -35,9 +35,23 @@ methodology. Start with Phase 0 (ground truth), then proceed through all 5 phase
 | Cross-repo history | Other local repos you point to | Optional — unlocks cross-domain transfer detection |
 | External learning data | `data/` folder (Google Takeout, CSV exports) | Optional — unlocks learning latency, creator influence |
 
-## Methodology
+## Folder Structure
 
-Built on the [Interpretable Context Methodology](https://arxiv.org/abs/2603.16021) — folder structure as agent architecture. 5-phase archaeological pipeline, 7 parallel analysis vectors, 3 output modes. Every claim cites a commit hash, session ID, or date.
+```
+dev-learning-archaeologist/
+├── identity.md              Who the specialist is — background, principles, scope
+├── rules.md                 How it responds — behavioral rules + 5-phase pipeline + 7 analysis vectors
+├── examples.md              Conversational examples showing the specialist in action
+├── reference/
+│   ├── signal-heuristics.md   Era classification, frustration levels, formulas, commit type taxonomy
+│   ├── output-schemas.md      JSON schemas for structured outputs
+│   ├── html-report-spec.md    HTML/CSS design system — dark theme, 8 chart types, responsive
+│   ├── verified-creators.md   Five verified creators for learning plan recommendations
+│   └── data-enrichment.md     Google Takeout setup, supported external data sources
+└── README.md                This file
+```
+
+Built on the [Interpretable Context Methodology](https://arxiv.org/abs/2603.16021) — folder structure as agent architecture. Each file does one job. `identity.md` loads first, routes to `rules.md` for process, pulls from `reference/` as needed.
 
 ## Author
 
