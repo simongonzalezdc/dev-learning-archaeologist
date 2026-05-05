@@ -176,10 +176,18 @@ After completing the analysis, render all findings as a self-contained HTML repo
 | Era origin | Which era(s) exposed this gap | Must trace to specific era's behavior |
 | Why | Specific evidence from developer's data | Quote commits or sessions from that era |
 | What | Precise knowledge area | Formal term + scope |
+| **Verified content** | One targeted video from the verified creators list (`reference/verified-creators.md`) | Must be real — never hallucinate URLs or titles. If no match found, state that explicitly. |
 | Practice | Hands-on exercise using developer's own codebase | Name specific files/modules from that era |
 | Verify | Mechanically testable criterion | No subjective judgments |
 | Prerequisites | What to learn first | Ordered dependency chain matching era chronology |
 | Schedule | Burst-compatible pacing | Not steady-state daily |
+
+**Verified content sourcing rules:**
+1. Map the topic to the most relevant creator from `reference/verified-creators.md` (Jake Van Cleef for ICM/agent architecture, Nate B. Jones for strategy, Matt Pocock for TypeScript/types, Indy Dev Dan for agentic engineering, Geoffrey Huntley for agent loops/orchestration).
+2. Search that creator's YouTube channel for content matching the specific gap.
+3. Only recommend content that exists. If no relevant video is found, say: "No verified content found from [creator] on this specific topic."
+4. Cite the exact video title and real URL. Never invent either.
+5. One recommendation per topic maximum. The Plan is not a reading list.
 
 ---
 
