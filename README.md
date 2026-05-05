@@ -1,4 +1,4 @@
-# AI-Dev Learning Archeologist
+# Dev Learning Archaeologist
 
 An ICM specialist folder that turns git history into a learning diagnostic for people who code with AI.
 
@@ -8,23 +8,23 @@ Drop it into any Claude project and it analyzes your commits, sessions, and beha
 
 1. **The Actuals** — What are you learning? Chronological learning narrative with velocity metrics, behavioral eras, and breakthrough detection.
 2. **The Gaps** — What are you missing? Ranked knowledge gaps backed by behavioral evidence — frustration patterns, rework analysis, blind spots.
-3. **The Plan** — What should you study next? ROI-ranked curriculum citing your own commit data, with hands-on exercises from your codebase.
+3. **The Plan** — What should you study next? ROI-ranked curriculum citing your own commit data, with hands-on exercises and verified video recommendations from real creators.
 
 ### Quick Start
 
 ```bash
-git clone https://github.com/Pastorsimon1798/skool-competitions.git
-cp -r skool-competitions/ai-native-learning-archaeologist /path/to/your/project/
+git clone https://github.com/KyaniteLabs/dev-learning-archaeologist.git
+cp -r dev-learning-archaeologist /path/to/your/project/
 cd /path/to/your/project && claude
 ```
 
 Then paste:
 ```
-Analyze this repository's git history using the AI-Native Learning Archaeologist
+Analyze this repository's git history using the Dev Learning Archaeologist
 methodology. Start with Phase 0 (ground truth), then proceed through all 5 phases.
 ```
 
-Full documentation in the [specialist README](./ai-native-learning-archaeologist/README.md).
+Full documentation in the [specialist README](./dev-learning-archaeologist/README.md).
 
 ### Methodology
 
