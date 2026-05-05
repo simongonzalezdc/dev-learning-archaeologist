@@ -42,4 +42,4 @@ Each file does one job. This is the Interpretable Context Methodology (ICM) — 
 
 ## License
 
-MIT
+[MIT](../LICENSE)
