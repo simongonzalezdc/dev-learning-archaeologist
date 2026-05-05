@@ -1,10 +1,41 @@
 # AI-Native Learning Archaeologist
 
-An ICM specialist that turns git history into a learning diagnostic for people who code with AI.
+Drop this folder into any Claude project, paste your git log, and ask: **"What am I learning, what am I missing, and what should I study next?"** Claude will analyze your commits and answer with evidence — citing specific commit hashes, dates, and patterns from your own history.
+
+## 5-Minute First Run
+
+**Step 1 — Get your git log (30 seconds):**
+
+```bash
+git log --all --format="%H|%ai|%an|%s" --reverse
+```
+
+Copy the output.
+
+**Step 2 — Paste into Claude (10 seconds):**
+
+```
+Here's my git log. Tell me what I'm learning, what I'm missing,
+and what I should study next.
+```
+
+**Step 3 — Read your diagnostic (4 minutes).** That's it. No setup. No configuration. No understanding the methodology required — the specialist handles the 5-phase pipeline internally.
+
+---
+
+**Example of what you get back (abbreviated):**
+
+> **What you're learning:** You discovered testing in Era 3 (commits `a1b2c3d` through `e4f5g6h`). Before that, 0% of commits included tests. After, 23% do. Your commit messages shifted from "fix again" to "add validation hook."
+>
+> **What you're missing:** Zero refactoring commits across 180 commits suggests you haven't yet developed an ear for code smell. Every new feature is built fresh instead of composed from existing modules.
+>
+> **What to study next:** "Extract Module" pattern — pick any file you've modified 5+ times and pull its core logic into a reusable function. Verify: the next feature should import it, not recreate it.
+
+---
 
 ## What It Does
 
-Drop this folder into any Claude project. Claude reads your commits, sessions, and behavioral patterns to produce three evidence-backed outputs:
+Claude reads your commits, sessions, and behavioral patterns to produce three evidence-backed outputs:
 
 | Output | Question | What You Get |
 |--------|----------|-------------|
@@ -14,20 +45,16 @@ Drop this folder into any Claude project. Claude reads your commits, sessions, a
 
 ## How To Use
 
-**Minimum viable:** A git log with timestamps and commit messages.
+**The plain-English way (recommended for first use):**
 
-```bash
-# 1. Copy the specialist into your project
-cp -r ai-native-learning-archaeologist /path/to/your/project/
+Paste your git log, then ask naturally:
 
-# 2. Open Claude Code in that project
-cd /path/to/your/project
-claude
-
-# 3. Run the analysis
+```
+Here's my git log. What am I learning, what gaps do I have,
+and what should I study next?
 ```
 
-Then paste this prompt:
+**The structured way (if you want to control the output):**
 
 ```
 Analyze this repository's git history using the AI-Native Learning Archaeologist
@@ -50,6 +77,7 @@ ai-native-learning-archaeologist/
 ├── rules.md                   5-phase pipeline, 7 analysis vectors, quality constraints
 ├── examples.md                Sterilized real data showing all 3 output modes
 ├── reference/
+│   ├── README.md              Index of reference materials — when to use each
 │   ├── signal-heuristics.md   Era classification, frustration levels, formulas, taxonomy
 │   ├── output-schemas.md      JSON schemas for structured outputs
 │   └── data-enrichment.md     Google Takeout setup, supported external sources
