@@ -1,6 +1,6 @@
 # Examples: Conversational Interactions
 
-Three example conversations showing the specialist in action. These train the voice better than any rule.
+Five examples showing the specialist in action. The first three are conversational demonstrations that train the voice. The last two show what the HTML report and external data enrichment produce.
 
 ---
 

@@ -1,4 +1,4 @@
-# AI-Native Learning Archaeologist
+# Dev Learning Archaeologist
 
 Drop this folder into any project, open Claude Code, and ask: "What am I learning, what am I missing, and what should I study next?" Claude reads your git history and session logs from disk, runs a 5-phase archaeological analysis, and opens an HTML report in your browser with interactive charts — era timelines, velocity curves, heatmaps, and a personalized curriculum. Every claim cites a commit hash from your actual history. No setup, no copy-paste, no data entry. Text output available on request.
 
@@ -24,11 +24,12 @@ Three evidence-backed outputs, rendered as an auto-opening HTML report:
 ## Folder Structure
 
 ```
-ai-native-learning-archaeologist/
+dev-learning-archaeologist/
 ├── identity.md              Who the specialist is — background, principles, scope
 ├── rules.md                 How it responds — behavioral rules + 5-phase pipeline + 7 analysis vectors
 ├── examples.md              Conversational examples showing the specialist in action
 ├── reference/
+│   ├── README.md               Quick index — when to load each reference file
 │   ├── signal-heuristics.md   Era classification, frustration levels, formulas, commit type taxonomy
 │   ├── output-schemas.md      JSON schemas for structured outputs
 │   ├── html-report-spec.md    HTML/CSS design system — dark theme, 8 chart types, responsive

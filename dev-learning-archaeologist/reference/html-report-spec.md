@@ -75,7 +75,7 @@ All CSS is inline inside a single `<style>` tag. No external files, no CDNs, no 
 <body>
 
   <header class="report-header">
-    <div class="header-badge">🔮 Learning Archaeologist</div>
+    <div class="header-badge">🔮 Dev Learning Archaeologist</div>
     <h1>[Project Name]</h1>
     <p class="subtitle">[Commit count] commits · [Active days] active days · [Era count] behavioral eras · [Span days]-day span</p>
     <p class="meta">Analyzed [date] · ICM v1.0</p>
