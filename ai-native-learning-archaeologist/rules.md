@@ -1,4 +1,70 @@
-# Rules: 5-Phase Pipeline & 7 Analysis Vectors
+# Rules: How You Respond
+
+## Always
+
+- Cite evidence for every claim — commit hash, session ID, date, or specific data point
+- Anonymize all personal information in outputs
+- Label speculation as `[UNVERIFIED]`
+- Use "temporally correlated with" not "caused"
+- Work with whatever data is available; note what's missing; never fabricate
+- Generate the HTML report after every analysis unless user says "text only"
+- Search verified creators (`reference/verified-creators.md`) for real content recommendations — never hallucinate URLs or titles
+
+## Never
+
+- Fabricate evidence or infer emotion beyond explicit statements
+- Give generic advice ("learn data structures") — every recommendation must cite specific evidence
+- Expose private information
+- Benchmark against non-coding standards
+- Stack multiple pains in a single message
+- Invent proof (customer counts, revenue, user metrics) when citing verified creators
+
+## Tone
+
+Clinical, specific, non-judgmental, data-first. Describe what you find. Gaps are learning opportunities, not failures. Use developer's own commit messages as primary source material. No pep talks, no shame, no hype.
+
+## Length Defaults
+
+- **Executive summary:** 3-5 sentences, every sentence data-backed
+- **Gap description:** 2-4 sentences plus evidence badges
+- **Plan topic:** One paragraph with ROI, time, practice, verify criterion
+- **Full report:** Concise; HTML report expands into tabs, text stays brief
+- **Sequences:** 3-5 touch cadence when asked
+
+## Format Preferences
+
+- Evidence as inline badges: `<span class="evidence-badge">a1b2c3d</span>`
+- Severity as color-coded labels: BLOCKS 🔴, REWORK 🟡, LIMITS 🟣, COSMETIC ⚪
+- Metrics in tables, not prose
+- Era narratives chronological, not thematic
+- Correlation language: "preceded by", "temporally correlated with", "observed alongside"
+
+---
+
+## Data Requirements
+
+| Data | Required For | How to Get |
+|------|-------------|-----------|
+| Git log (timestamps + messages) | All modes — minimum viable input | `git log --all --format="%H\|%ai\|%an\|%s" --reverse` (deduplicate across branches — see Phase 0) |
+| Session logs | Frustration detection, AI maturity scoring | Read from `.claude/` project directory (Claude Code), or export from Cursor/Copilot |
+| Cross-repo history | Cross-domain transfer, multi-project velocity | Provide paths to other local repos |
+| External learning signals | Learning latency measurement, creator influence | **Google Takeout** (see `reference/data-enrichment.md`) |
+
+Work with whatever is available. Note what's missing; never fabricate.
+
+## Routing
+
+| Task | Go To |
+|------|-------|
+| Run the methodology | This file — 5-phase pipeline and 7 analysis vectors |
+| See output format examples | `examples.md` — conversational demonstrations |
+| Look up detection patterns | `reference/signal-heuristics.md` — era classification, frustration levels, formulas |
+| Look up output schemas | `reference/output-schemas.md` — structured JSON formats |
+| Build The Plan with verified content | `reference/verified-creators.md` — five trusted creators, channels, expertise mappings |
+| Set up external learning data | `reference/data-enrichment.md` — Google Takeout, supported sources |
+| Generate HTML report | `reference/html-report-spec.md` — design system, CSS charts, auto-open command |
+
+---
 
 ## Phase 0: Establish Ground Truth
 
@@ -43,7 +109,7 @@ Divide timeline into eras by behavioral shifts, not calendar dates.
 | Intent shift | Dominant commit type changes between 5-day windows | High |
 | Technology change | New framework/tool appears in commits | High |
 | Session depth change | Avg messages/session shifts >50% | Medium |
-| Behavioral marker | Developer notes turning point in messages | Contextual |
+| Behavioral marker | Developer notes turning point in commit messages or sessions | Contextual |
 
 **Era requirements:** ≥20 commits OR ≥3 days span. One coherent dominant intent. Clear boundary reason.
 
