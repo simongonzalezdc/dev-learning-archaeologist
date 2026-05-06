@@ -53,6 +53,19 @@ dev-learning-archaeologist/
 
 Built on the [Interpretable Context Methodology](https://arxiv.org/abs/2603.16021) — folder structure as agent architecture. Each file does one job. `identity.md` loads first, routes to `rules.md` for process, pulls from `reference/` as needed.
 
+## Need the Full Engine?
+
+This is the lightweight diagnostic. For the full forensic pipeline — SQLite databases, 6 analysis vectors, Datasette inspection, multi-project sync, automated audits — check out [**DevArch Framework**](https://github.com/KyaniteLabs/devarch-framework).
+
+| | Dev Learning Archaeologist | DevArch Framework |
+|---|---|---|
+| **Setup** | Drop in a folder | `pip install` |
+| **Runs in** | Claude Code conversation | CLI / Python API |
+| **Vectors** | 7 learning-focused | 6 + 14 opportunity analyzers |
+| **Output** | HTML report | HTML + SQLite + Datasette + Markdown |
+| **Multi-project** | Point at repos | Sync across all repos |
+| **Best for** | Quick learning diagnostic | Full forensic archaeology |
+
 ## Author
 
 Simon Gonzalez de Cruz — [KyaniteLabs](https://github.com/KyaniteLabs)
