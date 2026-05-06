@@ -1,16 +1,34 @@
 # Dev Learning Archaeologist
 
-Drop this folder into any project, open Claude Code, and ask: "What am I learning, what am I missing, and what should I study next?" Claude reads your git history and session logs from disk, runs a 5-phase archaeological analysis, and opens an HTML report in your browser with interactive charts — era timelines, velocity curves, heatmaps, and a personalized curriculum. Every claim cites a commit hash from your actual history. No setup, no copy-paste, no data entry. Text output available on request.
+> **Drop this folder into any project, open Claude Code, and get a full forensic learning diagnostic in 60 seconds.**
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Claude_Code-Compatible-38bdf8?style=flat-square" />
+  <img src="https://img.shields.io/badge/Pipeline-5_phases-34d399?style=flat-square" />
+  <img src="https://img.shields.io/badge/Vectors-7_analysis-a78bfa?style=flat-square" />
+  <img src="https://img.shields.io/badge/Report-HTML_auto_open-fbbf24?style=flat-square" />
+  <img src="https://img.shields.io/license/MIT-blue?style=flat-square" />
+</p>
+
+You know that feeling when you've been coding for months and can't tell if you're actually getting better?
+
+**This tool reads your git history and tells you exactly what you learned, what you're missing, and what to study next.** Every claim cites a commit hash from your actual repo. No setup. No data entry. No subjective guesses.
+
+---
 
 ## What You Get
 
-Three evidence-backed outputs, rendered as an auto-opening HTML report:
+An auto-opening HTML report with three sections:
 
-| Output | Question | What You Get |
-|--------|----------|-------------|
-| **What You Learned** | What am I learning? | Chronological learning narrative with velocity metrics, behavioral eras, breakthrough detection |
-| **What You're Missing** | What am I missing? | Ranked knowledge gaps backed by behavioral evidence — frustration patterns, rework analysis, blind spots |
-| **What to Study Next** | What should I study next? | ROI-ranked personalized curriculum with hands-on exercises and verified video recommendations from real YouTube creators |
+| Output | The Question | What You Actually Get |
+|--------|-------------|----------------------|
+| **What You Learned** | "Am I improving?" | Chronological narrative with velocity metrics, behavioral eras, breakthrough detection |
+| **What You're Missing** | "What's holding me back?" | Ranked knowledge gaps backed by behavioral evidence — frustration patterns, rework hotspots, blind spots |
+| **What to Study Next** | "What should I learn?" | ROI-ranked curriculum with hands-on exercises and real video recommendations from verified creators |
+
+The report includes **8 interactive visualizations**: era timelines, velocity curves, heatmaps, gap severity donuts, rework bars, and a curriculum roadmap — all in a single self-contained HTML file with zero dependencies.
+
+---
 
 ## Quick Start
 
@@ -26,49 +44,83 @@ Analyze this repository's git history using the Dev Learning Archaeologist
 methodology. Start with Phase 0 (ground truth), then proceed through all 5 phases.
 ```
 
+That's it. The report opens in your browser automatically.
+
+---
+
+## How It Works
+
+The archaeologist runs a **5-phase forensic pipeline** on your repo:
+
+1. **Ground Truth** — Count commits, consolidate identities, establish baseline metrics
+2. **Excavate** — Extract commit types, temporal patterns, burst-gap cycles, file hotspots
+3. **Stratify** — Detect behavioral eras by velocity shifts, intent changes, and technology adoption
+4. **Analyze** — Run 7 independent analysis vectors in parallel
+5. **Deliver** — Generate a self-contained HTML report and open it in your browser
+
+### The 7 Analysis Vectors
+
+| # | Vector | What It Finds |
+|---|--------|--------------|
+| 1 | **Learning Velocity** | How fast you're learning new concepts, and whether it's accelerating |
+| 2 | **Frustration Detection** | Files you keep revisiting, fix clusters, where you're stuck (not just iterating) |
+| 3 | **AI Collaboration Maturity** | Your autonomy level (L1 Directed → L4 Supervisory) and trust trajectory |
+| 4 | **Knowledge Gaps** | Reinvented wheels, missing fundamentals, and what's causing rework |
+| 5 | **Temporal Behavior** | Peak creative hour, optimal work patterns, burst sustainability |
+| 6 | **Cross-Domain Transfer** | Skills from non-coding domains showing up in your code |
+| 7 | **External Learning** | YouTube watch history → commit correlation (with Google Takeout) |
+
+Every finding cites a commit hash. Every recommendation traces back to evidence.
+
+---
+
 ## What It Reads
 
-| Data Source | Where It Finds It | Required? |
-|-------------|-------------------|-----------|
-| Git history | `.git/` in the current project | Yes — minimum viable input |
-| Session logs | `.claude/` directory (Claude Code), `.cursor/` or Copilot exports | Optional — unlocks frustration detection, AI maturity scoring |
-| Cross-repo history | Other local repos you point to | Optional — unlocks cross-domain transfer detection |
-| External learning data | `data/` folder (Google Takeout, CSV exports) | Optional — unlocks learning latency, creator influence |
+| Data Source | Where It Looks | Required? |
+|-------------|---------------|-----------|
+| Git history | `.git/` in the current project | **Yes** — this is the minimum |
+| Session logs | `.claude/` directory (Claude Code), `.cursor/` or Copilot exports | Optional — unlocks AI maturity scoring |
+| Cross-repo history | Other local repos you point to | Optional — unlocks cross-domain transfer |
+| YouTube history | `data/` folder (Google Takeout JSON) | Optional — unlocks learning latency measurement |
 
-## Folder Structure
+It works with **git history alone**. Everything else makes the analysis richer, but git is the only requirement.
 
-```
-dev-learning-archaeologist/
-├── identity.md              Who the specialist is — background, principles, scope
-├── rules.md                 How it responds — behavioral rules + 5-phase pipeline + 7 analysis vectors
-├── examples.md              Conversational examples showing the specialist in action
-├── reference/
-│   ├── signal-heuristics.md   Era classification, frustration levels, formulas, commit type taxonomy
-│   ├── output-schemas.md      JSON schemas for structured outputs
-│   ├── html-report-spec.md    HTML/CSS design system — dark theme, 8 chart types, responsive
-│   ├── verified-creators.md   Five verified creators for learning plan recommendations
-│   └── data-enrichment.md     Google Takeout setup, supported external data sources
-└── README.md                This file
-```
+---
 
-Built on the [Interpretable Context Methodology](https://arxiv.org/abs/2603.16021) — folder structure as agent architecture. Each file does one job. `identity.md` loads first, routes to `rules.md` for process, pulls from `reference/` as needed.
+## Built On ICM
+
+This is an [Interpretable Context Methodology](https://arxiv.org/abs/2603.16021) specialist — folder structure as agent architecture. Each file has one job:
+
+| File | Job |
+|------|-----|
+| `identity.md` | Who the specialist is — loads first |
+| `rules.md` | The 5-phase pipeline, 7 vectors, output constraints |
+| `examples.md` | Conversational demos showing the specialist in action |
+| `reference/signal-heuristics.md` | Era classification, frustration levels, formulas |
+| `reference/output-schemas.md` | JSON schemas for structured outputs |
+| `reference/html-report-spec.md` | Design system — dark theme, 8 chart types, responsive |
+| `reference/verified-creators.md` | Five trusted creators for learning plan recommendations |
+| `reference/data-enrichment.md` | Google Takeout setup, supported data sources |
+
+---
 
 ## Need the Full Engine?
 
-This is the lightweight diagnostic. For the full forensic pipeline — SQLite databases, 6 analysis vectors, Datasette inspection, multi-project sync, automated audits — check out [**DevArch Framework**](https://github.com/KyaniteLabs/devarch-framework).
+This is the lightweight diagnostic — zero install, runs in a Claude Code conversation. For the full forensic pipeline with SQLite databases, Datasette inspection, multi-project sync, and automated audits, check out [**DevArch Framework**](https://github.com/KyaniteLabs/devarch-framework).
 
-| | Dev Learning Archaeologist | DevArch Framework |
+| | Learning Archaeologist | DevArch Framework |
 |---|---|---|
 | **Setup** | Drop in a folder | `pip install` |
 | **Runs in** | Claude Code conversation | CLI / Python API |
 | **Vectors** | 7 learning-focused | 6 + 14 opportunity analyzers |
 | **Output** | HTML report | HTML + SQLite + Datasette + Markdown |
-| **Multi-project** | Point at repos | Sync across all repos |
-| **Best for** | Quick learning diagnostic | Full forensic archaeology |
+| **Best for** | "How am I doing?" | "Archaeologically analyze everything" |
 
-## Author
+---
 
-Simon Gonzalez de Cruz — [KyaniteLabs](https://github.com/KyaniteLabs)
+## Who Made This
+
+[Simon Gonzalez de Cruz](https://github.com/Pastorsimon1798) — [KyaniteLabs](https://github.com/KyaniteLabs). We build AI-native developer tools.
 
 ## License
 
