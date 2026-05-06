@@ -7,7 +7,6 @@
   <img src="https://img.shields.io/badge/Pipeline-5_phases-34d399?style=flat-square" />
   <img src="https://img.shields.io/badge/Vectors-7_analysis-a78bfa?style=flat-square" />
   <img src="https://img.shields.io/badge/Report-HTML_auto_open-fbbf24?style=flat-square" />
-  <img src="https://img.shields.io/license/MIT-blue?style=flat-square" />
 </p>
 
 <p align="center">
