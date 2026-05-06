@@ -10,6 +10,12 @@
   <img src="https://img.shields.io/license/MIT-blue?style=flat-square" />
 </p>
 
+<p align="center">
+  <img src="docs/epoch-hero.png" alt="Dev Learning Archaeologist report preview — generated from real git history" width="800" />
+</p>
+
+<p align="center"><em>Actual report generated from a public repo — 207 commits, 3 days, 7 behavioral eras detected. Every chart cites real commit hashes.</em></p>
+
 You know that feeling when you've been coding for months and can't tell if you're actually getting better?
 
 **This tool reads your git history and tells you exactly what you learned, what you're missing, and what to study next.** Every claim cites a commit hash from your actual repo. No setup. No data entry. No subjective guesses.
@@ -34,8 +40,8 @@ The report includes **8 interactive visualizations**: era timelines, velocity cu
 
 ```bash
 git clone https://github.com/KyaniteLabs/dev-learning-archaeologist.git
-cp -r dev-learning-archaeologist /path/to/your/project/
-cd /path/to/your/project && claude
+cp -r dev-learning-archaeologist /path/to/your-project/
+cd /path/to/your-project && claude
 ```
 
 Then paste:
