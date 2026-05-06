@@ -1,0 +1,23 @@
+# Dev Learning Archaeologist
+
+> Forensic git-history learning diagnostic for AI-assisted developers.
+
+Dev Learning Archaeologist is an ICM specialist folder that turns a repository's git history into an evidence-backed learning report. It helps developers who code with AI understand what they learned, where they are stuck, and what to study next.
+
+## Use cases
+- AI-assisted developer learning diagnostics
+- Git-history archaeology
+- Commit-backed learning reports
+- Repository behavior analysis
+- Claude Code learning retrospectives
+- Evidence-backed study plans
+
+## Key paths
+- `README.md`: public overview and quick start
+- `identity.md`: specialist identity and purpose
+- `rules.md`: 5-phase forensic analysis pipeline
+- `reference/`: schemas, signal heuristics, report spec, and enrichment docs
+- `examples.md`: example interactions
+
+## Keywords
+developer learning diagnostic, git history analysis, software archaeology, AI coding learning, Claude Code retrospective, repository analysis, commit history report, ICM specialist, evidence-backed study plan, codebase archaeology.
