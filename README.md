@@ -110,11 +110,11 @@ This is an [Interpretable Context Methodology](https://arxiv.org/abs/2603.16021)
 
 ---
 
-## Need the Full Engine?
+## Going Further
 
-This is the lightweight diagnostic — zero install, runs in a Claude Code conversation. For the full forensic pipeline with SQLite databases, Datasette inspection, multi-project sync, and automated audits, check out [**DevArch Framework**](https://github.com/KyaniteLabs/devarch-framework).
+This is the lightweight diagnostic — zero install, runs in a Claude Code conversation. A full forensic pipeline is in the works: SQLite databases, Datasette inspection, multi-project sync, automated audits, and 20+ CLI commands. **Coming soon from KyaniteLabs.**
 
-| | Learning Archaeologist | DevArch Framework |
+| | Learning Archaeologist | Full Pipeline *(coming soon)* |
 |---|---|---|
 | **Setup** | Drop in a folder | `pip install` |
 | **Runs in** | Claude Code conversation | CLI / Python API |
