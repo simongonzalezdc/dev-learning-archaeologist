@@ -3,7 +3,7 @@
 GitHub link:
 
 ```text
-https://github.com/KyaniteLabs/dev-learning-archaeologist/tree/codex/startline-coach-entry/EF-COACH
+Pending review. Do not publish until Simon has read the folder.
 ```
 
 Skool comment draft:
