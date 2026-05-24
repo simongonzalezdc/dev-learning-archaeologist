@@ -20,6 +20,7 @@ const thread = [];
 const heldItems = [];
 let energyLevel = null;
 let currentUtterance = null;
+let currentRecognition = null;
 
 const intro = {
   role: "assistant",
@@ -270,23 +271,69 @@ function submitPrompt(text) {
   form.requestSubmit();
 }
 
+function setVoiceState(text, busy = false) {
+  voiceButton.setAttribute("aria-pressed", String(busy));
+  if (busy) {
+    voiceButton.setAttribute("aria-busy", "true");
+  } else {
+    voiceButton.removeAttribute("aria-busy");
+  }
+  voiceStatus.textContent = text;
+}
+
+function stopVoiceInput(status = "Stopped listening.") {
+  if (currentRecognition) {
+    try {
+      currentRecognition.stop();
+    } catch {
+      currentRecognition.abort?.();
+    }
+  }
+  currentRecognition = null;
+  setVoiceState(status, false);
+  message.focus();
+}
+
+function getSpeechRecognition() {
+  return window.SpeechRecognition || window.webkitSpeechRecognition;
+}
+
+function getVoiceErrorMessage(error) {
+  if (error === "not-allowed" || error === "service-not-allowed") {
+    return "Microphone permission was blocked. You can still type or use a chip.";
+  }
+  if (error === "no-speech") {
+    return "No speech caught. Try Mic again and say the messy version.";
+  }
+  if (error === "audio-capture") {
+    return "No microphone was found. The chips still work.";
+  }
+  return "Voice typing did not start. The chips still work.";
+}
+
 function startVoiceInput() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (currentRecognition) {
+    stopVoiceInput();
+    return;
+  }
+
+  const SpeechRecognition = getSpeechRecognition();
 
   if (!SpeechRecognition) {
-    voiceStatus.textContent = "Voice is not available here. I put a no-typing prompt in the box.";
+    setVoiceState("Voice typing is not available here. I put a no-typing prompt in the box.");
     insertText("I'm too overloaded to type. Help me start.");
     return;
   }
 
   const recognition = new SpeechRecognition();
+  let endedWithError = false;
   recognition.lang = "en-US";
   recognition.interimResults = true;
   recognition.continuous = false;
+  currentRecognition = recognition;
 
   recognition.addEventListener("start", () => {
-    voiceButton.setAttribute("aria-busy", "true");
-    voiceStatus.textContent = "Listening. Say the messy version.";
+    setVoiceState("Listening. Say the messy version.", true);
   });
 
   recognition.addEventListener("result", (event) => {
@@ -297,21 +344,38 @@ function startVoiceInput() {
     if (transcript) {
       message.value = transcript;
       resizeComposer();
+      voiceStatus.textContent = "Captured speech. Send when ready, or keep talking.";
     }
   });
 
+  recognition.addEventListener("speechend", () => {
+    voiceStatus.textContent = "Processing speech.";
+  });
+
   recognition.addEventListener("end", () => {
-    voiceButton.removeAttribute("aria-busy");
-    voiceStatus.textContent = message.value.trim() ? "Captured. Edit or send." : "No speech captured.";
+    currentRecognition = null;
+    setVoiceState(
+      endedWithError
+        ? voiceStatus.textContent
+        : message.value.trim()
+          ? "Captured. Press Enter or Send."
+          : "No speech captured. Try Mic again or use a chip.",
+      false,
+    );
     message.focus();
   });
 
-  recognition.addEventListener("error", () => {
-    voiceButton.removeAttribute("aria-busy");
-    voiceStatus.textContent = "Voice did not start. The chips still work.";
+  recognition.addEventListener("error", (event) => {
+    endedWithError = true;
+    setVoiceState(getVoiceErrorMessage(event.error), false);
   });
 
-  recognition.start();
+  try {
+    recognition.start();
+  } catch {
+    currentRecognition = null;
+    setVoiceState("Voice typing did not start. Try a chip or type fragments.", false);
+  }
 }
 
 function setReadState(text, busy = false) {

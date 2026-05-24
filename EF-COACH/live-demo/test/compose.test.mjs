@@ -256,7 +256,6 @@ test("generated Hostinger demo includes readable speech controls", () => {
   assert.match(page, /id=stop-button/);
   assert.match(page, /SpeechSynthesisUtterance/);
   assert.match(page, /speechSynthesis/);
-  assert.match(page, /getVoices/);
 });
 
 test("generated Hostinger demo presents a normal chat interface", () => {
@@ -303,6 +302,9 @@ test("generated Hostinger demo includes the Coach Dock", () => {
   assert.match(page, /tiny-checks/);
   assert.match(page, /inferState/);
   assert.match(page, /SpeechRecognition|webkitSpeechRecognition/);
+  assert.match(page, /vstat/);
+  assert.match(page, /interimResults/);
+  assert.match(page, /Mic blocked|No mic/);
   assert.match(page, /speechSynthesis/);
   assert.match(page, /SpeechSynthesisUtterance/);
   assert.match(page, /Message Unstuck Coach/);

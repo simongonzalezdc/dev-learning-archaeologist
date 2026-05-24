@@ -33,6 +33,10 @@ test("public demo includes the Coach Dock low-friction sidecar", () => {
 
   assert.match(script, /function renderDock/);
   assert.match(script, /function startVoiceInput/);
+  assert.match(script, /function stopVoiceInput/);
+  assert.match(script, /function getSpeechRecognition/);
+  assert.match(script, /interimResults = true/);
+  assert.match(script, /Microphone permission was blocked/);
   assert.match(script, /function readLatestCoachReply/);
   assert.match(script, /function stopReadAloud/);
   assert.match(script, /function getPreferredVoice/);
