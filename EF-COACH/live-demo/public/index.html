@@ -9,18 +9,19 @@
       content="Live chat demo for Unstuck Coach, an executive-function accessibility coach that returns one humane next move."
     >
     <link rel="canonical" href="https://unstuck.kyanitelabs.tech/chat/">
-    <link rel="stylesheet" href="./styles.css?v=runtime-status">
+    <link rel="stylesheet" href="./styles.css?v=topbar-link">
   </head>
   <body>
     <main class="app-shell" aria-labelledby="title">
+      <nav class="demo-topbar" aria-label="Demo utility links">
+        <a class="landing-link" href="/" aria-label="Back to the Unstuck Coach landing page">Back to landing</a>
+        <strong id="provider">Checking runtime</strong>
+      </nav>
+
       <header class="chat-header">
         <div>
           <p class="eyebrow">Unstuck Coach</p>
           <h1 id="title">Unstuck</h1>
-        </div>
-        <div class="header-actions" aria-label="Demo links and runtime">
-          <a class="landing-link" href="/" aria-label="Back to the Unstuck Coach landing page">Landing</a>
-          <strong id="provider">Checking runtime</strong>
         </div>
       </header>
 
@@ -113,6 +114,6 @@
         </aside>
       </div>
     </main>
-    <script src="./app.js?v=runtime-status" type="module"></script>
+    <script src="./app.js?v=topbar-link" type="module"></script>
   </body>
 </html>

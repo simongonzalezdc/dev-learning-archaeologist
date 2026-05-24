@@ -355,7 +355,7 @@ test("generated Hostinger demo includes the support panel", () => {
   const page = extractInlinePage(result.stdout);
   assert.match(page, /coach-dock/);
   assert.match(page, /Panel/);
-  assert.match(page, /Landing/);
+  assert.match(page, /Back to landing/);
   assert.match(page, /voice-button/);
   assert.match(page, /state-read/);
   assert.match(page, /next-move/);

@@ -25,6 +25,8 @@ test("public demo includes the support panel low-friction sidecar", () => {
 
   assert.match(html, /id="coach-dock"/);
   assert.match(html, /aria-label="Support panel"/);
+  assert.match(html, /class="demo-topbar"/);
+  assert.match(html, /Back to landing/);
   assert.match(html, /href="\/"/);
   assert.match(html, /id="voice-button"/);
   assert.doesNotMatch(html, /id="read-button"|id="stop-audio-button"|Read latest coach reply|Stop read aloud/);
