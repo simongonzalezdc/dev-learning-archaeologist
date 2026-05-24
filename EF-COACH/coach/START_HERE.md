@@ -23,7 +23,7 @@ Ask the tool to read:
 
 Then start with whatever is actually stuck. Do not write a perfect prompt first.
 
-## What Good Help Looks Like
+## Coach Quality Check
 
 The coach should:
 
