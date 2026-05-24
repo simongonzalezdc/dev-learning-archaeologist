@@ -1,87 +1,93 @@
-# Startline Coach
+# Unstuck Coach
 
-An executive-function coach for AI-assisted developers with ADHD or ADHD-like friction.
+Unstuck Coach is a folder-based whole-person executive-function accessibility coach. It helps a person start, switch, remember, regulate, capture, recover, and close loops without having to carry the whole mess in working memory.
 
-Drop this folder into a Claude Project and ask Claude to coach you through starting, choosing, transitioning, finishing, and recovering from coding work.
+The core idea: the folder is the product. It externalizes state, friction, next action, safety boundaries, examples, and proof so an LLM can coach the live threshold moment instead of giving a productivity article.
 
-## Who This Is For
+## Live Paths
 
-Startline Coach is for builders who already have the tools and intelligence, but lose traction at the executive-function layer:
+- Landing page: `https://unstuck.kyanitelabs.tech/`
+- Live GLM 5.1 demo: `https://unstuck.kyanitelabs.tech/chat/`
+- Evidence reader: `https://unstuck.kyanitelabs.tech/evidence`
 
-- Too many tasks in working memory.
-- Difficulty starting a known task.
-- Time estimates that collapse on contact with reality.
-- Hyperfocus followed by crash.
-- Shame after avoidance.
-- Code review spirals.
-- Unclear re-entry after an interrupted session.
+## Repo Map
 
-## What This Coach Does
+This repository is staged so a judge does not have to decode a flat file pile:
 
-It helps the user make the next move without turning executive dysfunction into a character flaw.
+- `coach/` is the coach contract: setup instructions, identity, rules, examples, first-run receipt, and first-reply scorecard.
+- `reference/` is the operating layer: coaching protocols, signal map, safety boundaries, mode router, and admin-ops playbooks.
+- `demo/` and `evals/` are behavior proof: transcripts, before/after contrast, whole-person tour, and red-face tests.
+- `docs/judging/` is the competition layer: judge brief, scorecard, FAQ, ICM trace, rules trace, writeup, walkthrough, checklist, and submission copy.
+- `docs/evidence/` is the claim-to-file receipt map.
+- `landing/` is the public website and rendered evidence room.
+- `scripts/` is the verification layer.
 
-It does not just answer questions about ADHD or productivity. It coaches in the moment:
+That is the ICM shape: staged context, visible decisions, editable documents, and auditable proof.
 
-- Checks state before planning.
-- Reduces options to one next action.
-- Holds the rest of the list.
-- Offers body-doubling scripts.
-- Creates re-entry breadcrumbs.
-- Uses shame-free return protocols.
+## Fast Judge Path
 
-## Folder Structure
+1. Open `coach/START_HERE.md`.
+2. Open `docs/judging/JUDGE_BRIEF.md`.
+3. Try the live demo or load the folder into a Claude Project.
+4. Test: `I need a coach to get started on this.`
+5. Score the first reply with `coach/FIRST_REPLY_SCORECARD.md`.
 
-```text
-startline-coach/
-├── identity.md
-├── rules.md
-├── examples.md
-├── reference/
-│   ├── coaching-protocols.md
-│   ├── signal-map.md
-│   ├── safety-boundaries.md
-│   └── source-notes.md
-└── README.md
+This is a shortcut, not the product boundary. The full scope is whole-person executive-function access across work, home, body, admin, messages, inbox, calendar, capture, re-entry, and shutdown.
+
+If Unstuck gives a productivity article, it failed. If it gives one state-aware next move, holds the rest of the pile, and asks for tiny proof, it is behaving like a coach.
+
+## Use The Folder
+
+### Claude Project
+
+1. Add the folder as project knowledge.
+2. Paste `coach/PROJECT_INSTRUCTIONS.md` into project instructions.
+3. Start with `I need a coach to get started on this.`
+
+### Codex Or AI IDE
+
+Open this folder as the workspace. `AGENTS.md` tells coding agents how to load the coach contract before answering coaching prompts.
+
+```bash
+codex -C unstuck-coach "I need a coach to get started on this."
 ```
 
-## How To Use
+### Local Models
 
-1. Create a Claude Project.
-2. Add this whole folder as project knowledge.
-3. Start a chat with:
+Use a runner with enough context for `coach/PROJECT_INSTRUCTIONS.md`, `coach/identity.md`, `coach/rules.md`, `coach/examples.md`, and the key files in `reference/`. If context is tight, start with `coach/PROJECT_INSTRUCTIONS.md` plus:
 
-```text
-You are Startline Coach. Read identity.md, rules.md, examples.md, and reference/. Coach me through my current coding work. Start by asking one state-calibrating question.
+- `reference/coaching-protocols.md`
+- `reference/signal-map.md`
+- `reference/safety-boundaries.md`
+
+## Evidence Map
+
+- `coach/PROJECT_INSTRUCTIONS.md` is the paste-ready coach contract.
+- `coach/FIRST_RUN.md` shows the cold-start behavior.
+- `coach/FIRST_REPLY_SCORECARD.md` makes the first reply pass/fail.
+- `docs/judging/JUDGE_BRIEF.md` gives the one-page winning case.
+- `docs/judging/COMPETITION_RULES_TRACE.md` maps the Week 5 rules to evidence.
+- `docs/judging/ICM_TRACE.md` maps the system to visible, editable, auditable workflow.
+- `docs/evidence/RECEIPTS.md` maps claims to source files.
+- `landing/evidence.html` renders the public proof room.
+
+## Search And AI Discovery
+
+- `robots.txt` exposes the sitemap.
+- `sitemap.xml` lists the landing page, live chat demo, and evidence reader URLs.
+- `llms.txt` gives answer engines and AI search a concise citation path.
+- `landing/index.html` carries canonical URL, preview metadata, and structured data.
+
+## Verification
+
+```bash
+node scripts/final-review-smoke.mjs --expect-ready --skip-build
+node scripts/verify-github-public-url.mjs
+node scripts/verify-final-privacy-scan.mjs
 ```
 
-## Best First Prompts
+The full verifier list lives in `docs/judging/PUBLICATION_CHECKLIST.md` and `scripts/`.
 
-```text
-I cannot start this task.
-```
+## Safety
 
-```text
-I have too many things in my head. Help me sort them.
-```
-
-```text
-I am coming back after avoiding this project.
-```
-
-```text
-I got code review comments and I am spiraling.
-```
-
-```text
-Body double me for the first 10 minutes of this bug fix.
-```
-
-## The Bar
-
-If the coach gives you a long productivity article, it failed.
-
-If it asks one useful question, names the friction without shame, and helps you take one visible next step, it is doing its job.
-
-## Safety Note
-
-This is a coaching scaffold, not medical care or therapy. It does not diagnose, treat, recommend medication, or replace professional support. If a user is in crisis or cannot stay safe, follow `reference/safety-boundaries.md`.
+Unstuck is not therapy, diagnosis, medication advice, crisis care, or autonomous account access. It helps the user identify the next visible move; it does not secretly operate their inbox, calendar, files, or accounts.

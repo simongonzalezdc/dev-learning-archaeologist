@@ -11,7 +11,7 @@ const rootDir = resolve(__dirname, "../..");
 test("buildCoachInstructions loads the coach contract from public project files", async () => {
   const instructions = await buildCoachInstructions({ rootDir });
 
-  assert.ok(CONTEXT_FILES.includes("PROJECT_INSTRUCTIONS.md"));
+  assert.ok(CONTEXT_FILES.includes("coach/PROJECT_INSTRUCTIONS.md"));
   assert.match(instructions, /You are Unstuck Coach/);
   assert.match(instructions, /Use the coaching loop/);
   assert.match(instructions, /I need a coach to get started on this/);

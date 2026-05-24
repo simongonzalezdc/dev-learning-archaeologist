@@ -1,0 +1,31 @@
+services:
+  unstuck-coach-live:
+    image: node:22-alpine
+    working_dir: /app
+    command: node live-demo/server.mjs
+    read_only: true
+    environment:
+      PORT: "3000"
+      LLM_PROVIDER: zai-coding-plan
+      ZAI_API_KEY: ${ZAI_API_KEY:?ZAI_API_KEY required}
+      OPENAI_MODEL: glm-5.1
+      COACH_RATE_LIMIT_MAX: "12"
+      COACH_RATE_LIMIT_WINDOW_MS: "600000"
+      COACH_MAX_CONCURRENT_MODEL_CALLS: "2"
+    volumes:
+      - ./app:/app:ro
+    networks:
+      - proxy-net
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.u.entrypoints=websecure
+      - traefik.http.routers.u.rule=Host(`unstuck.kyanitelabs.tech`) || (Host(`srv1542844.hstgr.cloud`) && PathPrefix(`/unstuck`))
+      - traefik.http.routers.u.tls=true
+      - traefik.http.routers.u.tls.certresolver=letsencrypt
+      - traefik.http.routers.u.middlewares=u-strip,security-headers@file
+      - traefik.http.middlewares.u-strip.stripprefix.prefixes=/unstuck
+      - traefik.http.services.u.loadbalancer.server.port=3000
+
+networks:
+  proxy-net:
+    external: true

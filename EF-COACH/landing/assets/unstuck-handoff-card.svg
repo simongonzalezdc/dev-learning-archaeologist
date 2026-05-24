@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="720" viewBox="0 0 1160 720" role="img" aria-labelledby="title desc">
+  <title id="title">Unstuck Coach handoff card</title>
+  <desc id="desc">A visual summary of the Unstuck Coach loop: state, friction, move, hold, check, close.</desc>
+  <rect width="1160" height="720" fill="#f4f7f8"/>
+  <path d="M72 98h1016v524H72z" fill="#ffffff" stroke="#aab2a6" stroke-width="2"/>
+  <path d="M72 98h1016v86H72z" fill="#252726"/>
+  <text x="112" y="151" fill="#ffffff" font-family="Avenir Next, sans-serif" font-size="34" font-weight="800">Unstuck Coach Handoff Card</text>
+  <text x="112" y="219" fill="#8f4937" font-family="Avenir Next, sans-serif" font-size="18" font-weight="800">SUMMARY</text>
+  <text x="112" y="257" fill="#252726" font-family="Avenir Next, sans-serif" font-size="30" font-weight="800">External executive function for the whole human.</text>
+  <text x="112" y="296" fill="#4f5551" font-family="Avenir Next, sans-serif" font-size="22">For people who need accessible support to start, switch, remember, recover, and close.</text>
+
+  <g transform="translate(112 354)">
+    <circle cx="26" cy="26" r="26" fill="#b8644d"/>
+    <text x="26" y="34" fill="#ffffff" text-anchor="middle" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">1</text>
+    <text x="68" y="23" fill="#252726" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">State</text>
+    <text x="68" y="54" fill="#4f5551" font-family="Avenir Next, sans-serif" font-size="18">Green, yellow, red, or body-first signal.</text>
+  </g>
+
+  <g transform="translate(112 438)">
+    <circle cx="26" cy="26" r="26" fill="#b38a50"/>
+    <text x="26" y="34" fill="#ffffff" text-anchor="middle" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">2</text>
+    <text x="68" y="23" fill="#252726" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">Friction</text>
+    <text x="68" y="54" fill="#4f5551" font-family="Avenir Next, sans-serif" font-size="18">Name the blocker without blame.</text>
+  </g>
+
+  <g transform="translate(112 522)">
+    <circle cx="26" cy="26" r="26" fill="#6f8a72"/>
+    <text x="26" y="34" fill="#ffffff" text-anchor="middle" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">3</text>
+    <text x="68" y="23" fill="#252726" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">Move</text>
+    <text x="68" y="54" fill="#4f5551" font-family="Avenir Next, sans-serif" font-size="18">Choose one visible first action.</text>
+  </g>
+
+  <g transform="translate(616 354)">
+    <circle cx="26" cy="26" r="26" fill="#456c84"/>
+    <text x="26" y="34" fill="#ffffff" text-anchor="middle" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">4</text>
+    <text x="68" y="23" fill="#252726" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">Hold</text>
+    <text x="68" y="54" fill="#4f5551" font-family="Avenir Next, sans-serif" font-size="18">Keep extra context out of working memory.</text>
+  </g>
+
+  <g transform="translate(616 438)">
+    <circle cx="26" cy="26" r="26" fill="#252726"/>
+    <text x="26" y="34" fill="#ffffff" text-anchor="middle" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">5</text>
+    <text x="68" y="23" fill="#252726" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">Check</text>
+    <text x="68" y="54" fill="#4f5551" font-family="Avenir Next, sans-serif" font-size="18">Ask for tiny proof, not a polished report.</text>
+  </g>
+
+  <g transform="translate(616 522)">
+    <circle cx="26" cy="26" r="26" fill="#8f4937"/>
+    <text x="26" y="34" fill="#ffffff" text-anchor="middle" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">6</text>
+    <text x="68" y="23" fill="#252726" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">Close</text>
+    <text x="68" y="54" fill="#4f5551" font-family="Avenir Next, sans-serif" font-size="18">Finish, park, schedule, delegate, or pause.</text>
+  </g>
+</svg>

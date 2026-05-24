@@ -2,12 +2,12 @@ import { readFile } from "node:fs/promises";
 import { join, normalize, resolve } from "node:path";
 
 export const CONTEXT_FILES = [
-  "PROJECT_INSTRUCTIONS.md",
-  "START_HERE.md",
-  "FIRST_RUN.md",
-  "identity.md",
-  "rules.md",
-  "examples.md",
+  "coach/PROJECT_INSTRUCTIONS.md",
+  "coach/START_HERE.md",
+  "coach/FIRST_RUN.md",
+  "coach/identity.md",
+  "coach/rules.md",
+  "coach/examples.md",
   "reference/coaching-protocols.md",
   "reference/mode-router.md",
   "reference/signal-map.md",

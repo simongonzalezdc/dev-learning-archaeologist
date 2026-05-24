@@ -61,24 +61,8 @@ const MIME_TYPES = new Map([
 ]);
 
 const PUBLIC_ROOT_FILES = new Set([
-  "COMPETITION_RULES_TRACE.md",
-  "FIRST_REPLY_SCORECARD.md",
-  "FIRST_RUN.md",
-  "HANDOFF_CARD.md",
-  "ICM_TRACE.md",
-  "JUDGE_BRIEF.md",
-  "JUDGE_FAQ.md",
-  "JUDGE_SCORECARD.md",
   "LICENSE",
-  "PITCH_REEL.md",
-  "PRODUCT_THESIS.md",
-  "PROJECT_INSTRUCTIONS.md",
   "README.md",
-  "RECEIPTS.md",
-  "START_HERE.md",
-  "SUBMISSION.md",
-  "WALKTHROUGH.md",
-  "WRITEUP.md",
   "llms.txt",
   "robots.txt",
   "sitemap.xml",
@@ -277,10 +261,6 @@ async function serveSiteStatic(request, response, rootDir) {
     redirect(response, "/evidence");
     return;
   }
-  if (url.pathname === "/landing/reel.html") {
-    redirect(response, "/reel");
-    return;
-  }
   if (url.pathname === "/chat") {
     redirect(response, "/chat/");
     return;
@@ -302,10 +282,6 @@ async function serveSiteStatic(request, response, rootDir) {
     await serveStaticFile(request, response, { baseDir: landingDir, requestedPath: "/evidence.html" });
     return;
   }
-  if (url.pathname === "/reel" || url.pathname === "/reel.html") {
-    await serveStaticFile(request, response, { baseDir: landingDir, requestedPath: "/reel.html" });
-    return;
-  }
   if (url.pathname === "/chat/" || url.pathname.startsWith("/chat/")) {
     const chatPath = url.pathname === "/chat/" ? "/index.html" : url.pathname.slice("/chat".length);
     await serveStaticFile(request, response, {
@@ -318,7 +294,6 @@ async function serveSiteStatic(request, response, rootDir) {
   if (
     url.pathname === "/styles.css" ||
     url.pathname === "/app.js" ||
-    url.pathname === "/reel.css" ||
     url.pathname.startsWith("/assets/")
   ) {
     await serveStaticFile(request, response, { baseDir: landingDir, requestedPath: url.pathname });
@@ -327,6 +302,14 @@ async function serveSiteStatic(request, response, rootDir) {
 
   const rootFile = url.pathname.replace(/^\//, "");
   if (PUBLIC_ROOT_FILES.has(rootFile)) {
+    await serveStaticFile(request, response, { baseDir: root, requestedPath: `/${rootFile}` });
+    return;
+  }
+  if (
+    /^(coach|docs|demo|evals|reference)\//.test(rootFile) &&
+    MIME_TYPES.has(extname(rootFile)) &&
+    !rootFile.includes("PRIVATE")
+  ) {
     await serveStaticFile(request, response, { baseDir: root, requestedPath: `/${rootFile}` });
     return;
   }

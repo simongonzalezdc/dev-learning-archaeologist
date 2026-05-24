@@ -24,7 +24,7 @@ const pageBr = brotliCompressSync(Buffer.from(liveHtml), {
 }).toString("base64");
 
 const server = String.raw`import{createServer as C}from"node:http";import{brotliDecompressSync as B}from"node:zlib";
-const F=[["PROJECT_INSTRUCTIONS.md",2400],["FIRST_RUN.md",1200],["rules.md",1700]];let M="";
+const F=[["coach/PROJECT_INSTRUCTIONS.md",2400],["coach/FIRST_RUN.md",1200],["coach/rules.md",1700]];let M="";
 async function cc(){if(M)return M;let p=[];for(const[f,n]of F){const r=await fetch(process.env.CONTEXT_BASE_URL+"/"+f);if(!r.ok)throw Error("context "+f);p.push((await r.text()).slice(0,n))}return M=("Unstuck Coach. Reflect once, give one next move, ask one tiny answer. No labels. Choose the move. Use prior turns. First cold prompt: ask for messy pile or any three items.\n"+p.join("\n")).slice(0,8000)}
 function S(r,c,o){r.writeHead(c,{"content-type":"application/json"});r.end(JSON.stringify(o))}
 async function bd(q){let s="";for await(const c of q){s+=c;if(s.length>16e3)throw Error("413 body too large")}if(!s)return{};try{return JSON.parse(s)}catch{throw Error("400 invalid JSON")}}
