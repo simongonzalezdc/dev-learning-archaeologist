@@ -38,6 +38,20 @@ test("resolveLlmConfig supports GLM-5.1 with medium reasoning", () => {
   });
 });
 
+test("resolveLlmConfig supports a Nucbox OpenAI-compatible inference server", () => {
+  const config = resolveLlmConfig({
+    LLM_PROVIDER: "home-openai",
+    NUCBOX_OPENAI_BASE_URL: "http://nucbox.local:8080/v1",
+    OPENAI_MODEL: "home-model",
+  });
+
+  assert.equal(config.provider, "home-openai");
+  assert.equal(config.providerLabel, "Nucbox home inference");
+  assert.equal(config.model, "home-model");
+  assert.equal(config.apiKey, "local");
+  assert.equal(config.chatCompletionsUrl, "http://nucbox.local:8080/v1/chat/completions");
+});
+
 test("publicProviderConfig never exposes API keys or raw base URLs", () => {
   const publicConfig = publicProviderConfig(
     resolveLlmConfig({

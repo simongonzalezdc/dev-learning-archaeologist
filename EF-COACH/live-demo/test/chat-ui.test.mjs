@@ -23,8 +23,7 @@ test("public demo includes the Coach Dock low-friction sidecar", () => {
 
   assert.match(html, /id="coach-dock"/);
   assert.match(html, /id="voice-button"/);
-  assert.match(html, /id="read-button"/);
-  assert.match(html, /id="stop-audio-button"/);
+  assert.doesNotMatch(html, /id="read-button"|id="stop-audio-button"|Read latest coach reply|Stop read aloud/);
   assert.match(html, /data-prompt="I'?m frozen/i);
   assert.match(html, /id="state-read"/);
   assert.match(html, /id="next-move"/);
@@ -37,14 +36,9 @@ test("public demo includes the Coach Dock low-friction sidecar", () => {
   assert.match(script, /function getSpeechRecognition/);
   assert.match(script, /interimResults = true/);
   assert.match(script, /Microphone permission was blocked/);
-  assert.match(script, /function readLatestCoachReply/);
-  assert.match(script, /function stopReadAloud/);
-  assert.match(script, /function getPreferredVoice/);
   assert.match(script, /function inferState/);
   assert.match(script, /SpeechRecognition|webkitSpeechRecognition/);
-  assert.match(script, /speechSynthesis/);
-  assert.match(script, /SpeechSynthesisUtterance/);
-  assert.match(script, /getVoices/);
+  assert.doesNotMatch(script, /speechSynthesis|SpeechSynthesisUtterance|getVoices|readLatestCoachReply/);
 });
 
 test("public demo includes a one-click energy check", () => {

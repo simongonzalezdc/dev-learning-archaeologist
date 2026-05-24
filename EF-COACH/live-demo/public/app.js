@@ -4,8 +4,6 @@ const chatLog = document.querySelector("#chat-log");
 const provider = document.querySelector("#provider");
 const submit = form?.querySelector('button[type="submit"]');
 const voiceButton = document.querySelector("#voice-button");
-const readButton = document.querySelector("#read-button");
-const stopAudioButton = document.querySelector("#stop-audio-button");
 const voiceStatus = document.querySelector("#voice-status");
 const coachDock = document.querySelector("#coach-dock");
 const reliefMap = document.querySelector("#relief-map");
@@ -19,7 +17,6 @@ const tinyChecks = document.querySelector("#tiny-checks");
 const thread = [];
 const heldItems = [];
 let energyLevel = null;
-let currentUtterance = null;
 let currentRecognition = null;
 
 const intro = {
@@ -378,77 +375,6 @@ function startVoiceInput() {
   }
 }
 
-function setReadState(text, busy = false) {
-  readButton.setAttribute("aria-pressed", String(busy));
-  if (busy) {
-    readButton.setAttribute("aria-busy", "true");
-  } else {
-    readButton.removeAttribute("aria-busy");
-  }
-  voiceStatus.textContent = text;
-}
-
-function getPreferredVoice(synth) {
-  const voices = typeof synth.getVoices === "function" ? synth.getVoices() : [];
-  return (
-    voices.find((voice) => /en[-_]?US/i.test(voice.lang)) ||
-    voices.find((voice) => /^en/i.test(voice.lang)) ||
-    null
-  );
-}
-
-function stopReadAloud(status = "Read aloud stopped.") {
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-  }
-  currentUtterance = null;
-  setReadState(status, false);
-}
-
-function readLatestCoachReply() {
-  const latestReply = latest("assistant") || intro.content;
-
-  if (!("speechSynthesis" in window) || !window.SpeechSynthesisUtterance) {
-    voiceStatus.textContent = "Read aloud is not available in this browser.";
-    return;
-  }
-
-  const synth = window.speechSynthesis;
-  stopReadAloud("Starting read aloud.");
-  const utterance = new SpeechSynthesisUtterance(latestReply);
-  const preferredVoice = getPreferredVoice(synth);
-  if (preferredVoice) {
-    utterance.voice = preferredVoice;
-  }
-
-  utterance.rate = 0.95;
-  utterance.pitch = 1;
-  currentUtterance = utterance;
-
-  utterance.addEventListener("start", () => {
-    setReadState("Reading the latest coach reply.", true);
-  });
-  utterance.addEventListener("end", () => {
-    if (currentUtterance === utterance) {
-      currentUtterance = null;
-      setReadState("Read aloud finished.", false);
-    }
-  });
-  utterance.addEventListener("error", () => {
-    if (currentUtterance === utterance) {
-      currentUtterance = null;
-      setReadState("Read aloud did not start. The text is still here.", false);
-    }
-  });
-
-  synth.speak(utterance);
-  window.setTimeout(() => {
-    if (currentUtterance === utterance && (synth.speaking || synth.pending)) {
-      setReadState("Reading the latest coach reply.", true);
-    }
-  }, 50);
-}
-
 document.addEventListener("click", (event) => {
   const energyButton = event.target.closest("[data-energy]");
   if (energyButton) {
@@ -469,8 +395,6 @@ document.addEventListener("click", (event) => {
 });
 
 voiceButton.addEventListener("click", startVoiceInput);
-readButton.addEventListener("click", readLatestCoachReply);
-stopAudioButton.addEventListener("click", () => stopReadAloud());
 message.addEventListener("input", resizeComposer);
 message.addEventListener("keydown", (event) => {
   if (event.key === "Enter" && !event.shiftKey) {

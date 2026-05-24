@@ -156,7 +156,7 @@ test("generated inline server rejects malformed and oversized coach requests saf
   });
   assert.equal(malformed.status, 400);
   const malformedText = await malformed.text();
-  assert.match(malformedText, /invalid JSON body/i);
+  assert.match(malformedText, /invalid JSON/i);
   assert.doesNotMatch(malformedText, /Unexpected|SyntaxError|live demo failed|OPENAI_API_KEY|ZAI_API_KEY/i);
 
   const oversized = await fetch(`${baseUrl}/api/coach`, {
@@ -166,8 +166,43 @@ test("generated inline server rejects malformed and oversized coach requests saf
   });
   assert.equal(oversized.status, 413);
   const oversizedText = await oversized.text();
-  assert.match(oversizedText, /request body too large/i);
+  assert.match(oversizedText, /body too large/i);
   assert.doesNotMatch(oversizedText, /live demo failed|OPENAI_API_KEY|ZAI_API_KEY/i);
+});
+
+test("generated inline server rejects cross-site browser origins", async (t) => {
+  const baseUrl = await startGeneratedServer(t);
+
+  const response = await fetch(`${baseUrl}/api/coach`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      origin: "https://attacker.example",
+    },
+    body: JSON.stringify({ message: "Use my quota." }),
+  });
+
+  assert.equal(response.status, 403);
+  assert.match(await response.text(), /origin/i);
+});
+
+test("generated inline server rate-limits repeated clients before model calls", async (t) => {
+  const baseUrl = await startGeneratedServer(t);
+
+  let response;
+  for (let index = 0; index < 21; index += 1) {
+    response = await fetch(`${baseUrl}/api/coach`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-forwarded-for": "203.0.113.45",
+      },
+      body: JSON.stringify({ message: "" }),
+    });
+  }
+
+  assert.equal(response.status, 429);
+  assert.match(await response.text(), /rate/i);
 });
 
 test("generated compose creates the app working directory before writing server code", () => {
@@ -196,7 +231,7 @@ test("generated VPS-local server forces plain coach output instead of protocol l
     encoding: "utf8",
   });
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /Do not print labels/);
+  assert.match(result.stdout, /No labels/);
   assert.match(result.stdout, /Choose the move/);
   assert.match(result.stdout, /max_tokens:1200/);
   assert.match(result.stdout, /function sh/);
@@ -218,7 +253,6 @@ test("generated Hostinger compose targets GLM-5.1 with medium reasoning", () => 
 
   assert.match(result.stdout, /OPENAI_BASE_URL: https:\/\/api\.z\.ai\/api\/coding\/paas\/v4/);
   assert.match(result.stdout, /OPENAI_MODEL: glm-5\.1/);
-  assert.match(result.stdout, /providerLabel:"Z\.AI GLM-5\.1 \(medium reasoning\)"/);
   assert.match(result.stdout, /thinking:\{type:"enabled"\}/);
   assert.doesNotMatch(result.stdout, /test-zai-secret/);
 });
@@ -240,7 +274,7 @@ test("generated Hostinger demo preserves ongoing conversation history", () => {
   assert.match(page, /role==="assistant"/);
 });
 
-test("generated Hostinger demo includes readable speech controls", () => {
+test("generated Hostinger demo removes text-to-speech and keeps speech-to-text", () => {
   const result = spawnSync("node", ["live-demo/scripts/build-hostinger-compose.mjs"], {
     cwd: new URL("../..", import.meta.url),
     encoding: "utf8",
@@ -252,10 +286,11 @@ test("generated Hostinger demo includes readable speech controls", () => {
   assert.equal(result.status, 0, result.stderr);
 
   const page = extractInlinePage(result.stdout);
-  assert.match(page, /id=speak-button/);
-  assert.match(page, /id=stop-button/);
-  assert.match(page, /SpeechSynthesisUtterance/);
-  assert.match(page, /speechSynthesis/);
+  assert.match(page, /id=voice-button/);
+  assert.match(page, /SpeechRecognition|webkitSpeechRecognition/);
+  assert.match(page, /interimResults/);
+  assert.doesNotMatch(page, /id=speak-button|id=stop-button/);
+  assert.doesNotMatch(page, /SpeechSynthesisUtterance|speechSynthesis/);
 });
 
 test("generated Hostinger demo presents a normal chat interface", () => {
@@ -281,6 +316,23 @@ test("generated Hostinger demo presents a normal chat interface", () => {
   assert.doesNotMatch(page, /Optional context|Execution|Coach reply/);
 });
 
+test("generated Hostinger demo has parseable browser JavaScript", () => {
+  const result = spawnSync("node", ["live-demo/scripts/build-hostinger-compose.mjs"], {
+    cwd: new URL("../..", import.meta.url),
+    encoding: "utf8",
+    env: {
+      ...process.env,
+      UNSTUCK_LIVE_PROVIDER: "zai-coding-plan",
+    },
+  });
+  assert.equal(result.status, 0, result.stderr);
+
+  const page = extractInlinePage(result.stdout);
+  const match = page.match(/<script>([\s\S]+)<\/script>/);
+  assert.ok(match, "could not find inline browser script");
+  assert.doesNotThrow(() => new Function(match[1]));
+});
+
 test("generated Hostinger demo includes the Coach Dock", () => {
   const result = spawnSync("node", ["live-demo/scripts/build-hostinger-compose.mjs"], {
     cwd: new URL("../..", import.meta.url),
@@ -295,7 +347,6 @@ test("generated Hostinger demo includes the Coach Dock", () => {
   const page = extractInlinePage(result.stdout);
   assert.match(page, /coach-dock/);
   assert.match(page, /voice-button/);
-  assert.match(page, /speak-button/);
   assert.match(page, /state-read/);
   assert.match(page, /next-move/);
   assert.match(page, /held-pile/);
@@ -304,9 +355,8 @@ test("generated Hostinger demo includes the Coach Dock", () => {
   assert.match(page, /SpeechRecognition|webkitSpeechRecognition/);
   assert.match(page, /vstat/);
   assert.match(page, /interimResults/);
-  assert.match(page, /Mic blocked|No mic/);
-  assert.match(page, /speechSynthesis/);
-  assert.match(page, /SpeechSynthesisUtterance/);
+  assert.match(page, /Blocked|No mic/);
+  assert.doesNotMatch(page, /speechSynthesis|SpeechSynthesisUtterance/);
   assert.match(page, /Message Unstuck Coach/);
   assert.match(page, /work-surface/);
   assert.doesNotMatch(page, /Optional context|Execution|Coach reply/);

@@ -11,6 +11,9 @@ const DEFAULT_ROOT = resolve(__dirname, "..");
 const PUBLIC_DIR = resolve(__dirname, "public");
 const MAX_BODY_BYTES = 32_000;
 const MAX_HISTORY_TURNS = 10;
+const DEFAULT_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const DEFAULT_RATE_LIMIT_MAX = 20;
+const DEFAULT_MAX_CONCURRENT_MODEL_CALLS = 4;
 
 class PublicHttpError extends Error {
   constructor(status, publicMessage) {
@@ -42,6 +45,71 @@ function sendText(response, status, text) {
     "cache-control": "no-store",
   });
   response.end(text);
+}
+
+function readPositiveInteger(value, fallback) {
+  const parsed = Number.parseInt(value || "", 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function createRateLimiter({ windowMs, maxRequests, now = Date.now }) {
+  const buckets = new Map();
+
+  return {
+    consume(id) {
+      const currentTime = now();
+      const bucket = buckets.get(id) || { count: 0, resetAt: currentTime + windowMs };
+
+      if (currentTime >= bucket.resetAt) {
+        bucket.count = 0;
+        bucket.resetAt = currentTime + windowMs;
+      }
+
+      bucket.count += 1;
+      buckets.set(id, bucket);
+
+      if (bucket.count > maxRequests) {
+        throw new PublicHttpError(429, "rate limit exceeded");
+      }
+    },
+  };
+}
+
+function clientIdFor(request) {
+  const forwardedFor = request.headers["x-forwarded-for"];
+  if (typeof forwardedFor === "string" && forwardedFor.trim()) {
+    return forwardedFor.split(",")[0].trim();
+  }
+  return request.socket?.remoteAddress || "unknown";
+}
+
+function allowedOriginsFor(env) {
+  return String(env.LIVE_DEMO_ALLOWED_ORIGINS || env.ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+}
+
+function assertAllowedOrigin(request, env) {
+  const origin = request.headers.origin;
+  if (!origin) {
+    return;
+  }
+
+  let parsedOrigin;
+  try {
+    parsedOrigin = new URL(origin);
+  } catch {
+    throw new PublicHttpError(403, "origin not allowed");
+  }
+
+  const host = request.headers.host;
+  const sameHost = host && parsedOrigin.host === host;
+  const explicitlyAllowed = allowedOriginsFor(env).includes(parsedOrigin.origin);
+
+  if (!sameHost && !explicitlyAllowed) {
+    throw new PublicHttpError(403, "origin not allowed");
+  }
 }
 
 async function readJsonBody(request) {
@@ -108,6 +176,16 @@ export function createLiveDemoServer({
   env = process.env,
   callModel = callCoachModel,
 } = {}) {
+  const rateLimiter = createRateLimiter({
+    windowMs: readPositiveInteger(env.COACH_RATE_LIMIT_WINDOW_MS, DEFAULT_RATE_LIMIT_WINDOW_MS),
+    maxRequests: readPositiveInteger(env.COACH_RATE_LIMIT_MAX, DEFAULT_RATE_LIMIT_MAX),
+  });
+  const maxConcurrentModelCalls = readPositiveInteger(
+    env.COACH_MAX_CONCURRENT_MODEL_CALLS,
+    DEFAULT_MAX_CONCURRENT_MODEL_CALLS,
+  );
+  let activeModelCalls = 0;
+
   return createServer(async (request, response) => {
     const url = new URL(request.url, "http://localhost");
 
@@ -132,6 +210,9 @@ export function createLiveDemoServer({
       }
 
       if (request.method === "POST" && url.pathname === "/api/coach") {
+        assertAllowedOrigin(request, env);
+        rateLimiter.consume(clientIdFor(request));
+
         const body = await readJsonBody(request);
         const message = cleanUserMessage(body.message);
         const suppliedContext = cleanUserMessage(body.context);
@@ -147,7 +228,17 @@ export function createLiveDemoServer({
           ? `${message}\n\nSupplied visible context:\n${suppliedContext}`
           : message;
         const messages = [...history, { role: "user", content: userContent }];
-        const result = await callModel({ instructions, messages, env });
+        if (activeModelCalls >= maxConcurrentModelCalls) {
+          throw new PublicHttpError(429, "demo is busy; try again");
+        }
+
+        activeModelCalls += 1;
+        let result;
+        try {
+          result = await callModel({ instructions, messages, env });
+        } finally {
+          activeModelCalls -= 1;
+        }
 
         sendJson(response, 200, {
           reply: result.text,

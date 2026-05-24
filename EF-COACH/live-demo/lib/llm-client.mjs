@@ -4,6 +4,7 @@ const ZAI_CODING_PLAN_BASE_URL = "https://api.z.ai/api/coding/paas/v4";
 const ZAI_GLM_51_MODEL = "glm-5.1";
 const DEFAULT_LLM_TIMEOUT_MS = 25_000;
 const GLM_THINKING_MAX_TOKENS = 1200;
+const HOME_OPENAI_PROVIDERS = new Set(["home-openai", "nucbox-openai"]);
 
 function trimSlash(value) {
   return String(value || "").replace(/\/+$/, "");
@@ -20,7 +21,7 @@ function resolveTimeoutMs(env = process.env) {
 
 export function resolveLlmConfig(env = process.env) {
   const configuredProvider = env.LLM_PROVIDER?.trim();
-  const baseUrl = trimSlash(env.OPENAI_BASE_URL || env.LLM_BASE_URL);
+  const baseUrl = trimSlash(env.OPENAI_BASE_URL || env.LLM_BASE_URL || env.NUCBOX_OPENAI_BASE_URL);
   const provider = configuredProvider || (baseUrl ? "openai-compatible" : "openai-responses");
 
   if (provider === "zai-coding-plan") {
@@ -42,15 +43,20 @@ export function resolveLlmConfig(env = process.env) {
     };
   }
 
-  if (provider === "openai-compatible") {
+  if (provider === "openai-compatible" || HOME_OPENAI_PROVIDERS.has(provider)) {
     const apiKey = env.OPENAI_API_KEY || env.LLM_API_KEY || "local";
     const model = env.OPENAI_MODEL || env.LLM_MODEL || DEFAULT_COMPATIBLE_MODEL;
     if (!baseUrl) {
       throw new Error("OPENAI_BASE_URL or LLM_BASE_URL is required for openai-compatible mode.");
     }
+    const isHomeProvider = HOME_OPENAI_PROVIDERS.has(provider);
     return {
-      provider,
-      providerLabel: isVpsLocalBaseUrl(baseUrl) ? "VPS local LLM" : "OpenAI-compatible LLM",
+      provider: isHomeProvider ? "home-openai" : provider,
+      providerLabel: isHomeProvider
+        ? "Nucbox home inference"
+        : isVpsLocalBaseUrl(baseUrl)
+          ? "VPS local LLM"
+          : "OpenAI-compatible LLM",
       model,
       apiKey,
       chatCompletionsUrl: `${baseUrl}/chat/completions`,

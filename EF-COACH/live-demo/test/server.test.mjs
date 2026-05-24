@@ -77,6 +77,64 @@ test("server does not serve app shell for scanner paths or unsupported methods",
   assert.doesNotMatch(await methodResponse.text(), /<!doctype html|OPENAI_API_KEY|ZAI_API_KEY|PRIVATE_/i);
 });
 
+test("POST /api/coach rejects cross-site browser origins", async (t) => {
+  const server = createLiveDemoServer({
+    callModel: async () => {
+      throw new Error("model should not be called");
+    },
+  });
+  t.after(() => server.close());
+  const baseUrl = await listen(server);
+
+  const response = await fetch(`${baseUrl}/api/coach`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      origin: "https://example-attacker.invalid",
+    },
+    body: JSON.stringify({ message: "Use my quota." }),
+  });
+
+  assert.equal(response.status, 403);
+  assert.match(await response.text(), /origin not allowed/i);
+});
+
+test("POST /api/coach rate-limits repeated clients before model calls", async (t) => {
+  let calls = 0;
+  const server = createLiveDemoServer({
+    env: {
+      COACH_RATE_LIMIT_MAX: "1",
+      COACH_RATE_LIMIT_WINDOW_MS: "60000",
+    },
+    callModel: async () => {
+      calls += 1;
+      return {
+        text: "One move.",
+        provider: "test-provider",
+        model: "test-model",
+      };
+    },
+  });
+  t.after(() => server.close());
+  const baseUrl = await listen(server);
+
+  const first = await fetch(`${baseUrl}/api/coach`, {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-forwarded-for": "203.0.113.10" },
+    body: JSON.stringify({ message: "First request." }),
+  });
+  assert.equal(first.status, 200);
+
+  const second = await fetch(`${baseUrl}/api/coach`, {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-forwarded-for": "203.0.113.10" },
+    body: JSON.stringify({ message: "Second request." }),
+  });
+  assert.equal(second.status, 429);
+  assert.match(await second.text(), /rate limit exceeded/i);
+  assert.equal(calls, 1);
+});
+
 test("POST /api/coach returns a real reply with visible execution steps", async (t) => {
   const server = createLiveDemoServer({
     callModel: async ({ messages }) => ({

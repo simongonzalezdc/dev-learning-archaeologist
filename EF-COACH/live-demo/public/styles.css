@@ -176,7 +176,7 @@ button:active {
 
 .composer-row {
   display: grid;
-  grid-template-columns: auto auto auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 10px;
   align-items: end;
   border: 1px solid color-mix(in srgb, var(--line) 84%, transparent);
@@ -437,16 +437,16 @@ button[aria-busy="true"] {
   }
 
   .composer-row {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
   .composer-row textarea {
-    grid-column: 1 / -2;
+    grid-column: auto;
   }
 
   .composer-row button[type="submit"] {
-    grid-column: -2 / -1;
-    grid-row: 2;
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .relief-topline {
