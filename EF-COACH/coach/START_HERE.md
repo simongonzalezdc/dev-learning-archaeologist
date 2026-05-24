@@ -1,16 +1,13 @@
 # Start Here
 
-Use this when you want Unstuck Coach to help immediately.
+Use this when you want Unstuck Coach to help immediately. The coach behavior
+lives in the project files; this file is only the human setup path.
 
 ## Fast Path
 
 1. Open the live demo: `https://unstuck.kyanitelabs.tech/chat/`.
-2. Or add these project files to Claude Project and paste `coach/PROJECT_INSTRUCTIONS.md` into the project instructions.
-3. Start with the stuck point in front of you.
-
-```text
-I need a coach to get started on this.
-```
+2. Or add these project files to Claude Project and use `coach/PROJECT_INSTRUCTIONS.md` as the project instruction.
+3. Start with the stuck point in front of you. Messy input is expected.
 
 ## If You Are Using Codex Or An AI IDE
 
@@ -24,11 +21,7 @@ Ask the tool to read:
 - `reference/signal-map.md`
 - `reference/safety-boundaries.md`
 
-Then start with the same message:
-
-```text
-I need a coach to get started on this.
-```
+Then start with whatever is actually stuck. Do not write a perfect prompt first.
 
 ## What Good Help Looks Like
 
@@ -40,7 +33,7 @@ The coach should:
 - Ask for one tiny check or state signal.
 - Avoid articles, giant menus, moralizing, and vague continuations.
 
-## Starter Messages
+## Natural First Messages
 
 ```text
 I need a coach to get started on this.

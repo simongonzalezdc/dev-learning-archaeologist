@@ -55,7 +55,7 @@ test("GET routes serve the canonical landing site and chat demo", async (t) => {
 
   const llms = await fetch(`${baseUrl}/llms.txt`);
   assert.equal(llms.status, 200);
-  assert.match(await llms.text(), /Live GLM 5\.1 demo/);
+  assert.match(await llms.text(), /Live demo/);
 
   const startHere = await fetch(`${baseUrl}/coach/START_HERE.md`);
   assert.equal(startHere.status, 200);

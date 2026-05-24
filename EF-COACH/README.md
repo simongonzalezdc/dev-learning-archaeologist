@@ -5,7 +5,7 @@ Unstuck Coach is a whole-person executive-function accessibility coach. It helps
 ## Try It
 
 - Landing page: `https://unstuck.kyanitelabs.tech/`
-- Live GLM 5.1 demo: `https://unstuck.kyanitelabs.tech/chat/`
+- Live demo: `https://unstuck.kyanitelabs.tech/chat/`
 - Source: `https://github.com/simongonzalezdc/unstuck-coach`
 
 ## What It Does
@@ -17,17 +17,14 @@ Unstuck Coach is a whole-person executive-function accessibility coach. It helps
 - Covers body state, calendar, inbox, messages, home/admin loops, capture, re-entry, and shutdown.
 - Avoids therapy, diagnosis, medication advice, crisis handling, and autonomous account access.
 
-## Use It In Claude Project
+## Use It Through Project Context
 
-1. Add the project files as knowledge.
-2. Paste `coach/PROJECT_INSTRUCTIONS.md` into the project instructions.
-3. Start a new chat with:
+Unstuck Coach is meant to run from the project files themselves. There is no npm
+install path for the public repo.
 
-```text
-I need a coach to get started on this.
-```
-
-The coach should answer with one plain next move and one tiny check the user can answer immediately.
+1. Add the project files as knowledge in Claude Project or another AI workspace.
+2. Use `coach/PROJECT_INSTRUCTIONS.md` as the project instruction.
+3. Start with the stuck point in front of you. Messy input is fine.
 
 ## Source Layout
 
@@ -35,16 +32,6 @@ The coach should answer with one plain next move and one tiny check the user can
 - `reference/` contains coaching protocols, signal mapping, safety boundaries, and calendar/inbox playbooks.
 - `demo/` contains examples of better coaching behavior.
 - `landing/` contains the public website.
-- `live-demo/` contains the hosted chat demo.
-
-## Run Locally
-
-```bash
-npm test
-npm run live-demo
-```
-
-Then open `http://localhost:3000/chat/`.
 
 ## Safety
 

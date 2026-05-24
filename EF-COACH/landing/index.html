@@ -146,11 +146,11 @@
             </a>
             <a class="action primary" href="#setup">
               <span class="icon icon-path" aria-hidden="true"></span>
-              Start here
+              Use the files
             </a>
             <a class="action primary" href="#quality">
               <span class="icon icon-path" aria-hidden="true"></span>
-              Good help check
+              What it does
             </a>
             <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach">
               <span class="icon icon-source" aria-hidden="true"></span>
@@ -470,12 +470,11 @@
         <div class="setup-layout">
           <div class="section-heading compact">
             <p class="eyebrow">Set it up</p>
-            <h2 id="setup-title">Copy the prompt and start.</h2>
+            <h2 id="setup-title">Load the coach files.</h2>
             <p>
-              Give your runner the project files it can read, paste the setup prompt,
-              and begin with the stuck point in front of you. Claude Project is the
-              primary path, but Codex, AI IDEs, and local models can use the same
-              coach contract.
+              Unstuck runs through the project context. Add the coach files to
+              Claude Project or another AI workspace, use the project instructions,
+              and begin with the stuck point in front of you.
             </p>
             <div class="inline-actions">
               <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/PROJECT_INSTRUCTIONS.md">
@@ -489,23 +488,12 @@
             </div>
           </div>
 
-          <div class="setup-board setup-flow" aria-label="Unstuck setup prompt and cold tests">
-            <article class="start-prompt setup-primary">
-              <div class="prompt-card-head">
-                <span class="pane-label">One start prompt</span>
-                <button class="copy-control" type="button" data-copy-target="#start-prompt-text" aria-label="Copy start prompt" title="Copy start prompt">
-                  <span class="icon icon-copy" aria-hidden="true"></span>
-                  <span>Copy</span>
-                </button>
-              </div>
-              <pre><code id="start-prompt-text">You are Unstuck Coach. Read coach/identity.md, coach/rules.md, coach/examples.md, and reference/. Coach me through the life loop in front of me. If my first message is vague, ask one state-calibrating question. If I name a stuck signal, route it directly.</code></pre>
-            </article>
-
+          <div class="setup-board setup-flow" aria-label="Unstuck project context paths">
             <div class="setup-path-list" aria-label="Runner paths">
               <article>
                 <span class="pane-label">Claude Project path</span>
                 <strong>Add the project files as knowledge.</strong>
-                <p>Paste `coach/PROJECT_INSTRUCTIONS.md`, then start with the same coach prompt.</p>
+                <p>Use `coach/PROJECT_INSTRUCTIONS.md` as the project instruction, then start with whatever is stuck.</p>
               </article>
               <article>
                 <span class="pane-label">Codex path</span>
@@ -521,49 +509,6 @@
                 <span class="pane-label">Local model path</span>
                 <strong>Paste the operating files into context.</strong>
                 <p>Use `coach/PROJECT_INSTRUCTIONS.md`, `coach/identity.md`, `coach/rules.md`, `coach/examples.md`, `reference/coaching-protocols.md`, `reference/signal-map.md`, and `reference/safety-boundaries.md`.</p>
-              </article>
-            </div>
-
-            <div class="cold-prompt-strip" aria-label="Starter prompts">
-              <article>
-                <div class="prompt-card-head">
-                  <span class="pane-label">Starter 01</span>
-                  <button class="copy-control" type="button" data-copy-target="#cold-prompt-start" aria-label="Copy starter 01" title="Copy starter">
-                    <span class="icon icon-copy" aria-hidden="true"></span>
-                    <span>Copy</span>
-                  </button>
-                </div>
-                <p id="cold-prompt-start">I need a coach to get started on this.</p>
-              </article>
-              <article>
-                <div class="prompt-card-head">
-                  <span class="pane-label">Starter 02</span>
-                  <button class="copy-control" type="button" data-copy-target="#cold-prompt-life" aria-label="Copy starter 02" title="Copy starter">
-                    <span class="icon icon-copy" aria-hidden="true"></span>
-                    <span>Copy</span>
-                  </button>
-                </div>
-                <p id="cold-prompt-life">I need to pay the bill, eat something, and answer the text, but I am frozen.</p>
-              </article>
-              <article>
-                <div class="prompt-card-head">
-                  <span class="pane-label">Starter 03</span>
-                  <button class="copy-control" type="button" data-copy-target="#cold-prompt-inbox-calendar" aria-label="Copy starter 03" title="Copy starter">
-                    <span class="icon icon-copy" aria-hidden="true"></span>
-                    <span>Copy</span>
-                  </button>
-                </div>
-                <p id="cold-prompt-inbox-calendar">My inbox and calendar are a mess and I do not know what is real.</p>
-              </article>
-              <article>
-                <div class="prompt-card-head">
-                  <span class="pane-label">Starter 04</span>
-                  <button class="copy-control" type="button" data-copy-target="#cold-prompt-feedback" aria-label="Copy starter 04" title="Copy starter">
-                    <span class="icon icon-copy" aria-hidden="true"></span>
-                    <span>Copy</span>
-                  </button>
-                </div>
-                <p id="cold-prompt-feedback">That message makes me feel like I did something wrong.</p>
               </article>
             </div>
 

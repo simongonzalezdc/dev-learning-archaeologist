@@ -4,33 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-const expectedCopyTargets = [
-  {
-    button: "Copy start prompt",
-    target: "start-prompt-text",
-    text: "Coach me through the life loop in front of me.",
-  },
-  {
-    button: "Copy starter 01",
-    target: "cold-prompt-start",
-    text: "I need a coach to get started on this.",
-  },
-  {
-    button: "Copy starter 02",
-    target: "cold-prompt-life",
-    text: "I need to pay the bill, eat something, and answer the text, but I am frozen.",
-  },
-  {
-    button: "Copy starter 03",
-    target: "cold-prompt-inbox-calendar",
-    text: "My inbox and calendar are a mess and I do not know what is real.",
-  },
-  {
-    button: "Copy starter 04",
-    target: "cold-prompt-feedback",
-    text: "That message makes me feel like I did something wrong.",
-  },
-];
+const expectedCopyTargets = [];
 
 function hasTarget(markup, target, text) {
   const escapedText = text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -74,15 +48,9 @@ export function verifyLandingCopy(root = process.cwd()) {
     }
   }
 
-  for (const requiredAppText of [
-    "copyControls",
-    "navigator.clipboard",
-    "Fall through to the textarea path for local file previews.",
-    "document.execCommand(\"copy\")",
-    "label.textContent = \"Copied\"",
-  ]) {
-    if (!app.includes(requiredAppText)) {
-      failures.push(`landing/app.js missing copy behavior text: ${requiredAppText}`);
+  for (const removedCopyText of ["copy-control", "Copy starter", "Copy start prompt"]) {
+    if (html.includes(removedCopyText)) {
+      failures.push(`Landing should not expose prompt-copy UI: ${removedCopyText}`);
     }
   }
 

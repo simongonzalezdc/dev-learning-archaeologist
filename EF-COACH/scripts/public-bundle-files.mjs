@@ -1,7 +1,6 @@
 export const publicBundleFiles = [
   ".gitignore",
   "LICENSE",
-  "package.json",
   "robots.txt",
   "sitemap.xml",
   "llms.txt",
@@ -23,20 +22,6 @@ export const publicBundleFiles = [
   "landing/assets/unstuck-coach-logo.png",
   "landing/assets/unstuck-handoff-card.svg",
   "landing/assets/unstuck-admin-bridge.jpg",
-  "live-demo/Dockerfile",
-  "live-demo/server.mjs",
-  "live-demo/lib/context.mjs",
-  "live-demo/lib/llm-client.mjs",
-  "live-demo/public/index.html",
-  "live-demo/public/styles.css",
-  "live-demo/public/app.js",
-  "live-demo/deploy/docker-compose.vps.yml",
-  "live-demo/scripts/build-hostinger-compose.mjs",
-  "live-demo/test/chat-ui.test.mjs",
-  "live-demo/test/compose.test.mjs",
-  "live-demo/test/context.test.mjs",
-  "live-demo/test/llm-client.test.mjs",
-  "live-demo/test/server.test.mjs",
 ];
 
 export const publicBundleDirs = [
@@ -45,10 +30,4 @@ export const publicBundleDirs = [
   "demo",
   "landing",
   "landing/assets",
-  "live-demo",
-  "live-demo/lib",
-  "live-demo/public",
-  "live-demo/deploy",
-  "live-demo/scripts",
-  "live-demo/test",
 ];

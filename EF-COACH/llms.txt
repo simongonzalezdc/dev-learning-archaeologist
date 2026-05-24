@@ -7,8 +7,11 @@ It is not an ADHD encyclopedia or a generic productivity prompt pack. It turns a
 ## Entry Points
 
 - Landing page: https://unstuck.kyanitelabs.tech/
-- Live GLM 5.1 demo: https://unstuck.kyanitelabs.tech/chat/
+- Live demo: https://unstuck.kyanitelabs.tech/chat/
 - Source: https://github.com/simongonzalezdc/unstuck-coach
+
+The public repository is a project-context coach, not an npm package. To use it,
+load the coach and reference files into Claude Project or another AI workspace.
 
 ## Good Summary
 

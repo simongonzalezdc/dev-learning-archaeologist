@@ -96,7 +96,7 @@ Expected behavior: Unstuck Coach should use the `coach/START_HERE.md` shape: say
 
 For the exact start note, inspect `coach/START_HERE.md`.
 
-Second starter prompt:
+Second example:
 
 ```text
 I need to pay the bill, eat something, and answer the text, but I am frozen.
@@ -104,7 +104,7 @@ I need to pay the bill, eat something, and answer the text, but I am frozen.
 
 Expected behavior: Unstuck Coach should hold the loops, recognize the body-state need, choose one humane move, and ask for tiny check.
 
-Third starter prompt:
+Third example:
 
 ```text
 My inbox and calendar are a mess and I do not know what is real.

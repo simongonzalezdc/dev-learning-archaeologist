@@ -43,6 +43,8 @@ const publicFacingFragments = [
 ];
 
 const forbiddenPublicPaths = [
+  /^package\.json$/,
+  /^live-demo\//,
   /^docs\/judging\//,
   /^scripts\/verify-/,
   /^scripts\/judge-/,
@@ -57,10 +59,10 @@ const forbiddenPublicPaths = [
 
 const requiredReadmeText = [
   "Unstuck Coach is a whole-person executive-function accessibility coach.",
-  "Live GLM 5.1 demo",
-  "Use It In Claude Project",
+  "Live demo",
+  "Use It Through Project Context",
   "Source Layout",
-  "`live-demo/` contains the hosted chat demo.",
+  "There is no npm",
 ];
 
 const requiredLandingText = [
@@ -68,7 +70,7 @@ const requiredLandingText = [
   "Open live demo",
   "Set it up",
   "View source",
-  "Copy the prompt and start.",
+  "Load the coach files.",
   "Know whether the coach is helping.",
   "Asks for a tiny check.",
   "The coach helps with the next move, not someone else's life.",
@@ -76,9 +78,10 @@ const requiredLandingText = [
 
 const requiredLlmsText = [
   "Unstuck Coach is a whole-person executive-function accessibility coach",
-  "Live GLM 5.1 demo",
+  "Live demo",
   "one humane next move",
   "one tiny check",
+  "not an npm package",
 ];
 
 function exists(file) {
@@ -146,11 +149,6 @@ function verifyPublicBundle(targetRoot = root) {
   if (exists("robots.txt") && !read("robots.txt").includes("Sitemap: https://unstuck.kyanitelabs.tech/sitemap.xml")) {
     failures.push("robots.txt is missing the sitemap URL.");
   }
-
-  if (exists("live-demo/public/index.html") && /First run|first run|proof|evidence|judge|scorecard/i.test(read("live-demo/public/index.html"))) {
-    failures.push("live-demo/public/index.html contains visible process text.");
-  }
-
   return {
     status: failures.length === 0 ? "pass" : "fail",
     root: targetRoot,
