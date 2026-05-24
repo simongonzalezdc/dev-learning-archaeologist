@@ -12,6 +12,8 @@ test("public demo uses a normal chat interface", () => {
   assert.doesNotMatch(html, /Optional visible context|result-panel|Coach reply/);
 
   assert.match(script, /renderMessages/);
+  assert.match(script, /Live model ready/);
+  assert.doesNotMatch(script, /providerLabel\\} · \\$\\{.*model/);
   assert.match(script, /history/);
   assert.match(script, /thread\.push\(\{ role: "user"/);
   assert.match(script, /thread\.push\(\{ role: "assistant"/);

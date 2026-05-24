@@ -315,8 +315,8 @@ test("generated Hostinger demo presents a normal chat interface", () => {
   const page = extractInlinePage(result.stdout);
   assert.match(page, /Message Unstuck Coach/);
   assert.match(page, /chat/);
-  assert.match(page, /GLM 5\.1/);
-  assert.doesNotMatch(page, /GLM medium/);
+  assert.match(page, /id=provider>Live/);
+  assert.doesNotMatch(page, /GLM 5\.1|GLM medium/);
   assert.match(page, /m\.onkeydown/);
   assert.match(page, /key==="Enter"/);
   assert.match(page, /!e\.shiftKey/);

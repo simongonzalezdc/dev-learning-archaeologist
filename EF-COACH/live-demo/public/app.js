@@ -259,10 +259,25 @@ function resizeComposer() {
   message.style.height = `${Math.min(message.scrollHeight, 160)}px`;
 }
 
+function setRuntimeStatus(label, detail = "") {
+  provider.textContent = label;
+  if (detail) {
+    provider.title = detail;
+    provider.setAttribute("aria-label", detail);
+  } else {
+    provider.removeAttribute("title");
+    provider.removeAttribute("aria-label");
+  }
+}
+
+function getRuntimeDetail({ providerLabel, provider: providerName, model }) {
+  return [providerLabel || providerName, model].filter(Boolean).join(" · ");
+}
+
 async function loadConfig() {
   const response = await fetch("/api/config", { cache: "no-store" });
   const config = await response.json();
-  provider.textContent = `${config.providerLabel} · ${config.model}`;
+  setRuntimeStatus("Live model ready", getRuntimeDetail(config));
 }
 
 function insertText(text) {
@@ -444,7 +459,7 @@ form.addEventListener("submit", async (event) => {
     }
 
     thread.push({ role: "assistant", content: body.reply });
-    provider.textContent = `${body.providerLabel || body.provider} · ${body.model}`;
+    setRuntimeStatus("Live model ready", getRuntimeDetail(body));
     renderMessages();
   } catch (error) {
     renderMessages({ errorText: error.message });
@@ -457,5 +472,5 @@ form.addEventListener("submit", async (event) => {
 
 renderMessages();
 loadConfig().catch(() => {
-  provider.textContent = "Runtime unavailable";
+  setRuntimeStatus("Runtime unavailable");
 });

@@ -257,7 +257,16 @@ h1 {
 }
 
 #provider {
-  max-width: 31ch;
+  max-width: 16ch;
+  border: 0;
+  background: transparent;
+  padding: 0.16rem 0.08rem;
+  color: rgba(255, 250, 242, 0.72);
+  box-shadow: none;
+  backdrop-filter: none;
+  font-size: 0.68rem;
+  font-weight: 680;
+  line-height: 1.2;
   text-align: right;
 }
 
