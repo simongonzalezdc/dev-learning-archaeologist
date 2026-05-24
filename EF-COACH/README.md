@@ -8,7 +8,7 @@ The core idea: the folder is the product. It externalizes state, friction, next 
 
 - Landing page: `https://unstuck.kyanitelabs.tech/`
 - Live GLM 5.1 demo: `https://unstuck.kyanitelabs.tech/chat/`
-- Evidence reader: `https://unstuck.kyanitelabs.tech/evidence`
+- GitHub source: `https://github.com/simongonzalezdc/unstuck-coach`
 
 ## Repo Map
 
@@ -18,8 +18,7 @@ This repository is staged so a judge does not have to decode a flat file pile:
 - `reference/` is the operating layer: coaching protocols, signal map, safety boundaries, mode router, and admin-ops playbooks.
 - `demo/` and `evals/` are behavior proof: transcripts, before/after contrast, whole-person tour, and red-face tests.
 - `docs/judging/` is the competition layer: judge brief, scorecard, FAQ, ICM trace, rules trace, writeup, walkthrough, checklist, and submission copy.
-- `docs/evidence/` is the claim-to-file receipt map.
-- `landing/` is the public website and rendered evidence room.
+- `landing/` is the public website.
 - `scripts/` is the verification layer.
 
 That is the ICM shape: staged context, visible decisions, editable documents, and auditable proof.
@@ -60,7 +59,7 @@ Use a runner with enough context for `coach/PROJECT_INSTRUCTIONS.md`, `coach/ide
 - `reference/signal-map.md`
 - `reference/safety-boundaries.md`
 
-## Evidence Map
+## Source Map
 
 - `coach/PROJECT_INSTRUCTIONS.md` is the paste-ready coach contract.
 - `coach/FIRST_RUN.md` shows the cold-start behavior.
@@ -68,13 +67,12 @@ Use a runner with enough context for `coach/PROJECT_INSTRUCTIONS.md`, `coach/ide
 - `docs/judging/JUDGE_BRIEF.md` gives the one-page winning case.
 - `docs/judging/COMPETITION_RULES_TRACE.md` maps the Week 5 rules to evidence.
 - `docs/judging/ICM_TRACE.md` maps the system to visible, editable, auditable workflow.
-- `docs/evidence/RECEIPTS.md` maps claims to source files.
-- `landing/evidence.html` renders the public proof room.
+- GitHub contains the source files for anyone who wants to inspect the implementation.
 
 ## Search And AI Discovery
 
 - `robots.txt` exposes the sitemap.
-- `sitemap.xml` lists the landing page, live chat demo, and evidence reader URLs.
+- `sitemap.xml` lists the landing page and live chat demo URLs.
 - `llms.txt` gives answer engines and AI search a concise citation path.
 - `landing/index.html` carries canonical URL, preview metadata, and structured data.
 

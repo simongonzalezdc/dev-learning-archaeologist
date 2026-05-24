@@ -168,7 +168,7 @@ const judgeWalkthroughRequiredText = [
   "demo/whole-person-tour.md",
   "scripts/verify-whole-person-tour.mjs",
   "coach/FIRST_RUN.md",
-  "winning case readable before the judge opens every proof artifact",
+  "winning case readable before the judge opens every source file",
   "First reply acceptance test",
   "Pass: names friction, gives one concrete move, asks for tiny proof or one state signal.",
   "Fail: article, long menu, moralizing, or vague continuation.",
@@ -220,12 +220,11 @@ const judgeFaqRequiredText = [
   "What are the boundaries?",
   "the next move is small enough to test",
   "Unstuck is not therapy, medical advice, diagnosis, medication guidance, autonomous account access, or a promise to clean someone's life for them.",
-  "docs/evidence/RECEIPTS.md",
 ];
 
 const judgeBriefRequiredText = [
   "A one-page read",
-  "human case before opening every receipt",
+  "human case before opening every source file",
   "not a generic ADHD/productivity folder",
   "whole-person executive-function accessibility coach",
   "Coding is one proof scenario.",
@@ -245,7 +244,7 @@ const judgeBriefRequiredText = [
   "unsafe clinical advice",
   "ICM as practical workflow architecture",
   "visible context, editable decisions, bounded handoffs, and auditable proof",
-  "The landing page should make the product clear first. The receipts carry the proof:",
+  "The landing page should make the product clear first. The source files carry the proof:",
   "docs/judging/PRODUCT_THESIS.md",
   "docs/judging/ICM_TRACE.md",
   "docs/judging/COMPETITION_RULES_TRACE.md",
@@ -255,7 +254,6 @@ const judgeBriefRequiredText = [
   "reference/admin-ops-playbooks.md",
   "reference/mode-router.md",
   "evals/red-face-tests.md",
-  "docs/evidence/RECEIPTS.md",
   "Unstuck is a coaching scaffold.",
 ];
 
@@ -416,8 +414,6 @@ const renderReviewScreenshotsRequiredText = [
   "unstuck-review-scorecard-mobile",
   "unstuck-review-faq-desktop",
   "unstuck-review-faq-mobile",
-  "unstuck-review-evidence-desktop",
-  "unstuck-review-evidence-mobile",
   "Calendar and inbox are part of the life loop.",
   "No autonomous reading",
   "The first run is already scripted.",
@@ -426,9 +422,6 @@ const renderReviewScreenshotsRequiredText = [
   "Know whether the first reply is coaching.",
   "The coach helps with the next move, not someone else's life.",
   "Read boundaries",
-  "Rendered Markdown, not claim cards.",
-  "The file content is on this page.",
-  "coach/START_HERE.md",
   "horizontalOverflow",
   "consoleOrPageEvents",
 ];
@@ -601,17 +594,17 @@ const readmeRequiredText = [
   "The core idea: the folder is the product.",
   "Live Paths",
   "Live GLM 5.1 demo: `https://unstuck.kyanitelabs.tech/chat/`",
-  "Evidence reader: `https://unstuck.kyanitelabs.tech/evidence`",
+  "GitHub source: `https://github.com/simongonzalezdc/unstuck-coach`",
   "Repo Map",
   "`coach/` is the coach contract",
   "`docs/judging/` is the competition layer",
   "That is the ICM shape: staged context, visible decisions, editable documents, and auditable proof.",
   "Fast Judge Path",
   "Use The Folder",
-  "Evidence Map",
+  "Source Map",
   "Search And AI Discovery",
   "`robots.txt` exposes the sitemap.",
-  "`sitemap.xml` lists the landing page, live chat demo, and evidence reader URLs.",
+  "`sitemap.xml` lists the landing page and live chat demo URLs.",
   "`llms.txt` gives answer engines and AI search a concise citation path.",
   "If Unstuck gives a productivity article, it failed.",
   "This is a shortcut, not the product boundary.",
@@ -621,8 +614,7 @@ const readmeRequiredText = [
   "docs/judging/JUDGE_BRIEF.md` gives the one-page winning case.",
   "docs/judging/COMPETITION_RULES_TRACE.md` maps the Week 5 rules to evidence.",
   "docs/judging/ICM_TRACE.md` maps the system to visible, editable, auditable workflow.",
-  "docs/evidence/RECEIPTS.md` maps claims to source files.",
-  "landing/evidence.html` renders the public proof room.",
+  "GitHub contains the source files for anyone who wants to inspect the implementation.",
   "node scripts/final-review-smoke.mjs --expect-ready --skip-build",
   "node scripts/verify-github-public-url.mjs",
   "node scripts/verify-final-privacy-scan.mjs",
@@ -633,7 +625,6 @@ const documentationWordLimits = [
   { file: "docs/judging/PUBLICATION_CHECKLIST.md", maxWords: 700 },
   { file: "docs/judging/judge-walkthrough.md", maxWords: 1100 },
   { file: "coach/PROJECT_INSTRUCTIONS.md", maxWords: 1900 },
-  { file: "docs/evidence/RECEIPTS.md", maxWords: 1800 },
 ];
 
 const seoDiscoveryRequiredText = [
@@ -644,10 +635,6 @@ const seoDiscoveryRequiredText = [
   {
     file: "sitemap.xml",
     text: "<loc>https://unstuck.kyanitelabs.tech/</loc>",
-  },
-  {
-    file: "sitemap.xml",
-    text: "<loc>https://unstuck.kyanitelabs.tech/evidence</loc>",
   },
   {
     file: "sitemap.xml",
@@ -672,10 +659,6 @@ const seoDiscoveryRequiredText = [
   {
     file: "landing/index.html",
     text: "<script type=\"application/ld+json\">",
-  },
-  {
-    file: "landing/evidence.html",
-    text: "<link rel=\"canonical\" href=\"https://unstuck.kyanitelabs.tech/evidence\">",
   },
 ];
 
@@ -899,10 +882,7 @@ const landingRequiredText = [
   "Home and admin loops",
   "Capture and re-entry",
   "The folder is the coach's operating surface.",
-  "The whole-person operating surface is inspectable.",
-  "The whole-person tour is testable.",
   "Test six life surfaces",
-  "Open tour evidence",
   "Calendar + inbox playbooks",
   "Calendar and inbox layer",
   "unstuck-admin-bridge.jpg",
@@ -916,12 +896,6 @@ const landingRequiredText = [
   "Reply debt recovery",
   "Repair trust without shame theater.",
   "No autonomous reading, sending, scheduling, or inbox-zero promises.",
-  "Open admin evidence",
-  "./evidence.html#signal-map",
-  "./evidence.html#whole-person-tour",
-  "./evidence.html#verify-whole-person-tour",
-  "./evidence.html#admin-ops-playbooks",
-  "./evidence.html#verify-admin-ops-playbooks",
   "Coach contract",
   "Operating loop",
   "Read rules",
@@ -929,7 +903,7 @@ const landingRequiredText = [
   "Product thesis",
   "Open live demo",
   "Use the folder",
-  "Read source proof",
+  "GitHub",
   "First run",
   "Try it",
   "Claude Project launch kit",
@@ -974,21 +948,12 @@ const landingRequiredText = [
   "I need a coach to get started on this.",
   "First reply pass condition",
   "Name the friction, give one concrete move, and ask for tiny proof.",
-  "./evidence.html#transcript-pack",
-  "./evidence.html#icm-trace",
-  "./evidence.html#verify-icm-trace",
-  "./evidence.html#start-here",
-  "./evidence.html#product-thesis",
-  "./evidence.html#first-run",
-  "./evidence.html#first-reply-scorecard",
-  "./evidence.html#verify-start-here",
-  "./evidence.html#verify-product-thesis",
-  "./evidence.html#verify-first-run",
-  "./evidence.html#verify-first-reply-scorecard",
-  "./evidence.html#verify-landing-copy",
-  "./evidence.html#verify-first-reply-acceptance",
-  "./evidence.html#project-instructions",
-  "./evidence.html#verify-competition-rules-trace",
+  "https://github.com/simongonzalezdc/unstuck-coach/blob/main/demo/transcript-pack.md",
+  "https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/START_HERE.md",
+  "https://github.com/simongonzalezdc/unstuck-coach",
+  "https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/FIRST_RUN.md",
+  "https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/FIRST_REPLY_SCORECARD.md",
+  "https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/PROJECT_INSTRUCTIONS.md",
 ];
 
 const landingForbiddenText = [
@@ -1009,6 +974,18 @@ const landingForbiddenText = [
   "verify-submission-surfaces",
   "Open questions",
   "obvious objections",
+  ["Read", "source", "proof"].join(" "),
+  ["Open", "tour", "evidence"].join(" "),
+  ["Open", "admin", "evidence"].join(" "),
+  ["Open", "first-run", "evidence"].join(" "),
+  ["Open", "thesis", "evidence"].join(" "),
+  ["Open", "score", "evidence"].join(" "),
+  ["evidence", "reader"].join(" "),
+  ["Evidence", "reader"].join(" "),
+  ["rendered", "evidence"].join(" "),
+  ["public", "proof", "room"].join(" "),
+  ["./", "evidence", ".html"].join(""),
+  ["https://unstuck.kyanitelabs.tech", "evidence"].join("/"),
 ];
 
 const ignoredCandidatePrefixes = [
@@ -1230,15 +1207,6 @@ if (exists("docs/judging/judge-walkthrough.md")) {
   for (const requiredText of judgeWalkthroughRequiredText) {
     if (!judgeWalkthrough.includes(requiredText)) {
       failures.push(`docs/judging/judge-walkthrough.md is missing required text: ${requiredText}`);
-    }
-  }
-}
-
-if (exists("docs/evidence/RECEIPTS.md")) {
-  const receipts = read("docs/evidence/RECEIPTS.md");
-  for (const requiredText of receiptsRequiredText) {
-    if (!receipts.includes(requiredText)) {
-      failures.push(`docs/evidence/RECEIPTS.md is missing required text: ${requiredText}`);
     }
   }
 }

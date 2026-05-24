@@ -39,7 +39,6 @@ export function verifyJudgeFaq(root = process.cwd()) {
     "six-stop whole-person tour",
     "I need a coach to get started on this.",
     "state, friction, one humane concrete move, held context, proof, capture, body-state routing, transition, recovery, and closure",
-    "docs/evidence/RECEIPTS.md",
     "the next move is small enough to test",
     "Unstuck is not therapy, medical advice, diagnosis, medication guidance, autonomous account access, or a promise to clean someone's life for them.",
   ];

@@ -1,6 +1,6 @@
 # Unstuck Coach Walkthrough
 
-Use this as the recording script or quick read-through. The public story should show the live coach and evidence reader, not a separate storyboard page.
+Use this as the recording script or quick read-through. The public story should show the landing page, the live coach, and the GitHub source.
 
 ## One-Sentence Thesis
 
@@ -16,7 +16,7 @@ Start with the person, not the folder map.
 4. Show the before/after demo: generic advice versus Unstuck coaching.
 5. Open `coach/START_HERE.md` and `coach/PROJECT_INSTRUCTIONS.md`.
 6. Show `coach/FIRST_REPLY_SCORECARD.md`.
-7. Open `landing/evidence.html#first-reply-scorecard` for receipts.
+7. Open `coach/FIRST_REPLY_SCORECARD.md` in GitHub if the reviewer wants the source file.
 8. End with the five demo prompts below.
 
 ## Voiceover
@@ -35,9 +35,9 @@ To test it, load the folder into a Claude Project and try five prompts: "I need 
 If the response is a lecture, it failed. If it creates one state-aware next move and preserves dignity, it is doing the job.
 ```
 
-## Receipt Path
+## Source Path
 
-Use receipts after the human value is clear:
+Use source files after the human value is clear:
 
 - `docs/judging/JUDGE_BRIEF.md` for the one-page case.
 - `coach/FIRST_RUN.md` for the cold-start receipt.
@@ -45,7 +45,6 @@ Use receipts after the human value is clear:
 - `demo/transcript-pack.md` for cold-test examples.
 - `demo/whole-person-tour.md` for six life surfaces.
 - `evals/red-face-tests.md` for pressure cases.
-- `docs/evidence/RECEIPTS.md` for claim-to-file traceability.
 
 ## Recording Checklist
 
@@ -53,7 +52,7 @@ Use receipts after the human value is clear:
 - Show the landing page or `coach/START_HERE.md` first, not the file tree.
 - Open the live demo once.
 - Show one live prompt switch in the demo.
-- Show receipts only after the coach behavior is clear.
+- Show source files only after the coach behavior is clear.
 - Keep private material off screen.
 
 ## Five Demo Prompts

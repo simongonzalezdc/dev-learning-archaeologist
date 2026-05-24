@@ -92,7 +92,6 @@ if (navToggle) {
 const reviewPanels = optionalSelectorAll(".review-panel");
 const reviewPanelIds = new Set(reviewPanels.map((panel) => panel.id).filter(Boolean));
 const reviewPanelAliases = new Map([
-  ["proof-gate", "receipts"],
   ["judge", "demo"],
   ["submission", "demo"],
 ]);
@@ -424,119 +423,9 @@ copyControls.forEach((control) => {
   });
 });
 
-const isEvidencePage = document.body?.classList?.contains("evidence-page") || false;
-
-function setupEvidenceReader() {
-  if (!isEvidencePage) return;
-
-  const documents = optionalSelectorAll("[data-reader-document]");
-  const groups = optionalSelectorAll("[data-evidence-group]");
-  const verification = optionalSelector("#verification");
-  if (!documents.length || !groups.length) return;
-
-  const documentById = new Map(documents.map((documentNode) => [documentNode.id, documentNode]));
-  const groupById = new Map(groups.map((groupNode) => [groupNode.id, groupNode]));
-  const firstDocument = documents[0];
-
-  function documentForHash(hash) {
-    const id = hash.replace(/^#/, "");
-    if (documentById.has(id)) return documentById.get(id);
-    if (groupById.has(id)) return groupById.get(id).querySelector("[data-reader-document]");
-    return firstDocument;
-  }
-
-  function setActiveLinks(activeDocument, activeGroup, showingVerification) {
-    optionalSelectorAll(".reader-rail-group a, .mobile-index-groups a, .group-document-strip a, .source-actions a").forEach(
-      (link) => {
-        const href = link.getAttribute("href");
-        const active =
-          href === `#${activeDocument?.id}` ||
-          (!activeDocument && showingVerification && href === "#verification") ||
-          (activeGroup && href === `#${activeGroup.id}`);
-        link.classList.toggle("is-active", Boolean(active));
-        if (active) {
-          link.setAttribute("aria-current", "true");
-        } else {
-          link.removeAttribute("aria-current");
-        }
-      },
-    );
-  }
-
-  function activateEvidenceTarget(hash = window.location.hash, shouldScroll = false) {
-    const id = hash.replace(/^#/, "");
-    const showingVerification = id === "verification";
-    const activeDocument = showingVerification ? null : documentForHash(hash);
-    const activeGroup = activeDocument ? groupById.get(activeDocument.dataset.readerGroup) : null;
-
-    documents.forEach((documentNode) => {
-      const active = documentNode === activeDocument;
-      documentNode.classList.toggle("is-active", active);
-      documentNode.hidden = !active;
-      documentNode.setAttribute("aria-hidden", String(!active));
-    });
-
-    groups.forEach((groupNode) => {
-      const active = groupNode === activeGroup;
-      groupNode.classList.toggle("has-active-doc", active);
-      groupNode.hidden = !active;
-      groupNode.setAttribute("aria-hidden", String(!active));
-    });
-
-    if (verification) {
-      verification.hidden = !showingVerification;
-      verification.setAttribute("aria-hidden", String(!showingVerification));
-    }
-
-    document.body.classList.toggle("show-verification", showingVerification);
-    document.body.classList.add("reader-ready");
-    setActiveLinks(activeDocument, activeGroup, showingVerification);
-
-    if (shouldScroll) {
-      const target = showingVerification ? verification : activeDocument || activeGroup;
-      target?.scrollIntoView({ block: "start", behavior: "auto" });
-    }
-  }
-
-  optionalSelectorAll(".evidence-page a[href^='#']").forEach((link) => {
-    link.addEventListener("click", (event) => {
-      const href = link.getAttribute("href");
-      if (!href || href === window.location.hash) {
-        event.preventDefault();
-        activateEvidenceTarget(href || "#top", true);
-        return;
-      }
-      event.preventDefault();
-      window.history.pushState(null, "", href);
-      activateEvidenceTarget(href, true);
-    });
-  });
-
-  optionalSelectorAll("[data-section-action]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const activeDocument = button.closest("[data-reader-document]");
-      if (!activeDocument) return;
-      const shouldOpen = button.dataset.sectionAction === "expand";
-      activeDocument.querySelectorAll(".rendered-section").forEach((section) => {
-        section.open = shouldOpen;
-      });
-    });
-  });
-
-  window.addEventListener("hashchange", () => {
-    activateEvidenceTarget(window.location.hash, true);
-  });
-
-  activateEvidenceTarget(window.location.hash || `#${firstDocument.id}`, Boolean(window.location.hash));
-}
-
-setupEvidenceReader();
-
-const revealTargets = isEvidencePage
-  ? []
-  : optionalSelectorAll(
-      ".section-heading, .scope-core, .scope-lanes li, .admin-rhythm-visual, .admin-rhythm-card, .admin-boundary, .coldrun-steps li, .brief-board article, .scorecard-board article, .thesis-points article, .handoff-figure, .setup-board article, .response-pane, .coach-console, .console-output article, .file-node, .behavior-grid article, .receipts-grid a, .evidence-hero-panel, .evidence-index a, .evidence-card",
-    );
+const revealTargets = optionalSelectorAll(
+  ".section-heading, .scope-core, .scope-lanes li, .admin-rhythm-visual, .admin-rhythm-card, .admin-boundary, .coldrun-steps li, .brief-board article, .scorecard-board article, .thesis-points article, .handoff-figure, .setup-board article, .response-pane, .coach-console, .console-output article, .file-node, .behavior-grid article",
+);
 
 revealTargets.forEach((target) => {
   target.classList.add("reveal-item", "is-visible");

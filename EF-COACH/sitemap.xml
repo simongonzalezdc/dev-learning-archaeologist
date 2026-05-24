@@ -6,11 +6,6 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://unstuck.kyanitelabs.tech/evidence</loc>
-    <lastmod>2026-05-22</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://unstuck.kyanitelabs.tech/chat/</loc>
     <lastmod>2026-05-24</lastmod>
     <priority>0.7</priority>

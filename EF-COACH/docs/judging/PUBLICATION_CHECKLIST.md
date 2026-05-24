@@ -46,7 +46,7 @@ Validate the user-facing path in this order:
 5. Use Enter-to-send.
 6. Use a starter chip.
 7. Use speech-to-text, then send the inserted text.
-8. Open the evidence reader.
+8. Open the GitHub source only if more detail is needed.
 
 The live demo should show `Z.AI GLM-5.1 (medium reasoning)`, return a real coach response, and keep the browser console free of errors.
 

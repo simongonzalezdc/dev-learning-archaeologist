@@ -45,10 +45,6 @@ test("GET routes serve the canonical landing site and chat demo", async (t) => {
   assert.equal(chatScript.headers.get("cache-control"), "no-cache");
   assert.match(await chatScript.text(), /fetch\("\/api\/coach"/);
 
-  const evidence = await fetch(`${baseUrl}/evidence`);
-  assert.equal(evidence.status, 200);
-  assert.match(await evidence.text(), /Unstuck Coach Evidence Reader/);
-
   const legacyLanding = await fetch(`${baseUrl}/landing/`, { redirect: "manual" });
   assert.equal(legacyLanding.status, 308);
   assert.equal(legacyLanding.headers.get("location"), "/");
@@ -67,6 +63,9 @@ test("GET routes serve the canonical landing site and chat demo", async (t) => {
 
   const removedReel = await fetch(`${baseUrl}/reel`);
   assert.equal(removedReel.status, 404);
+
+  const removedEvidence = await fetch(`${baseUrl}/evidence`);
+  assert.equal(removedEvidence.status, 404);
 });
 
 test("POST /api/coach rejects empty messages", async (t) => {

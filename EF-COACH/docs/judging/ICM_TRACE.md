@@ -15,7 +15,7 @@ In this entry, ICM means practical workflow architecture: a messy human problem 
 | Convert examples into behavior | Calibrate the coach under task-start friction, shame, communication threat, overload, capture, and recovery. | `coach/examples.md`, `demo/transcript-pack.md`, `evals/red-face-tests.md` |
 | Separate source material from execution | Keep protocols, signals, safety, and source lineage in reference files instead of burying them in prompts. | `reference/` |
 | Make the handoff portable | Give a stranger the exact Claude Project instructions and the shortest cold-run path. | `coach/PROJECT_INSTRUCTIONS.md`, `coach/START_HERE.md`, `docs/judging/judge-walkthrough.md` |
-| Make proof executable | Pair claims with verifiers and a final smoke gate. | `docs/evidence/RECEIPTS.md`, `scripts/verify-icm-trace.mjs`, `scripts/final-review-smoke.mjs` |
+| Make proof executable | Pair claims with verifiers and a final smoke gate. | `scripts/verify-icm-trace.mjs`, `scripts/final-review-smoke.mjs` |
 | Keep publication auditable | Make the public posting state checkable: eligibility, clean repo, public URL, and final privacy checks are all explicit. | `docs/judging/PUBLICATION_CHECKLIST.md`, `scripts/verify-publication-ready.mjs`, `scripts/verify-github-public-url.mjs` |
 
 ## File Responsibilities
@@ -29,7 +29,6 @@ In this entry, ICM means practical workflow architecture: a messy human problem 
 - `coach/FIRST_RUN.md`: the exact cold-start receipt.
 - `coach/FIRST_REPLY_SCORECARD.md`: the first-response pass/fail gate.
 - `docs/judging/JUDGE_SCORECARD.md`: the broader competition scoring frame.
-- `docs/evidence/RECEIPTS.md`: claim-to-file proof.
 - `landing/index.html`: the visual judge door, not a replacement for the folder.
 - `scripts/verify-icm-trace.mjs`: executable guard that this trace stays present and evidence-backed.
 
@@ -39,7 +38,7 @@ In this entry, ICM means practical workflow architecture: a messy human problem 
 - A polished article with no first move.
 - A folder where required files exist but do not own distinct responsibilities.
 - A hidden app dependency that makes the folder hard to test in Claude Project.
-- Vague claims about methodology without scorecards, receipts, or verifiers.
+- Vague claims about methodology without scorecards or verifiers.
 - Clinical advice, diagnosis, medication guidance, or crisis handling outside the safety boundary.
 - A public submission path that leaks private review material or local provenance.
 

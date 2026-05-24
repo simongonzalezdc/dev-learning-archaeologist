@@ -68,7 +68,7 @@ The system makes the workflow staged, inspectable, editable, and auditable:
 - proof is attached to files,
 - the next move is small enough to test.
 
-Evidence: `docs/judging/ICM_TRACE.md`, `docs/judging/COMPETITION_RULES_TRACE.md`, `docs/evidence/RECEIPTS.md`.
+Evidence: `docs/judging/ICM_TRACE.md`, `docs/judging/COMPETITION_RULES_TRACE.md`.
 
 ## What goes above the brief?
 
@@ -83,9 +83,9 @@ The required folder is present, and the entry adds a clearer front door:
 - cold-test transcripts,
 - red-face evals,
 - calendar/inbox admin operations playbooks,
-- receipts that link claims to files.
+- source files that make the behavior inspectable.
 
-Evidence: `docs/judging/JUDGE_BRIEF.md`, `landing/index.html`, `docs/evidence/RECEIPTS.md`, `demo/whole-person-tour.md`, `reference/signal-map.md`, `reference/admin-ops-playbooks.md`.
+Evidence: `docs/judging/JUDGE_BRIEF.md`, `landing/index.html`, `demo/whole-person-tour.md`, `reference/signal-map.md`, `reference/admin-ops-playbooks.md`.
 
 ## What are the boundaries?
 

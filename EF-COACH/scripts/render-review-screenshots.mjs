@@ -128,18 +128,6 @@ async function main() {
       requiredText: ["External executive function for the whole human.", "Food first", "Hard anchor", "Literal ask", "Restart mark"],
     },
     {
-      file: "landing/evidence.html",
-      name: "unstuck-review-evidence-desktop",
-      viewport: { width: 1440, height: 1000 },
-      requiredText: ["Rendered Markdown, not claim cards.", "The file content is on this page.", "coach/START_HERE.md"],
-    },
-    {
-      file: "landing/evidence.html",
-      name: "unstuck-review-evidence-mobile",
-      viewport: { width: 390, height: 900 },
-      requiredText: ["Rendered Markdown, not claim cards.", "The file content is on this page.", "coach/START_HERE.md"],
-    },
-    {
       file: "landing/index.html",
       name: "unstuck-review-admin-desktop",
       viewport: { width: 1440, height: 1000 },
@@ -186,14 +174,14 @@ async function main() {
       name: "unstuck-review-scorecard-desktop",
       viewport: { width: 1440, height: 1000 },
       selector: "#scorecard",
-      requiredText: ["Know whether the first reply is coaching.", "Open score evidence"],
+      requiredText: ["Know whether the first reply is coaching.", "Open scorecard"],
     },
     {
       file: "landing/index.html",
       name: "unstuck-review-scorecard-mobile",
       viewport: { width: 390, height: 900 },
       selector: "#scorecard",
-      requiredText: ["Know whether the first reply is coaching.", "Open score evidence"],
+      requiredText: ["Know whether the first reply is coaching.", "Open scorecard"],
     },
     {
       file: "landing/index.html",

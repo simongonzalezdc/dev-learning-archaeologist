@@ -1,6 +1,6 @@
 # Judge Brief
 
-A one-page read for a judge who wants the human case before opening every receipt.
+A one-page read for a judge who wants the human case before opening every source file.
 
 ## The Wedge
 
@@ -50,9 +50,9 @@ The fit is not a label. It is implemented as staged coaching behavior:
 - Re-entry before shame cleanup.
 - Closure before another open loop.
 
-## Receipts
+## Source Files
 
-The landing page should make the product clear first. The receipts carry the proof:
+The landing page should make the product clear first. The source files carry the proof:
 
 - `docs/judging/PRODUCT_THESIS.md`: explains the folder-first product decision.
 - `docs/judging/ICM_TRACE.md`: maps the coach to inspectable workflow architecture.
@@ -61,7 +61,6 @@ The landing page should make the product clear first. The receipts carry the pro
 - `coach/FIRST_REPLY_SCORECARD.md`: makes first contact scoreable.
 - `demo/whole-person-tour.md`: proves six life surfaces, not one work category.
 - `evals/red-face-tests.md`: stress-tests shame, overload, time blindness, and safety boundaries.
-- `docs/evidence/RECEIPTS.md`: maps public claims to source files.
 
 ## Boundary
 

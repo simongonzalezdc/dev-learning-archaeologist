@@ -257,10 +257,6 @@ async function serveSiteStatic(request, response, rootDir) {
     redirect(response, "/");
     return;
   }
-  if (url.pathname === "/landing/evidence.html") {
-    redirect(response, "/evidence");
-    return;
-  }
   if (url.pathname === "/chat") {
     redirect(response, "/chat/");
     return;
@@ -276,10 +272,6 @@ async function serveSiteStatic(request, response, rootDir) {
 
   if (url.pathname === "/" || url.pathname === "/index.html") {
     await serveStaticFile(request, response, { baseDir: landingDir, requestedPath: "/index.html" });
-    return;
-  }
-  if (url.pathname === "/evidence" || url.pathname === "/evidence.html") {
-    await serveStaticFile(request, response, { baseDir: landingDir, requestedPath: "/evidence.html" });
     return;
   }
   if (url.pathname === "/chat/" || url.pathname.startsWith("/chat/")) {

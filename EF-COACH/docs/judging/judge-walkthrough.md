@@ -6,9 +6,9 @@ Use this path to evaluate Unstuck Coach quickly without shrinking the product to
 
 Open `coach/START_HERE.md`, `docs/judging/JUDGE_BRIEF.md`, and `README.md`.
 
-`docs/judging/JUDGE_BRIEF.md` should make the winning case readable before the judge opens every proof artifact: whole-person executive-function accessibility, above-the-brief proof, the fast cold test, failure modes, ICM fit, evidence map, and publication readiness.
+`docs/judging/JUDGE_BRIEF.md` should make the winning case readable before the judge opens every source file: whole-person executive-function accessibility, the fast cold test, failure modes, ICM fit, and publication readiness.
 
-`docs/judging/ICM_TRACE.md`, `docs/judging/JUDGE_FAQ.md`, `docs/judging/JUDGE_BRIEF.md`, and `docs/evidence/RECEIPTS.md` explain why the folder is not just a set of docs. The method is staged, visible, editable, and auditable.
+`docs/judging/ICM_TRACE.md`, `docs/judging/JUDGE_FAQ.md`, and `docs/judging/JUDGE_BRIEF.md` explain why the folder is not just a set of docs. The method is staged, visible, editable, and auditable.
 
 ## 2. Try The First Reply
 
@@ -66,12 +66,11 @@ The landing page should make the product clear before the judge reads every file
 - the live GLM demo bridge
 - the calendar/inbox operations band
 - the folder-method map
-- the evidence reader
-- the rendered evidence reader
+- the GitHub source
 
 Check the calendar/inbox operations band. It should show Calendar Reality, Inbox Live Obligation, Reply Debt Recovery, and the no-account-access safety boundary.
 
-## 5. Inspect The Proof
+## 5. Inspect The Source
 
 Open:
 

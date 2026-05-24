@@ -33,7 +33,7 @@ export function verifyJudgeBrief(root = process.cwd()) {
 
   const requiredText = [
     "A one-page read",
-    "human case before opening every receipt",
+    "human case before opening every source file",
     "not a generic ADHD/productivity folder",
     "whole-person executive-function accessibility coach",
     "Coding is one proof scenario.",
@@ -54,7 +54,7 @@ export function verifyJudgeBrief(root = process.cwd()) {
     "unsafe clinical advice",
     "ICM as practical workflow architecture",
     "visible context, editable decisions, bounded handoffs, and auditable proof",
-    "The landing page should make the product clear first. The receipts carry the proof:",
+    "The landing page should make the product clear first. The source files carry the proof:",
     "docs/judging/PRODUCT_THESIS.md",
     "docs/judging/ICM_TRACE.md",
     "docs/judging/COMPETITION_RULES_TRACE.md",
@@ -64,7 +64,6 @@ export function verifyJudgeBrief(root = process.cwd()) {
     "reference/admin-ops-playbooks.md",
     "reference/mode-router.md",
     "evals/red-face-tests.md",
-    "docs/evidence/RECEIPTS.md",
     "Unstuck is a coaching scaffold.",
     "It does not diagnose, treat, recommend medication, replace professional support, read accounts, send messages, edit calendars, or promise inbox zero.",
   ];

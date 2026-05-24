@@ -27,7 +27,7 @@ Publication status is controlled by `docs/judging/PUBLICATION_CHECKLIST.md` and 
 | --- | --- | --- |
 | Does it actually coach? | `coach/FIRST_RUN.md`, `demo/before-after.md`, `coach/rules.md`, `coach/examples.md`, `landing/index.html` | Try "I need a coach to get started on this." The response should create one concrete next move and ask for tiny proof. |
 | Is the domain specific enough? | `coach/identity.md`, `docs/judging/WRITEUP.md`, `docs/judging/JUDGE_BRIEF.md`, `docs/judging/JUDGE_SCORECARD.md` | The user is not "everyone"; it is a person with executive-function access friction at concrete life-loop thresholds. |
-| Is the methodology clean and useful? | `docs/judging/ICM_TRACE.md`, `coach/PROJECT_INSTRUCTIONS.md`, `coach/rules.md`, `reference/`, `docs/evidence/RECEIPTS.md` | The loop is inspectable: state, friction, move, hold, check, close, with a public ICM trace and verifier. |
+| Is the methodology clean and useful? | `docs/judging/ICM_TRACE.md`, `coach/PROJECT_INSTRUCTIONS.md`, `coach/rules.md`, `reference/` | The loop is inspectable: state, friction, move, hold, check, close, with source files and verifiers in GitHub. |
 | Does the README make it easy for someone else to use? | `README.md`, `docs/judging/judge-walkthrough.md`, `coach/HANDOFF_CARD.md` | A stranger gets setup, prompts, proof files, and pass/fail criteria without a call. |
 
 ## Above-The-Brief Proof
@@ -38,7 +38,6 @@ Publication status is controlled by `docs/judging/PUBLICATION_CHECKLIST.md` and 
 - `docs/judging/JUDGE_BRIEF.md`: one-page above-the-brief case, fast judge test, failure modes, ICM fit, evidence map, and ready publication state.
 - `docs/judging/JUDGE_SCORECARD.md`: 18-point scoring rubric.
 - `docs/judging/JUDGE_FAQ.md`: short answers to predictable judge objections.
-- `docs/evidence/RECEIPTS.md`: claim-to-file proof map.
 - `docs/judging/WALKTHROUGH.md`: 90-second recording/read-through path.
 - `scripts/verify-competition-rules-trace.mjs`: executable check for this Week 5 rules trace.
 - `scripts/verify-first-run.mjs`: executable check for the first-run receipt.

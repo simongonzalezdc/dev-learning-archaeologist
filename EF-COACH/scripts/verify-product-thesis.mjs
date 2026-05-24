@@ -24,7 +24,6 @@ const requiredEvidence = [
   "scripts/verify-first-run.mjs",
   "demo/transcript-pack.md",
   "scripts/verify-first-reply-acceptance.mjs",
-  "docs/evidence/RECEIPTS.md",
   "docs/judging/JUDGE_SCORECARD.md",
   "scripts/verify-public-bundle.mjs",
   "reference/safety-boundaries.md",

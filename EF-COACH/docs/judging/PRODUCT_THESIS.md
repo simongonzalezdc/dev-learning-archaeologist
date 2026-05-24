@@ -13,7 +13,7 @@ The public cold test is first contact because it is the easiest moment for a jud
 | Mode routing | The coach shifts between ally support, strategy, execution, memory keeping, and recovery closure without making the user choose a mode. | `coach/identity.md`, `coach/rules.md`, `reference/mode-router.md`, `scripts/verify-mode-router.mjs` |
 | First contact before productivity | The first reply should create one concrete move, not explain executive dysfunction. | `coach/START_HERE.md`, `coach/FIRST_RUN.md`, `demo/transcript-pack.md`, `scripts/verify-first-run.mjs`, `scripts/verify-first-reply-acceptance.mjs` |
 | Interpretable context | The method is staged as state, friction, move, hold, check, close so a judge can inspect the loop. | `coach/rules.md`, `reference/coaching-protocols.md`, `docs/judging/ICM_TRACE.md`, `landing/index.html`, `scripts/verify-icm-trace.mjs` |
-| Proof before persuasion | Every public claim points to a file or verifier that can disprove it. | `docs/evidence/RECEIPTS.md`, `docs/judging/JUDGE_SCORECARD.md`, `scripts/verify-public-bundle.mjs` |
+| Proof before persuasion | Public claims point to source files or verifiers that can disprove them. | `docs/judging/JUDGE_SCORECARD.md`, `scripts/verify-public-bundle.mjs` |
 | Boundaries are product quality | The coach avoids therapy, diagnosis, medication guidance, and crisis handling. | `reference/safety-boundaries.md`, `coach/HANDOFF_CARD.md` |
 
 ## Why The Folder Is The Product

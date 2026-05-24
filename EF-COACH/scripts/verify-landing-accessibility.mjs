@@ -51,7 +51,6 @@ function countMatches(markup, pattern) {
 export function verifyLandingAccessibility(root = process.cwd()) {
   const failures = [];
   const htmlPath = path.join(root, "landing/index.html");
-  const evidencePath = path.join(root, "landing/evidence.html");
   const cssPath = path.join(root, "landing/styles.css");
   const appPath = path.join(root, "landing/app.js");
 
@@ -74,16 +73,10 @@ export function verifyLandingAccessibility(root = process.cwd()) {
     failures.push("Missing landing/app.js.");
   }
 
-  if (!fs.existsSync(evidencePath)) {
-    failures.push("Missing landing/evidence.html.");
-  }
-
   const html = read(root, "landing/index.html");
-  const evidenceHtml = fs.existsSync(evidencePath) ? read(root, "landing/evidence.html") : "";
   const css = fs.existsSync(cssPath) ? read(root, "landing/styles.css") : "";
   const app = fs.existsSync(appPath) ? read(root, "landing/app.js") : "";
   const ids = findIds(html);
-  const evidenceIds = findIds(evidenceHtml);
   const headings = [...html.matchAll(/<h([1-6])\b[^>]*id="([^"]+)"[^>]*>/g)].map((match) => ({
     level: Number(match[1]),
     id: match[2],
@@ -96,10 +89,7 @@ export function verifyLandingAccessibility(root = process.cwd()) {
   const hashTargets = localHashTargets(html);
   const tabs = [...html.matchAll(/<button\b[^>]*role="tab"[^>]*>/gi)].map((match) => attrs(match[0]));
   const copyButtons = [...html.matchAll(/<button\b[^>]*class="[^"]*\bcopy-control\b[^"]*"[^>]*>/gi)].map((match) => attrs(match[0]));
-  const evidenceLinks = [...html.matchAll(/\shref="\.\/evidence\.html#([^"]+)"/g)].map((match) => match[1]);
   const rawSourceLinks = [...html.matchAll(/\shref="\.\.\/([^"]+)"/g)].map((match) => match[1]);
-  const evidenceRawSourceLinks = [...evidenceHtml.matchAll(/\shref="\.\.\/([^"]+)"/g)].map((match) => match[1]);
-  const evidenceHashTargets = localHashTargets(evidenceHtml);
 
   if (!/<html\s+lang="en"/i.test(html)) {
     failures.push("landing/index.html must declare lang=\"en\".");
@@ -136,25 +126,14 @@ export function verifyLandingAccessibility(root = process.cwd()) {
     }
   }
 
-  for (const target of evidenceHashTargets) {
-    if (!evidenceIds.has(target)) {
-      failures.push(`Evidence page local hash link points at missing id: #${target}`);
-    }
-  }
-
-  for (const target of evidenceLinks) {
-    if (!evidenceIds.has(target)) {
-      failures.push(`Landing evidence link points at missing evidence id: #${target}`);
-    }
+  if (/\.\/evidence\.html|\/evidence\b/.test(html)) {
+    failures.push("Landing page must not link to a hosted evidence page.");
   }
 
   if (rawSourceLinks.length > 0) {
     failures.push(`Landing page still links directly to raw source files: ${rawSourceLinks.join(", ")}`);
   }
 
-  if (evidenceRawSourceLinks.length > 0) {
-    failures.push(`Evidence page still links directly to raw source files: ${evidenceRawSourceLinks.join(", ")}`);
-  }
 
   for (const section of labelledSections) {
     const labelId = attrs(section)["aria-labelledby"];
@@ -323,8 +302,8 @@ export function verifyLandingAccessibility(root = process.cwd()) {
     buttons: buttons.length,
     labelledSections: labelledSections.length,
     localHashLinks: hashTargets.length,
-    evidenceLinks: evidenceLinks.length,
-    evidenceCards: countMatches(evidenceHtml, /class="[^"]*\bevidence-card\b/gi),
+    evidenceLinks: 0,
+    evidenceCards: 0,
     demoTabs: tabs.length,
     copyButtons: copyButtons.length,
     failures,

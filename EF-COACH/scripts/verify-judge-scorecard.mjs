@@ -43,7 +43,7 @@ export function verifyJudgeScorecard(root = process.cwd()) {
     "Research-to-behavior conversion",
     "Safety and boundaries",
     "Presentation and proof",
-    "repeatable desktop, mobile, and narrow mobile screenshot proof",
+    "repeatable desktop, mobile, and narrow mobile screenshot checks",
     "calendar/inbox operations band",
     "Open `landing/index.html` and inspect the calendar/inbox operations band.",
     "docs/judging/JUDGE_BRIEF.md",
