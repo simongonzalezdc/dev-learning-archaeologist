@@ -17,13 +17,16 @@ test("public demo uses a normal chat interface", () => {
   assert.match(script, /thread\.push\(\{ role: "assistant"/);
 });
 
-test("public demo includes the Coach Dock low-friction sidecar", () => {
+test("public demo includes the support panel low-friction sidecar", () => {
   const html = readFileSync(new URL("../public/index.html", import.meta.url), "utf8");
   const script = readFileSync(new URL("../public/app.js", import.meta.url), "utf8");
 
   assert.match(html, /id="coach-dock"/);
+  assert.match(html, /aria-label="Support panel"/);
+  assert.match(html, /href="\/"/);
   assert.match(html, /id="voice-button"/);
   assert.doesNotMatch(html, /id="read-button"|id="stop-audio-button"|Read latest coach reply|Stop read aloud/);
+  assert.doesNotMatch(html, /Generative aid|Draft reply|3 softer versions|Hold pile/);
   assert.match(html, /data-prompt="I'?m frozen/i);
   assert.match(html, /id="state-read"/);
   assert.match(html, /id="next-move"/);
@@ -51,12 +54,17 @@ test("public demo includes a one-click energy check", () => {
   assert.match(html, /id="relief-map"/);
   assert.match(html, /aria-label="Energy level"/);
   assert.match(html, /id="energy-read"/);
+  assert.match(html, /id="energy-hint"/);
+  assert.match(html, /data-scale="1"/);
+  assert.match(html, /Rest/);
+  assert.match(html, /Bigger/);
   assert.equal(html.match(/data-energy="/g)?.length, 5);
 
   assert.match(script, /let energyLevel/);
   assert.match(script, /function setEnergy/);
   assert.match(script, /function getEnergyContext/);
   assert.match(script, /function renderReliefMap/);
+  assert.match(script, /--energy-progress/);
   assert.match(script, /data-visual-state/);
 });
 

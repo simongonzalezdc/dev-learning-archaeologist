@@ -9,7 +9,7 @@
       content="Live chat demo for Unstuck Coach, an executive-function accessibility coach that returns one humane next move."
     >
     <link rel="canonical" href="https://unstuck.kyanitelabs.tech/chat/">
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css?v=support-panel">
   </head>
   <body>
     <main class="app-shell" aria-labelledby="title">
@@ -18,7 +18,10 @@
           <p class="eyebrow">Unstuck Coach</p>
           <h1 id="title">Unstuck</h1>
         </div>
-        <strong id="provider">Checking runtime...</strong>
+        <div class="header-actions" aria-label="Demo links and runtime">
+          <a class="landing-link" href="/" aria-label="Back to the Unstuck Coach landing page">Landing</a>
+          <strong id="provider">Checking runtime...</strong>
+        </div>
       </header>
 
       <div class="work-surface">
@@ -53,16 +56,16 @@
           </form>
         </section>
 
-        <aside id="coach-dock" class="coach-dock" aria-label="Coach Dock" data-visual-state="ready">
+        <aside id="coach-dock" class="coach-dock" aria-label="Support panel" data-visual-state="ready">
           <header class="dock-header">
-            <p class="eyebrow">Coach Dock</p>
+            <p class="eyebrow">Support panel</p>
             <strong>One move at a time</strong>
           </header>
 
-          <section id="relief-map" class="dock-card relief-map" aria-label="Energy and relief map" data-visual-state="ready">
+          <section id="relief-map" class="dock-card relief-map" aria-label="Capacity selector" data-visual-state="ready">
             <div class="relief-topline">
               <div>
-                <span class="dock-label">Energy now</span>
+                <span class="dock-label">Capacity now</span>
                 <strong id="energy-read">Pick 1-5</strong>
               </div>
               <div id="energy-check" class="energy-check" role="group" aria-label="Energy level">
@@ -73,21 +76,18 @@
                 <button type="button" data-energy="5" aria-label="Energy 5 of 5">5</button>
               </div>
             </div>
-            <svg class="relief-svg" viewBox="0 0 260 112" role="img" aria-label="A calm path showing the next move">
-              <path class="map-echo map-echo-one" d="M20 82 C48 22 92 106 122 46 S204 20 238 72"></path>
-              <path class="map-echo map-echo-two" d="M22 54 C62 82 82 18 128 58 S190 98 238 34"></path>
-              <path class="map-route" d="M18 78 C54 34 78 86 112 54 S182 28 242 68"></path>
-              <g class="map-pile" aria-hidden="true">
-                <path d="M40 28 h18"></path>
-                <path d="M50 38 h30"></path>
-                <path d="M172 82 h24"></path>
-              </g>
-              <circle class="map-marker" cx="112" cy="54" r="5"></circle>
-            </svg>
+            <div class="energy-scale" aria-hidden="true">
+              <span data-scale="1">Rest</span>
+              <span data-scale="2">Tiny</span>
+              <span data-scale="3">Small</span>
+              <span data-scale="4">Steady</span>
+              <span data-scale="5">Bigger</span>
+            </div>
+            <p id="energy-hint" class="energy-hint">Pick capacity so the coach sizes the move.</p>
           </section>
 
           <section class="dock-card">
-            <span class="dock-label">State read</span>
+            <span class="dock-label">Current state</span>
             <strong id="state-read">Ready to start</strong>
             <p id="state-detail">Pick a chip, talk, or type one messy sentence.</p>
           </section>
@@ -102,26 +102,17 @@
           </section>
 
           <section class="dock-card">
-            <span class="dock-label">Tiny check</span>
+            <span class="dock-label">Check in</span>
             <div id="tiny-checks" class="tiny-checks"></div>
           </section>
 
           <section class="dock-card">
-            <span class="dock-label">Held pile</span>
+            <span class="dock-label">Parked for later</span>
             <div id="held-pile" class="held-pile">Nothing parked yet.</div>
-          </section>
-
-          <section class="dock-card">
-            <span class="dock-label">Generative aid</span>
-            <div class="dock-actions">
-              <button type="button" data-insert="Draft a one-sentence reply I can send.">Draft reply</button>
-              <button type="button" data-insert="Give me three softer versions.">3 softer versions</button>
-              <button type="button" data-prompt="Hold the pile and continue with one next move.">Hold pile</button>
-            </div>
           </section>
         </aside>
       </div>
     </main>
-    <script src="./app.js" type="module"></script>
+    <script src="./app.js?v=support-panel" type="module"></script>
   </body>
 </html>

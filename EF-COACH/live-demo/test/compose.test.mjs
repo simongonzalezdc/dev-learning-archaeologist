@@ -341,7 +341,7 @@ test("generated Hostinger demo has parseable browser JavaScript", () => {
   assert.doesNotThrow(() => new Function(match[1]));
 });
 
-test("generated Hostinger demo includes the Coach Dock", () => {
+test("generated Hostinger demo includes the support panel", () => {
   const result = spawnSync("node", ["live-demo/scripts/build-hostinger-compose.mjs"], {
     cwd: new URL("../..", import.meta.url),
     encoding: "utf8",
@@ -354,6 +354,8 @@ test("generated Hostinger demo includes the Coach Dock", () => {
 
   const page = extractInlinePage(result.stdout);
   assert.match(page, /coach-dock/);
+  assert.match(page, /Panel/);
+  assert.match(page, /Landing/);
   assert.match(page, /voice-button/);
   assert.match(page, /state-read/);
   assert.match(page, /next-move/);
@@ -370,6 +372,7 @@ test("generated Hostinger demo includes the Coach Dock", () => {
   assert.match(page, /Message Unstuck Coach/);
   assert.match(page, /work-surface/);
   assert.doesNotMatch(page, /Optional context|Execution|Coach reply/);
+  assert.doesNotMatch(page, /Generative aid|Draft reply|3 softer versions|Hold pile/);
 });
 
 test("generated Hostinger demo includes the one-click energy check", () => {
@@ -387,11 +390,13 @@ test("generated Hostinger demo includes the one-click energy check", () => {
   const page = extractInlinePage(result.stdout);
   assert.match(page, /energy-check/);
   assert.match(page, /relief-map/);
-  assert.match(page, /Energy now/);
+  assert.match(page, /Capacity/);
+  assert.match(page, /energy-scale/);
   assert.match(page, /data-energy/);
   assert.match(page, /energy-read/);
   assert.match(page, /energyLevel/);
   assert.match(page, /setEnergy/);
   assert.match(page, /getEnergyContext/);
+  assert.match(page, /--energy-progress/);
   assert.match(page, /data-visual-state/);
 });

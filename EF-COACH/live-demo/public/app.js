@@ -8,7 +8,9 @@ const voiceStatus = document.querySelector("#voice-status");
 const coachDock = document.querySelector("#coach-dock");
 const reliefMap = document.querySelector("#relief-map");
 const energyRead = document.querySelector("#energy-read");
+const energyHint = document.querySelector("#energy-hint");
 const energyButtons = [...document.querySelectorAll("[data-energy]")];
+const energyScaleSteps = [...document.querySelectorAll("[data-scale]")];
 const stateRead = document.querySelector("#state-read");
 const stateDetail = document.querySelector("#state-detail");
 const nextMove = document.querySelector("#next-move");
@@ -54,24 +56,24 @@ const stateRules = [
 
 const energyProfiles = {
   1: {
-    label: "bare minimum",
-    detail: "Assume almost no capacity. Offer one body-level move.",
+    label: "rest",
+    detail: "We will use a body-level move. No sorting yet.",
   },
   2: {
-    label: "low",
-    detail: "Keep the move under thirty seconds and remove choices.",
+    label: "tiny",
+    detail: "We will keep this under thirty seconds.",
   },
   3: {
-    label: "usable",
-    detail: "One small task move is okay. Keep the pile parked.",
+    label: "small",
+    detail: "One small task move is okay. The pile stays parked.",
   },
   4: {
-    label: "warm",
-    detail: "Use momentum, but still choose one next move.",
+    label: "steady",
+    detail: "Use the momentum, but still choose only one move.",
   },
   5: {
-    label: "ready",
-    detail: "The user can take a slightly bigger step, but no long menu.",
+    label: "bigger",
+    detail: "A slightly bigger step is okay. Still no long menu.",
   },
 };
 
@@ -124,10 +126,16 @@ function getVisualSlug(value) {
 function renderEnergyCheck() {
   const profile = energyProfiles[energyLevel];
   energyRead.textContent = profile ? `${energyLevel}/5 - ${profile.label}` : "Pick 1-5";
+  energyHint.textContent = profile ? profile.detail : "Pick capacity so the coach sizes the move.";
+  reliefMap?.style.setProperty("--energy-progress", `${energyLevel ? energyLevel * 20 : 0}%`);
 
   for (const button of energyButtons) {
     const selected = Number(button.dataset.energy) === energyLevel;
     button.setAttribute("aria-pressed", String(selected));
+  }
+
+  for (const step of energyScaleSteps) {
+    step.toggleAttribute("data-selected", Number(step.dataset.scale) === energyLevel);
   }
 }
 
