@@ -37,6 +37,8 @@ test("public demo includes the Coach Dock low-friction sidecar", () => {
   assert.match(script, /interimResults = true/);
   assert.match(script, /Microphone permission was blocked/);
   assert.match(script, /function inferState/);
+  assert.match(script, /const state = inferState\(lastUser\)/);
+  assert.doesNotMatch(script, /inferState\(`\\$\\{lastUser\\} \\$\\{lastAssistant\\}`\)/);
   assert.match(script, /SpeechRecognition|webkitSpeechRecognition/);
   assert.doesNotMatch(script, /speechSynthesis|SpeechSynthesisUtterance|getVoices|readLatestCoachReply/);
 });
@@ -56,4 +58,21 @@ test("public demo includes a one-click energy check", () => {
   assert.match(script, /function getEnergyContext/);
   assert.match(script, /function renderReliefMap/);
   assert.match(script, /data-visual-state/);
+});
+
+test("public demo uses the landing design language", () => {
+  const css = readFileSync(new URL("../public/styles.css", import.meta.url), "utf8");
+
+  assert.match(css, /--paper: #fff8ec/);
+  assert.match(css, /--ink: #060910/);
+  assert.match(css, /--gold: #ffc018/);
+  assert.match(css, /--magenta: #ff147f/);
+  assert.match(css, /body::after/);
+  assert.match(css, /border: 2px solid var\(--ink\)/);
+  assert.match(css, /linear-gradient\(145deg, rgba\(6, 9, 16, 0\.98\), rgba\(6, 67, 74, 0\.96\)\)/);
+  assert.match(css, /font-family: var\(--editorial\)/);
+
+  assert.doesNotMatch(css, /color-scheme: dark/);
+  assert.doesNotMatch(css, /--bg: #0c0e0c/);
+  assert.doesNotMatch(css, /#000\b/i);
 });

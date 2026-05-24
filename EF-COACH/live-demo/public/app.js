@@ -219,7 +219,7 @@ function renderReliefMap(state) {
 function renderDock() {
   const lastUser = latest("user");
   const lastAssistant = latest("assistant");
-  const state = inferState(`${lastUser} ${lastAssistant}`);
+  const state = inferState(lastUser);
 
   stateRead.textContent = state.label;
   stateDetail.textContent = state.detail;
@@ -252,7 +252,7 @@ function resizeComposer() {
 }
 
 async function loadConfig() {
-  const response = await fetch("./api/config", { cache: "no-store" });
+  const response = await fetch("/api/config", { cache: "no-store" });
   const config = await response.json();
   provider.textContent = `${config.providerLabel} · ${config.model}`;
 }
@@ -421,7 +421,7 @@ form.addEventListener("submit", async (event) => {
   submit.disabled = true;
 
   try {
-    const response = await fetch("./api/coach", {
+    const response = await fetch("/api/coach", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({

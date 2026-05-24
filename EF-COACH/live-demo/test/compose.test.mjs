@@ -97,7 +97,7 @@ test("Hostinger compose stays below the API content limit", () => {
 
   assert.equal(result.status, 0, result.stderr);
   assert.ok(result.stdout.length < 8192, `compose was ${result.stdout.length} bytes`);
-  assert.match(result.stdout, /simongonzalezdc\.github\.io\/unstuck-coach/);
+  assert.match(result.stdout, /CONTEXT_BASE_URL: https:\/\/unstuck\.kyanitelabs\.tech/);
   assert.doesNotMatch(result.stdout, /LIVE_DEMO_TGZ_B64|PRIVATE_|OPENAI_API_KEY: [^\\n]*sk-/);
 });
 
@@ -149,6 +149,14 @@ test("generated inline server rejects scanner paths and unsupported API methods"
 test("generated inline server rejects malformed and oversized coach requests safely", async (t) => {
   const baseUrl = await startGeneratedServer(t);
 
+  const nonJson = await fetch(`${baseUrl}/api/coach`, {
+    method: "POST",
+    headers: { "content-type": "text/plain" },
+    body: "Use my quota.",
+  });
+  assert.equal(nonJson.status, 415);
+  assert.match(await nonJson.text(), /json/i);
+
   const malformed = await fetch(`${baseUrl}/api/coach`, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -190,7 +198,7 @@ test("generated inline server rate-limits repeated clients before model calls", 
   const baseUrl = await startGeneratedServer(t);
 
   let response;
-  for (let index = 0; index < 21; index += 1) {
+  for (let index = 0; index < 13; index += 1) {
     response = await fetch(`${baseUrl}/api/coach`, {
       method: "POST",
       headers: {
@@ -352,6 +360,8 @@ test("generated Hostinger demo includes the Coach Dock", () => {
   assert.match(page, /held-pile/);
   assert.match(page, /tiny-checks/);
   assert.match(page, /inferState/);
+  assert.match(page, /renderDock\(\)\{let s=inferState\(last\("user"\)\)/);
+  assert.doesNotMatch(page, /inferState\(last\("user"\)\+" "\+last\("assistant"\)\)/);
   assert.match(page, /SpeechRecognition|webkitSpeechRecognition/);
   assert.match(page, /vstat/);
   assert.match(page, /interimResults/);

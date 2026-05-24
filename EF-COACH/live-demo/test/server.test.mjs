@@ -13,6 +13,63 @@ function listen(server) {
   });
 }
 
+test("GET routes serve the canonical landing site and chat demo", async (t) => {
+  const server = createLiveDemoServer();
+  t.after(() => server.close());
+  const baseUrl = await listen(server);
+
+  const landing = await fetch(`${baseUrl}/`);
+  assert.equal(landing.status, 200);
+  const landingHtml = await landing.text();
+  assert.match(landingHtml, /Unstuck Coach \| Executive Function Accessibility Coach/);
+  assert.match(landingHtml, /href="https:\/\/unstuck\.kyanitelabs\.tech\/"/);
+  assert.match(landingHtml, /href="https:\/\/unstuck\.kyanitelabs\.tech\/chat\/"/);
+
+  const chatRedirect = await fetch(`${baseUrl}/chat`, { redirect: "manual" });
+  assert.equal(chatRedirect.status, 308);
+  assert.equal(chatRedirect.headers.get("location"), "/chat/");
+
+  const chat = await fetch(`${baseUrl}/chat/`);
+  assert.equal(chat.status, 200);
+  assert.equal(chat.headers.get("cache-control"), "no-cache");
+  const chatHtml = await chat.text();
+  assert.match(chatHtml, /id="coach-form"/);
+  assert.match(chatHtml, /href="https:\/\/unstuck\.kyanitelabs\.tech\/chat\/"/);
+
+  const favicon = await fetch(`${baseUrl}/favicon.ico`);
+  assert.equal(favicon.status, 200);
+  assert.equal(favicon.headers.get("content-type"), "image/png");
+
+  const chatScript = await fetch(`${baseUrl}/chat/app.js`);
+  assert.equal(chatScript.status, 200);
+  assert.equal(chatScript.headers.get("cache-control"), "no-cache");
+  assert.match(await chatScript.text(), /fetch\("\/api\/coach"/);
+
+  const evidence = await fetch(`${baseUrl}/evidence`);
+  assert.equal(evidence.status, 200);
+  assert.match(await evidence.text(), /Unstuck Coach Evidence Reader/);
+
+  const reel = await fetch(`${baseUrl}/reel`);
+  assert.equal(reel.status, 200);
+  assert.match(await reel.text(), /Unstuck Coach Pitch Reel/);
+
+  const legacyLanding = await fetch(`${baseUrl}/landing/`, { redirect: "manual" });
+  assert.equal(legacyLanding.status, 308);
+  assert.equal(legacyLanding.headers.get("location"), "/");
+
+  const sitemap = await fetch(`${baseUrl}/sitemap.xml`);
+  assert.equal(sitemap.status, 200);
+  assert.match(await sitemap.text(), /https:\/\/unstuck\.kyanitelabs\.tech\/chat\//);
+
+  const llms = await fetch(`${baseUrl}/llms.txt`);
+  assert.equal(llms.status, 200);
+  assert.match(await llms.text(), /Live GLM chat demo/);
+
+  const pitchReel = await fetch(`${baseUrl}/PITCH_REEL.md`);
+  assert.equal(pitchReel.status, 200);
+  assert.match(await pitchReel.text(), /Unstuck Coach/);
+});
+
 test("POST /api/coach rejects empty messages", async (t) => {
   const server = createLiveDemoServer({
     callModel: async () => "unused",
@@ -60,6 +117,25 @@ test("POST /api/coach rejects malformed and oversized bodies without internals",
   assert.doesNotMatch(oversizedText, /live demo failed|Bearer|API_KEY/i);
 });
 
+test("POST /api/coach rejects non-JSON requests before model calls", async (t) => {
+  const server = createLiveDemoServer({
+    callModel: async () => {
+      throw new Error("model should not be called");
+    },
+  });
+  t.after(() => server.close());
+  const baseUrl = await listen(server);
+
+  const response = await fetch(`${baseUrl}/api/coach`, {
+    method: "POST",
+    headers: { "content-type": "text/plain" },
+    body: "Use my quota.",
+  });
+
+  assert.equal(response.status, 415);
+  assert.match(await response.text(), /JSON content type required/i);
+});
+
 test("server does not serve app shell for scanner paths or unsupported methods", async (t) => {
   const server = createLiveDemoServer();
   t.after(() => server.close());
@@ -99,6 +175,39 @@ test("POST /api/coach rejects cross-site browser origins", async (t) => {
   assert.match(await response.text(), /origin not allowed/i);
 });
 
+test("POST /api/coach can ignore spoofed forwarding headers", async (t) => {
+  let calls = 0;
+  const server = createLiveDemoServer({
+    env: {
+      COACH_TRUST_PROXY: "0",
+      COACH_RATE_LIMIT_MAX: "1",
+      COACH_RATE_LIMIT_WINDOW_MS: "60000",
+    },
+    callModel: async () => {
+      calls += 1;
+      return {
+        text: "One move.",
+        provider: "test-provider",
+        model: "test-model",
+      };
+    },
+  });
+  t.after(() => server.close());
+  const baseUrl = await listen(server);
+
+  for (const forwardedFor of ["198.51.100.1", "198.51.100.2"]) {
+    const response = await fetch(`${baseUrl}/api/coach`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-forwarded-for": forwardedFor },
+      body: JSON.stringify({ message: "Same direct client." }),
+    });
+    if (forwardedFor.endsWith(".1")) assert.equal(response.status, 200);
+    if (forwardedFor.endsWith(".2")) assert.equal(response.status, 429);
+  }
+
+  assert.equal(calls, 1);
+});
+
 test("POST /api/coach rate-limits repeated clients before model calls", async (t) => {
   let calls = 0;
   const server = createLiveDemoServer({
@@ -133,6 +242,40 @@ test("POST /api/coach rate-limits repeated clients before model calls", async (t
   assert.equal(second.status, 429);
   assert.match(await second.text(), /rate limit exceeded/i);
   assert.equal(calls, 1);
+});
+
+test("POST /api/coach trims prompt-side inputs before model calls", async (t) => {
+  let modelMessages = [];
+  const server = createLiveDemoServer({
+    callModel: async ({ messages }) => {
+      modelMessages = messages;
+      return {
+        text: "Small enough.",
+        provider: "test-provider",
+        model: "test-model",
+      };
+    },
+  });
+  t.after(() => server.close());
+  const baseUrl = await listen(server);
+
+  const response = await fetch(`${baseUrl}/api/coach`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      message: "m".repeat(3_000),
+      context: "c".repeat(1_200),
+      history: Array.from({ length: 8 }, (_, index) => ({
+        role: index % 2 === 0 ? "user" : "assistant",
+        content: String(index).repeat(1_200),
+      })),
+    }),
+  });
+
+  assert.equal(response.status, 200);
+  assert.equal(modelMessages.length, 7);
+  assert.ok(modelMessages.at(-1).content.length < 3_400);
+  assert.ok(modelMessages.slice(0, -1).every((message) => message.content.length <= 1_000));
 });
 
 test("POST /api/coach returns a real reply with visible execution steps", async (t) => {

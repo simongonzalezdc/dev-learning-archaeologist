@@ -1,5 +1,6 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
+import { isIP } from "node:net";
 import { extname, join, normalize, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -8,12 +9,34 @@ import { callCoachModel, publicProviderConfig, resolveLlmConfig } from "./lib/ll
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const DEFAULT_ROOT = resolve(__dirname, "..");
-const PUBLIC_DIR = resolve(__dirname, "public");
-const MAX_BODY_BYTES = 32_000;
-const MAX_HISTORY_TURNS = 10;
+const CHAT_PUBLIC_DIR = resolve(__dirname, "public");
+const MAX_BODY_BYTES = 16_000;
+const MAX_MESSAGE_CHARS = 2_500;
+const MAX_SUPPLIED_CONTEXT_CHARS = 800;
+const MAX_HISTORY_TURNS = 6;
+const MAX_HISTORY_MESSAGE_CHARS = 1_000;
 const DEFAULT_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-const DEFAULT_RATE_LIMIT_MAX = 20;
-const DEFAULT_MAX_CONCURRENT_MODEL_CALLS = 4;
+const DEFAULT_RATE_LIMIT_MAX = 12;
+const DEFAULT_MAX_CONCURRENT_MODEL_CALLS = 2;
+const SECURITY_HEADERS = {
+  "x-content-type-options": "nosniff",
+  "referrer-policy": "no-referrer",
+  "permissions-policy": "microphone=(self)",
+};
+const HTML_SECURITY_HEADERS = {
+  ...SECURITY_HEADERS,
+  "content-security-policy": [
+    "default-src 'self'",
+    "script-src 'self'",
+    "style-src 'self'",
+    "img-src 'self'",
+    "connect-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "frame-ancestors 'none'",
+    "form-action 'self'",
+  ].join("; "),
+};
 
 class PublicHttpError extends Error {
   constructor(status, publicMessage) {
@@ -28,11 +51,42 @@ const MIME_TYPES = new Map([
   [".css", "text/css; charset=utf-8"],
   [".js", "application/javascript; charset=utf-8"],
   [".json", "application/json; charset=utf-8"],
+  [".txt", "text/plain; charset=utf-8"],
+  [".xml", "application/xml; charset=utf-8"],
+  [".md", "text/markdown; charset=utf-8"],
   [".svg", "image/svg+xml"],
+  [".png", "image/png"],
+  [".jpg", "image/jpeg"],
+  [".jpeg", "image/jpeg"],
+]);
+
+const PUBLIC_ROOT_FILES = new Set([
+  "COMPETITION_RULES_TRACE.md",
+  "FIRST_REPLY_SCORECARD.md",
+  "FIRST_RUN.md",
+  "HANDOFF_CARD.md",
+  "ICM_TRACE.md",
+  "JUDGE_BRIEF.md",
+  "JUDGE_FAQ.md",
+  "JUDGE_SCORECARD.md",
+  "LICENSE",
+  "PITCH_REEL.md",
+  "PRODUCT_THESIS.md",
+  "PROJECT_INSTRUCTIONS.md",
+  "README.md",
+  "RECEIPTS.md",
+  "START_HERE.md",
+  "SUBMISSION.md",
+  "WALKTHROUGH.md",
+  "WRITEUP.md",
+  "llms.txt",
+  "robots.txt",
+  "sitemap.xml",
 ]);
 
 function sendJson(response, status, body) {
   response.writeHead(status, {
+    ...SECURITY_HEADERS,
     "content-type": "application/json; charset=utf-8",
     "cache-control": "no-store",
   });
@@ -41,10 +95,20 @@ function sendJson(response, status, body) {
 
 function sendText(response, status, text) {
   response.writeHead(status, {
+    ...SECURITY_HEADERS,
     "content-type": "text/plain; charset=utf-8",
     "cache-control": "no-store",
   });
   response.end(text);
+}
+
+function redirect(response, location) {
+  response.writeHead(308, {
+    ...SECURITY_HEADERS,
+    location,
+    "cache-control": "public, max-age=300",
+  });
+  response.end();
 }
 
 function readPositiveInteger(value, fallback) {
@@ -75,12 +139,33 @@ function createRateLimiter({ windowMs, maxRequests, now = Date.now }) {
   };
 }
 
-function clientIdFor(request) {
-  const forwardedFor = request.headers["x-forwarded-for"];
-  if (typeof forwardedFor === "string" && forwardedFor.trim()) {
-    return forwardedFor.split(",")[0].trim();
+function normalizeIpAddress(value) {
+  const token = String(value || "")
+    .split(",")[0]
+    .trim();
+  const bracketed = token.match(/^\[([^\]]+)\]/)?.[1];
+  const ip = (bracketed || token).replace(/^::ffff:/, "");
+  return isIP(ip) ? ip : "";
+}
+
+function isTrustedProxyAddress(value) {
+  const ip = normalizeIpAddress(value);
+  return (
+    ip === "::1" ||
+    ip.startsWith("127.") ||
+    ip.startsWith("10.") ||
+    ip.startsWith("192.168.") ||
+    /^172\.(1[6-9]|2\d|3[01])\./.test(ip)
+  );
+}
+
+function clientIdFor(request, env) {
+  const remoteAddress = normalizeIpAddress(request.socket?.remoteAddress) || "unknown";
+  const forwardedAddress = normalizeIpAddress(request.headers["x-forwarded-for"]);
+  if (env.COACH_TRUST_PROXY !== "0" && forwardedAddress && isTrustedProxyAddress(remoteAddress)) {
+    return forwardedAddress;
   }
-  return request.socket?.remoteAddress || "unknown";
+  return remoteAddress;
 }
 
 function allowedOriginsFor(env) {
@@ -112,6 +197,13 @@ function assertAllowedOrigin(request, env) {
   }
 }
 
+function assertJsonContentType(request) {
+  const contentType = request.headers["content-type"];
+  if (typeof contentType !== "string" || !contentType.toLowerCase().includes("application/json")) {
+    throw new PublicHttpError(415, "JSON content type required");
+  }
+}
+
 async function readJsonBody(request) {
   let body = "";
   for await (const chunk of request) {
@@ -130,8 +222,8 @@ async function readJsonBody(request) {
   }
 }
 
-function cleanUserMessage(value) {
-  return String(value || "").replace(/\s+/g, " ").trim().slice(0, 4_000);
+function cleanText(value, maxLength) {
+  return String(value || "").replace(/\s+/g, " ").trim().slice(0, maxLength);
 }
 
 function cleanConversationHistory(value) {
@@ -142,33 +234,104 @@ function cleanConversationHistory(value) {
   return value
     .flatMap((item) => {
       const role = item?.role === "assistant" ? "assistant" : item?.role === "user" ? "user" : null;
-      const content = cleanUserMessage(item?.content);
+      const content = cleanText(item?.content, MAX_HISTORY_MESSAGE_CHARS);
       return role && content ? [{ role, content }] : [];
     })
     .slice(-MAX_HISTORY_TURNS);
 }
 
-async function serveStatic(request, response) {
-  const url = new URL(request.url, "http://localhost");
-  const requestedPath = url.pathname === "/" ? "/index.html" : url.pathname;
+async function serveStaticFile(request, response, { baseDir, requestedPath, cacheControl = "public, max-age=300" }) {
   const safePath = normalize(requestedPath).replace(/^(\.\.[/\\])+/, "");
-  const filePath = resolve(join(PUBLIC_DIR, safePath));
+  const base = resolve(baseDir);
+  const filePath = resolve(join(base, safePath));
 
-  if (!filePath.startsWith(PUBLIC_DIR)) {
+  if (!filePath.startsWith(base)) {
     sendText(response, 403, "Forbidden");
     return;
   }
 
   try {
     const body = await readFile(filePath);
+    const type = MIME_TYPES.get(extname(filePath)) || "application/octet-stream";
     response.writeHead(200, {
-      "content-type": MIME_TYPES.get(extname(filePath)) || "application/octet-stream",
-      "cache-control": "public, max-age=300",
+      ...(type.startsWith("text/html") ? HTML_SECURITY_HEADERS : SECURITY_HEADERS),
+      "content-type": type,
+      "cache-control": cacheControl,
     });
-    response.end(body);
+    response.end(request.method === "HEAD" ? undefined : body);
   } catch {
     sendText(response, 404, "Not found");
   }
+}
+
+async function serveSiteStatic(request, response, rootDir) {
+  const url = new URL(request.url, "http://localhost");
+  const root = resolve(rootDir);
+  const landingDir = resolve(root, "landing");
+
+  if (url.pathname === "/landing" || url.pathname === "/landing/" || url.pathname === "/landing/index.html") {
+    redirect(response, "/");
+    return;
+  }
+  if (url.pathname === "/landing/evidence.html") {
+    redirect(response, "/evidence");
+    return;
+  }
+  if (url.pathname === "/landing/reel.html") {
+    redirect(response, "/reel");
+    return;
+  }
+  if (url.pathname === "/chat") {
+    redirect(response, "/chat/");
+    return;
+  }
+  if (url.pathname === "/favicon.ico") {
+    await serveStaticFile(request, response, {
+      baseDir: landingDir,
+      requestedPath: "/assets/unstuck-coach-logo.png",
+      cacheControl: "public, max-age=86400",
+    });
+    return;
+  }
+
+  if (url.pathname === "/" || url.pathname === "/index.html") {
+    await serveStaticFile(request, response, { baseDir: landingDir, requestedPath: "/index.html" });
+    return;
+  }
+  if (url.pathname === "/evidence" || url.pathname === "/evidence.html") {
+    await serveStaticFile(request, response, { baseDir: landingDir, requestedPath: "/evidence.html" });
+    return;
+  }
+  if (url.pathname === "/reel" || url.pathname === "/reel.html") {
+    await serveStaticFile(request, response, { baseDir: landingDir, requestedPath: "/reel.html" });
+    return;
+  }
+  if (url.pathname === "/chat/" || url.pathname.startsWith("/chat/")) {
+    const chatPath = url.pathname === "/chat/" ? "/index.html" : url.pathname.slice("/chat".length);
+    await serveStaticFile(request, response, {
+      baseDir: CHAT_PUBLIC_DIR,
+      requestedPath: chatPath,
+      cacheControl: "no-cache",
+    });
+    return;
+  }
+  if (
+    url.pathname === "/styles.css" ||
+    url.pathname === "/app.js" ||
+    url.pathname === "/reel.css" ||
+    url.pathname.startsWith("/assets/")
+  ) {
+    await serveStaticFile(request, response, { baseDir: landingDir, requestedPath: url.pathname });
+    return;
+  }
+
+  const rootFile = url.pathname.replace(/^\//, "");
+  if (PUBLIC_ROOT_FILES.has(rootFile)) {
+    await serveStaticFile(request, response, { baseDir: root, requestedPath: `/${rootFile}` });
+    return;
+  }
+
+  sendText(response, 404, "Not found");
 }
 
 export function createLiveDemoServer({
@@ -211,11 +374,12 @@ export function createLiveDemoServer({
 
       if (request.method === "POST" && url.pathname === "/api/coach") {
         assertAllowedOrigin(request, env);
-        rateLimiter.consume(clientIdFor(request));
+        rateLimiter.consume(clientIdFor(request, env));
+        assertJsonContentType(request);
 
         const body = await readJsonBody(request);
-        const message = cleanUserMessage(body.message);
-        const suppliedContext = cleanUserMessage(body.context);
+        const message = cleanText(body.message, MAX_MESSAGE_CHARS);
+        const suppliedContext = cleanText(body.context, MAX_SUPPLIED_CONTEXT_CHARS);
         const history = cleanConversationHistory(body.history);
 
         if (!message) {
@@ -256,7 +420,7 @@ export function createLiveDemoServer({
       }
 
       if (request.method === "GET" || request.method === "HEAD") {
-        await serveStatic(request, response);
+        await serveSiteStatic(request, response, rootDir);
         return;
       }
 
