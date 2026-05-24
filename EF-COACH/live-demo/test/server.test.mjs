@@ -14,7 +14,8 @@ function listen(server) {
 }
 
 test("GET routes serve the canonical landing site and chat demo", async (t) => {
-  const server = createLiveDemoServer();
+  const events = [];
+  const server = createLiveDemoServer({ usageLogger: (event) => events.push(event) });
   t.after(() => server.close());
   const baseUrl = await listen(server);
 
@@ -66,6 +67,12 @@ test("GET routes serve the canonical landing site and chat demo", async (t) => {
 
   const removedSource = await fetch(`${baseUrl}/source`);
   assert.equal(removedSource.status, 404);
+
+  assert.deepEqual(
+    events.map((event) => event.event),
+    ["view_landing", "view_chat"],
+  );
+  assert.ok(events.every((event) => event.type === "unstuck_usage"));
 });
 
 test("POST /api/coach rejects empty messages", async (t) => {
@@ -208,6 +215,7 @@ test("POST /api/coach can ignore spoofed forwarding headers", async (t) => {
 
 test("POST /api/coach rate-limits repeated clients before model calls", async (t) => {
   let calls = 0;
+  const events = [];
   const server = createLiveDemoServer({
     env: {
       COACH_RATE_LIMIT_MAX: "1",
@@ -221,6 +229,7 @@ test("POST /api/coach rate-limits repeated clients before model calls", async (t
         model: "test-model",
       };
     },
+    usageLogger: (event) => events.push(event),
   });
   t.after(() => server.close());
   const baseUrl = await listen(server);
@@ -240,6 +249,10 @@ test("POST /api/coach rate-limits repeated clients before model calls", async (t
   assert.equal(second.status, 429);
   assert.match(await second.text(), /rate limit exceeded/i);
   assert.equal(calls, 1);
+  assert.deepEqual(
+    events.map((event) => event.event),
+    ["chat_started", "llm_reply_ok", "rate_limited"],
+  );
 });
 
 test("POST /api/coach trims prompt-side inputs before model calls", async (t) => {
@@ -277,12 +290,14 @@ test("POST /api/coach trims prompt-side inputs before model calls", async (t) =>
 });
 
 test("POST /api/coach returns a real reply with visible execution steps", async (t) => {
+  const events = [];
   const server = createLiveDemoServer({
     callModel: async ({ messages }) => ({
       text: `Reply to: ${messages.at(-1).content}`,
       provider: "test-provider",
       model: "test-model",
     }),
+    usageLogger: (event) => events.push(event),
   });
   t.after(() => server.close());
   const baseUrl = await listen(server);
@@ -300,6 +315,11 @@ test("POST /api/coach returns a real reply with visible execution steps", async 
     body.steps.map((step) => step.label),
     ["Received prompt", "Loaded coach context", "Called LLM", "Returned one next move"],
   );
+  assert.deepEqual(
+    events.map((event) => event.event),
+    ["chat_started", "llm_reply_ok"],
+  );
+  assert.ok(events.every((event) => !JSON.stringify(event).includes("My calendar is a mess")));
 });
 
 test("POST /api/coach sends prior conversation turns to the model", async (t) => {

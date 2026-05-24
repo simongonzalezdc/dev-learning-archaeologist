@@ -18,6 +18,7 @@ const MAX_HISTORY_MESSAGE_CHARS = 1_000;
 const DEFAULT_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const DEFAULT_RATE_LIMIT_MAX = 12;
 const DEFAULT_MAX_CONCURRENT_MODEL_CALLS = 2;
+const USAGE_LOG_TYPE = "unstuck_usage";
 const SECURITY_HEADERS = {
   "x-content-type-options": "nosniff",
   "referrer-policy": "no-referrer",
@@ -121,6 +122,21 @@ function createRateLimiter({ windowMs, maxRequests, now = Date.now }) {
       }
     },
   };
+}
+
+function defaultUsageLogger(event) {
+  console.log(JSON.stringify(event));
+}
+
+function logUsage(usageLogger, request, event, metadata = {}) {
+  usageLogger({
+    type: USAGE_LOG_TYPE,
+    event,
+    timestamp: new Date().toISOString(),
+    method: request.method,
+    path: new URL(request.url, "http://localhost").pathname,
+    ...metadata,
+  });
 }
 
 function normalizeIpAddress(value) {
@@ -313,6 +329,7 @@ export function createLiveDemoServer({
   rootDir = DEFAULT_ROOT,
   env = process.env,
   callModel = callCoachModel,
+  usageLogger = () => {},
 } = {}) {
   const rateLimiter = createRateLimiter({
     windowMs: readPositiveInteger(env.COACH_RATE_LIMIT_WINDOW_MS, DEFAULT_RATE_LIMIT_WINDOW_MS),
@@ -362,6 +379,11 @@ export function createLiveDemoServer({
           return;
         }
 
+        logUsage(usageLogger, request, "chat_started", {
+          hasSuppliedContext: Boolean(suppliedContext),
+          historyTurns: history.length,
+        });
+
         const instructions = await buildCoachInstructions({ rootDir });
         const userContent = suppliedContext
           ? `${message}\n\nSupplied visible context:\n${suppliedContext}`
@@ -379,6 +401,11 @@ export function createLiveDemoServer({
           activeModelCalls -= 1;
         }
 
+        logUsage(usageLogger, request, "llm_reply_ok", {
+          provider: result.provider,
+          model: result.model,
+        });
+
         sendJson(response, 200, {
           reply: result.text,
           provider: result.provider,
@@ -395,6 +422,12 @@ export function createLiveDemoServer({
       }
 
       if (request.method === "GET" || request.method === "HEAD") {
+        if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html")) {
+          logUsage(usageLogger, request, "view_landing");
+        }
+        if (request.method === "GET" && (url.pathname === "/chat/" || url.pathname === "/chat/index.html")) {
+          logUsage(usageLogger, request, "view_chat");
+        }
         await serveSiteStatic(request, response, rootDir);
         return;
       }
@@ -402,10 +435,14 @@ export function createLiveDemoServer({
       sendText(response, 405, "Method not allowed");
     } catch (error) {
       if (error instanceof PublicHttpError) {
+        logUsage(usageLogger, request, error.status === 429 ? "rate_limited" : "request_rejected", {
+          status: error.status,
+        });
         sendJson(response, error.status, { error: error.publicMessage });
         return;
       }
 
+      logUsage(usageLogger, request, "llm_error");
       sendJson(response, 502, { error: "live demo failed" });
     }
   });
@@ -413,7 +450,7 @@ export function createLiveDemoServer({
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const port = Number.parseInt(process.env.PORT || "3000", 10);
-  createLiveDemoServer().listen(port, "0.0.0.0", () => {
+  createLiveDemoServer({ usageLogger: defaultUsageLogger }).listen(port, "0.0.0.0", () => {
     console.log(`Unstuck Coach live demo listening on ${port}`);
   });
 }
