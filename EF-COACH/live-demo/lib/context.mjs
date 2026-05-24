@@ -4,7 +4,6 @@ import { join, normalize, resolve } from "node:path";
 export const CONTEXT_FILES = [
   "coach/PROJECT_INSTRUCTIONS.md",
   "coach/START_HERE.md",
-  "coach/FIRST_RUN.md",
   "coach/identity.md",
   "coach/rules.md",
   "coach/examples.md",
@@ -45,7 +44,7 @@ export async function buildCoachInstructions({ rootDir, contextFiles = CONTEXT_F
     sections.push(`\n\n--- ${safePath} ---\n${body.trim()}`);
   }
 
-  const instructions = `You are running the public live demo for Unstuck Coach. Use the loaded project files as the coach contract. Reply as the coach, not as a commentator about the repository. Keep the answer plain, humane, and short: name what is happening without blame, give one concrete next move, and ask for one tiny answer or proof signal.${sections.join("")}`;
+  const instructions = `You are running the public live demo for Unstuck Coach. Use the loaded project files as the coach contract. Reply as the coach, not as a commentator about the repository. Keep the answer plain, humane, and short: name what is happening without blame, give one concrete next move, and ask for one tiny answer or check signal.${sections.join("")}`;
 
   if (instructions.length > MAX_CONTEXT_CHARS) {
     return instructions.slice(0, MAX_CONTEXT_CHARS) + "\n\n[Context truncated at public live-demo limit.]";

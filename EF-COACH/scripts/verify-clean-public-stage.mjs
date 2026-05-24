@@ -54,7 +54,7 @@ export function verifyCleanPublicStage() {
     assertOutsideRoot(target);
 
     runNode(["scripts/stage-public-repo.mjs", "--target", target, "--write"]);
-    const verification = runNode(["scripts/verify-public-bundle.mjs"], { cwd: target });
+    const verification = runNode([path.join(root, "scripts/verify-public-bundle.mjs"), "--root", target], { cwd: root });
     const verificationSummary = JSON.parse(verification.stdout.trim());
     const stagedFiles = listFiles(target);
     const stagedFileCount = stagedFiles.length;
@@ -67,9 +67,9 @@ export function verifyCleanPublicStage() {
     if (verificationSummary.failures?.length) {
       failures.push(...verificationSummary.failures);
     }
-    if (verificationSummary.requiredFiles !== publicBundleFiles.length) {
+    if (verificationSummary.fileCount !== publicBundleFiles.length) {
       failures.push(
-        `Expected ${publicBundleFiles.length} required files, verifier saw ${verificationSummary.requiredFiles}.`,
+        `Expected ${publicBundleFiles.length} required files, verifier saw ${verificationSummary.fileCount}.`,
       );
     }
     if (stagedFileCount < publicBundleFiles.length) {

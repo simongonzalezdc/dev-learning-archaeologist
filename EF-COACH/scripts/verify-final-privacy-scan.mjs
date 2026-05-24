@@ -17,6 +17,12 @@ const guardScriptFiles = new Set([
   "scripts/verify-source-notes.mjs",
 ]);
 
+function argValue(name) {
+  const index = process.argv.indexOf(name);
+  if (index === -1) return "";
+  return process.argv[index + 1] || "";
+}
+
 const publicSafetyPatterns = [
   /PRIVATE_[A-Z0-9_]*\.md/i,
   /\/Users\/[^/\s)'"`]+/i,
@@ -66,7 +72,7 @@ function isScript(file) {
 }
 
 function isPresentationFile(file) {
-  return !isScript(file) && file !== ".gitignore";
+  return /\.(?:md|html|txt|xml|svg|css)$/.test(file) && file !== ".gitignore";
 }
 
 function contentForPrivacyScan(file, content) {
@@ -142,7 +148,8 @@ export function verifyFinalPrivacyScan(root = process.cwd()) {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const summary = verifyFinalPrivacyScan();
+  const scanRoot = path.resolve(argValue("--root") || process.argv[2] || process.cwd());
+  const summary = verifyFinalPrivacyScan(scanRoot);
   console.log(JSON.stringify(summary, null, 2));
   if (summary.failures.length > 0) {
     process.exitCode = 1;

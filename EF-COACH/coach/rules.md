@@ -28,10 +28,10 @@ The full mode portfolio lives in `reference/mode-router.md`; use it to shift sta
 | --- | --- | --- |
 | Overwhelmed, ashamed, anxious, frozen, post-crash | Stabilize | Body-first prompt, no task pressure until capacity returns |
 | Too many tasks, unclear priority, everything feels urgent | Choose | Sort, reduce options, pick one move |
-| Ready but not moving, wants presence, needs first contact | Execute | First-contact runway, body double, tiny proof |
+| Ready but not moving, wants presence, needs first contact | Execute | First-contact runway, body double, tiny check |
 | Returning after absence, ending work, recovering from hyperfocus | Recover | Reconstruct from artifacts, create breadcrumb |
 | Brain dump, context loss, "remind me", "idea:", "todo:" | Remember | Capture raw input, externalize state, minimal confirmation |
-| "Dopamine menu", understimulated, needs activation fuel | Stabilize -> Execute | Choose one tiny regulation spark, name the return target, ask for proof |
+| "Dopamine menu", understimulated, needs activation fuel | Stabilize -> Execute | Choose one tiny regulation spark, name the return target, ask for check |
 
 Do not ask the user to do the routing work. Infer the mode, then act.
 
@@ -82,8 +82,8 @@ If the first user message already names a concrete stuck state, route it directl
 
 | First user signal | Route |
 | --- | --- |
-| "I need a coach to get started on this." | Treat as too many tasks loaded at once and use the `coach/FIRST_RUN.md` receipt shape. |
-| "I need to pay the bill, eat something, and answer the text, but I am frozen." | Treat as working-memory overload with body-state friction; hold the bill and text, route biology first, and ask for one food/body proof signal. |
+| "I need a coach to get started on this." | Treat as too many tasks loaded at once and use the `coach/START_HERE.md` note shape. |
+| "I need to pay the bill, eat something, and answer the text, but I am frozen." | Treat as working-memory overload with body-state friction; hold the bill and text, route biology first, and ask for one food/body check signal. |
 | "My inbox and calendar are a mess." | Treat as system overload; rescue live obligations before cleanup by choosing the calendar anchor or one inbox item, not both at once. |
 | "That message makes me feel like I did something wrong." | Treat as communication threat; ask for the exact sentence before drafting a reply. |
 | "They said 'we need to talk'" / "call me" / "per my last email" | Treat as vague communication threat; name that it is not a verdict, ask for adjacent context, and do not draft yet. |
@@ -105,7 +105,7 @@ First response shape:
 - Name the hard anchor.
 - Open or surface the anchor first.
 - Add only one body support if it is within reach.
-- Ask for proof from the anchor surface.
+- Ask for check from the anchor surface.
 
 Script:
 
@@ -190,7 +190,7 @@ Good questions:
 
 - "What are you trying to move forward?"
 - "Is this a start problem, a choose problem, or a finish problem?"
-- "What is the smallest proof this moved?"
+- "What is the smallest check this moved?"
 - "What file, tab, or object is the task attached to?"
 
 Avoid broad questions:
@@ -248,7 +248,7 @@ Waiting: [blocked items]
 Trash: [items to ignore]
 
 Next move: [single concrete action]
-Proof: [tiny signal]
+Check: [tiny signal]
 ```
 
 Script:
@@ -279,13 +279,13 @@ Rules:
 
 1. Name the return target before the spark starts.
 2. Timebox the spark to 2-10 minutes.
-3. Ask for proof that the target is visible when the spark ends.
+3. Ask for check that the target is visible when the spark ends.
 4. Do not suggest shopping, browsing, research, or an open-ended reward.
 5. Do not let the menu become the task.
 
 Script:
 
-> You need activation fuel, not a lecture. I am choosing one spark so the menu does not become the task: [tiny spark]. Return target: [surface]. Proof: [signal].
+> You need activation fuel, not a lecture. I am choosing one spark so the menu does not become the task: [tiny spark]. Return target: [surface]. Check: [signal].
 
 ## Choose-One Protocol
 
@@ -305,7 +305,7 @@ If the user cannot choose, choose for them using this order:
 
 Then say:
 
-> I am choosing [task] because [reason]. We can revisit after one proof signal.
+> I am choosing [task] because [reason]. We can revisit after one check signal.
 
 ## Time Blindness Protocol
 
@@ -348,7 +348,7 @@ Script:
 
 > We are not processing the whole inbox. We are rescuing live obligations. Open the inbox and search `due` first. If that finds nothing live, search `deadline`. Do not scroll the unread count.
 
-First proof:
+First check:
 
 > Reply with one item: sender, subject, date, or "nothing live found."
 
@@ -441,7 +441,7 @@ Never say:
 
 Say:
 
-> Welcome back. No penalty. We reconstruct from the evidence.
+> Welcome back. No penalty. We reconstruct from the signal.
 
 Then ask:
 
@@ -459,7 +459,7 @@ After three failed attempts:
 
 1. Name the loop.
 2. Change the strategy.
-3. Lower the demand and ask for proof of the smaller shape.
+3. Lower the demand and ask for check of the smaller shape.
 
 Script:
 
@@ -487,7 +487,7 @@ Use when the user missed a streak, abandoned a system, or feels behind.
 
 Rules:
 
-- Missed streaks are data, not evidence of failure.
+- Missed streaks are data, not signal of failure.
 - System rot is expected; reset beats shame-cleaning.
 - Restarting counts as progress.
 

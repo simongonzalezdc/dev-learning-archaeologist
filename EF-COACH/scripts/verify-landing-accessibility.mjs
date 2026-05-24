@@ -126,8 +126,8 @@ export function verifyLandingAccessibility(root = process.cwd()) {
     }
   }
 
-  if (/\.\/evidence\.html|\/evidence\b/.test(html)) {
-    failures.push("Landing page must not link to a hosted evidence page.");
+  if (/\.\/source\.html|\/source\b/.test(html)) {
+    failures.push("Landing page must not link to a hosted source page.");
   }
 
   if (rawSourceLinks.length > 0) {
@@ -302,8 +302,8 @@ export function verifyLandingAccessibility(root = process.cwd()) {
     buttons: buttons.length,
     labelledSections: labelledSections.length,
     localHashLinks: hashTargets.length,
-    evidenceLinks: 0,
-    evidenceCards: 0,
+    sourceLinks: 0,
+    sourceCards: 0,
     demoTabs: tabs.length,
     copyButtons: copyButtons.length,
     failures,

@@ -1,91 +1,51 @@
 # Unstuck Coach
 
-Unstuck Coach is a folder-based whole-person executive-function accessibility coach. It helps a person start, switch, remember, regulate, capture, recover, and close loops without having to carry the whole mess in working memory.
+Unstuck Coach is a whole-person executive-function accessibility coach. It helps someone turn a messy stuck point into one humane next move while keeping the rest of the task pile out of working memory.
 
-The core idea: the folder is the product. It externalizes state, friction, next action, safety boundaries, examples, and proof so an LLM can coach the live threshold moment instead of giving a productivity article.
-
-## Live Paths
+## Try It
 
 - Landing page: `https://unstuck.kyanitelabs.tech/`
 - Live GLM 5.1 demo: `https://unstuck.kyanitelabs.tech/chat/`
-- GitHub source: `https://github.com/simongonzalezdc/unstuck-coach`
+- Source: `https://github.com/simongonzalezdc/unstuck-coach`
 
-## Repo Map
+## What It Does
 
-This repository is staged so a judge does not have to decode a flat file pile:
+- Accepts messy input without making the user organize first.
+- Names the friction in plain language, without blame.
+- Gives one concrete next move, not a productivity article.
+- Holds the rest of the pile so the user does not have to.
+- Covers body state, calendar, inbox, messages, home/admin loops, capture, re-entry, and shutdown.
+- Avoids therapy, diagnosis, medication advice, crisis handling, and autonomous account access.
 
-- `coach/` is the coach contract: setup instructions, identity, rules, examples, first-run receipt, and first-reply scorecard.
-- `reference/` is the operating layer: coaching protocols, signal map, safety boundaries, mode router, and admin-ops playbooks.
-- `demo/` and `evals/` are behavior proof: transcripts, before/after contrast, whole-person tour, and red-face tests.
-- `docs/judging/` is the competition layer: judge brief, scorecard, FAQ, ICM trace, rules trace, writeup, walkthrough, checklist, and submission copy.
-- `landing/` is the public website.
-- `scripts/` is the verification layer.
+## Use It In Claude Project
 
-That is the ICM shape: staged context, visible decisions, editable documents, and auditable proof.
+1. Add the project files as knowledge.
+2. Paste `coach/PROJECT_INSTRUCTIONS.md` into the project instructions.
+3. Start a new chat with:
 
-## Fast Judge Path
-
-1. Open `coach/START_HERE.md`.
-2. Open `docs/judging/JUDGE_BRIEF.md`.
-3. Try the live demo or load the folder into a Claude Project.
-4. Test: `I need a coach to get started on this.`
-5. Score the first reply with `coach/FIRST_REPLY_SCORECARD.md`.
-
-This is a shortcut, not the product boundary. The full scope is whole-person executive-function access across work, home, body, admin, messages, inbox, calendar, capture, re-entry, and shutdown.
-
-If Unstuck gives a productivity article, it failed. If it gives one state-aware next move, holds the rest of the pile, and asks for tiny proof, it is behaving like a coach.
-
-## Use The Folder
-
-### Claude Project
-
-1. Add the folder as project knowledge.
-2. Paste `coach/PROJECT_INSTRUCTIONS.md` into project instructions.
-3. Start with `I need a coach to get started on this.`
-
-### Codex Or AI IDE
-
-Open this folder as the workspace. `AGENTS.md` tells coding agents how to load the coach contract before answering coaching prompts.
-
-```bash
-codex -C unstuck-coach "I need a coach to get started on this."
+```text
+I need a coach to get started on this.
 ```
 
-### Local Models
+The coach should answer with one plain next move and one tiny check the user can answer immediately.
 
-Use a runner with enough context for `coach/PROJECT_INSTRUCTIONS.md`, `coach/identity.md`, `coach/rules.md`, `coach/examples.md`, and the key files in `reference/`. If context is tight, start with `coach/PROJECT_INSTRUCTIONS.md` plus:
+## Source Layout
 
-- `reference/coaching-protocols.md`
-- `reference/signal-map.md`
-- `reference/safety-boundaries.md`
+- `coach/` contains the coach identity, rules, examples, and setup instructions.
+- `reference/` contains coaching protocols, signal mapping, safety boundaries, and calendar/inbox playbooks.
+- `demo/` contains examples of better coaching behavior.
+- `landing/` contains the public website.
+- `live-demo/` contains the hosted chat demo.
 
-## Source Map
-
-- `coach/PROJECT_INSTRUCTIONS.md` is the paste-ready coach contract.
-- `coach/FIRST_RUN.md` shows the cold-start behavior.
-- `coach/FIRST_REPLY_SCORECARD.md` makes the first reply pass/fail.
-- `docs/judging/JUDGE_BRIEF.md` gives the one-page winning case.
-- `docs/judging/COMPETITION_RULES_TRACE.md` maps the Week 5 rules to evidence.
-- `docs/judging/ICM_TRACE.md` maps the system to visible, editable, auditable workflow.
-- GitHub contains the source files for anyone who wants to inspect the implementation.
-
-## Search And AI Discovery
-
-- `robots.txt` exposes the sitemap.
-- `sitemap.xml` lists the landing page and live chat demo URLs.
-- `llms.txt` gives answer engines and AI search a concise citation path.
-- `landing/index.html` carries canonical URL, preview metadata, and structured data.
-
-## Verification
+## Run Locally
 
 ```bash
-node scripts/final-review-smoke.mjs --expect-ready --skip-build
-node scripts/verify-github-public-url.mjs
-node scripts/verify-final-privacy-scan.mjs
+npm test
+npm run live-demo
 ```
 
-The full verifier list lives in `docs/judging/PUBLICATION_CHECKLIST.md` and `scripts/`.
+Then open `http://localhost:3000/chat/`.
 
 ## Safety
 
-Unstuck is not therapy, diagnosis, medication advice, crisis care, or autonomous account access. It helps the user identify the next visible move; it does not secretly operate their inbox, calendar, files, or accounts.
+Unstuck Coach helps with access to the next move. It does not read accounts, send messages, schedule events, provide clinical care, or replace qualified professional support.

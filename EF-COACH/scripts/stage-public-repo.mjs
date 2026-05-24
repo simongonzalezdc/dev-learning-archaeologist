@@ -10,11 +10,11 @@ const root = process.cwd();
 
 function usage() {
   return [
-    "Usage: node scripts/stage-public-repo.mjs --target ../unstuck-coach-week5-public [--write] [--force] [--require-ready]",
+    "Usage: node scripts/stage-public-repo.mjs --target ../unstuck-coach [--write] [--force] [--require-ready]",
     "",
     "Default mode is dry-run. Use --write only after the target folder is reviewed.",
     "If the target already has files other than .git, pass --force to replace those files.",
-    "Use --require-ready only for final publication staging after the reviewed source folder has the final public URL.",
+    "Use --require-ready only for final publication staging after the reviewed source has the final public URL.",
   ].join("\n");
 }
 
@@ -85,7 +85,7 @@ function stageTarget(target, force) {
     copyFile(file, target);
   }
 
-  run(process.execPath, ["scripts/verify-public-bundle.mjs"], { cwd: target });
+  run(process.execPath, [path.join(root, "scripts/verify-public-bundle.mjs"), "--root", target], { cwd: root });
 
   let gitStatus = null;
   if (fs.existsSync(path.join(target, ".git"))) {
@@ -117,7 +117,7 @@ export function stagePublicRepo() {
 
   run(process.execPath, ["scripts/verify-public-bundle.mjs"]);
   if (requireReady) {
-    run(process.execPath, ["scripts/verify-publication-ready.mjs"]);
+    run(process.execPath, ["scripts/final-review-smoke.mjs", "--expect-ready", "--skip-build"]);
   }
 
   const entries = targetEntries(target);

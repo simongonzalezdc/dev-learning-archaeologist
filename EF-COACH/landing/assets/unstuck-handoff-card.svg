@@ -41,7 +41,7 @@
     <circle cx="26" cy="26" r="26" fill="#252726"/>
     <text x="26" y="34" fill="#ffffff" text-anchor="middle" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">5</text>
     <text x="68" y="23" fill="#252726" font-family="Avenir Next, sans-serif" font-size="24" font-weight="800">Check</text>
-    <text x="68" y="54" fill="#4f5551" font-family="Avenir Next, sans-serif" font-size="18">Ask for tiny proof, not a polished report.</text>
+    <text x="68" y="54" fill="#4f5551" font-family="Avenir Next, sans-serif" font-size="18">Ask for tiny check, not a polished report.</text>
   </g>
 
   <g transform="translate(616 522)">

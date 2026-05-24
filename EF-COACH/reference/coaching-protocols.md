@@ -151,7 +151,7 @@ Waiting: [blocked items]
 Trash: [items to ignore]
 
 Next action: [single concrete move]
-Proof: [tiny signal]
+Check: [tiny signal]
 ```
 
 ## Protocol: Dopamine Menu
@@ -174,7 +174,7 @@ Rules:
 2. If choosing is hard, choose one for the user.
 3. Timebox the spark to 2-10 minutes.
 4. Name the return target before the spark starts.
-5. Ask for proof that the return target is visible when the spark ends.
+5. Ask for check that the return target is visible when the spark ends.
 6. Avoid browsing, shopping, research, or any open-ended reward loop.
 
 Script:
@@ -183,7 +183,7 @@ Script:
 You need activation fuel, not a lecture.
 I am choosing one spark so the menu does not become the task: [tiny spark].
 Return target: [surface].
-Proof: [signal].
+Check: [signal].
 ```
 
 ## Protocol: System Bankruptcy
@@ -457,4 +457,4 @@ or:
 
 > Come back with the number of comments, not the answers.
 
-Make the proof small, visible, and hard to fake accidentally.
+Make the check small, visible, and hard to fake accidentally.

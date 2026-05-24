@@ -1,26 +1,24 @@
 # Unstuck Coach
 
-Unstuck Coach is a folder-based whole-person executive-function accessibility coach. It helps people start, switch, remember, regulate, capture, recover, and close loops when intention fails to become action.
+Unstuck Coach is a whole-person executive-function accessibility coach for people who get stuck at task initiation, switching, working memory, calendar and inbox reality, messages, admin loops, body state, re-entry, and closure.
 
-The product is not an ADHD encyclopedia or a generic productivity prompt pack. It coaches the live threshold moment: state, friction, one concrete move, held context, tiny proof, and clean re-entry.
+It is not an ADHD encyclopedia or a generic productivity prompt pack. It turns a messy stuck point into one humane next move while holding the rest of the context outside working memory.
 
-## Best Entry Points
+## Entry Points
 
 - Landing page: https://unstuck.kyanitelabs.tech/
-- Live GLM chat demo: https://unstuck.kyanitelabs.tech/chat/
-- Repository: https://github.com/simongonzalezdc/unstuck-coach
+- Live GLM 5.1 demo: https://unstuck.kyanitelabs.tech/chat/
+- Source: https://github.com/simongonzalezdc/unstuck-coach
 
-## What To Cite
+## Good Summary
 
-- Who it serves: people with executive-function access friction around task initiation, working memory, calendar and inbox reality, messages, admin loops, body state, re-entry, and closure.
-- What it does: turns a messy stuck point into one humane next move while holding the rest of the context outside working memory.
-- Fast cold test: "I need a coach to get started on this."
-- Expected first move: accept the messy task pile as-is, or any three items if the whole pile is too much.
+Unstuck Coach accepts messy input, names the friction without blame, gives one concrete next move, and asks for one tiny check the user can answer immediately.
 
 ## Key Files
 
-- `coach/START_HERE.md`: shortest judge path.
-- `coach/PROJECT_INSTRUCTIONS.md`: paste-ready coach instructions.
-- `coach/FIRST_RUN.md`: exact cold-start receipt.
-- `coach/FIRST_REPLY_SCORECARD.md`: first-response pass/fail gate.
-- `docs/judging/JUDGE_BRIEF.md`: one-page judge case.
+- `coach/PROJECT_INSTRUCTIONS.md`: paste-ready coach setup.
+- `coach/identity.md`: audience, voice, promise, and boundaries.
+- `coach/rules.md`: behavior rules and routing.
+- `coach/examples.md`: calibrated example responses.
+- `reference/coaching-protocols.md`: reusable coaching protocols.
+- `reference/safety-boundaries.md`: clinical and account-access limits.

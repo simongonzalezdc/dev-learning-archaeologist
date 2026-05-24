@@ -92,7 +92,7 @@ if (navToggle) {
 const reviewPanels = optionalSelectorAll(".review-panel");
 const reviewPanelIds = new Set(reviewPanels.map((panel) => panel.id).filter(Boolean));
 const reviewPanelAliases = new Map([
-  ["judge", "demo"],
+  ["reviewer", "demo"],
   ["submission", "demo"],
 ]);
 const reviewPanelLinks = optionalSelectorAll('a[href^="#"]').filter((link) =>
@@ -234,7 +234,7 @@ const consolePatterns = [
     move: "Sort outside the head.",
     moveNote: "Bucket the dump into Body/State, Now, Next, Later, Waiting, and Trash, then return one next move.",
     check: "One next move.",
-    checkNote: "Proof is a single action signal, with the rest visibly held.",
+    checkNote: "Check is a single action signal, with the rest visibly held.",
   },
   {
     match: /(dopamine menu|dopamine|understimulated|stimulation|activation fuel|need a spark|nothing feels rewarding|boring|reward menu|fun menu)/i,
@@ -245,7 +245,7 @@ const consolePatterns = [
     move: "Choose one tiny spark.",
     moveNote: "Pick or assign one 2-10 minute body, novelty, comfort, social, or quick-win cue, then name the return target.",
     check: "Spark plus target.",
-    checkNote: "Proof is that the target is visible when the spark ends.",
+    checkNote: "Check is that the target is visible when the spark ends.",
   },
   {
     match: /(idea|maybe|what if|could build|new feature|checklist|someday|another thing|remember|remind me|note to self)/i,
@@ -267,7 +267,7 @@ const consolePatterns = [
     move: "Separate ask from meaning.",
     moveNote: "Quote the sentence that carries the threat, then write what it literally asks for.",
     check: "One quoted sentence.",
-    checkNote: "Proof is a quote and a literal ask, not a rebuttal or apology.",
+    checkNote: "Check is a quote and a literal ask, not a rebuttal or apology.",
   },
   {
     match: /(inbox|calendar|schedule|appointment|meeting|unread|reply debt|double-book|overdue|deadline)/i,
@@ -278,7 +278,7 @@ const consolePatterns = [
     move: "Rescue live obligations.",
     moveNote: "Open one surface, name the next hard anchor, then choose one inbox item tied to time, money, safety, relationship, or another person.",
     check: "One hard anchor or live item.",
-    checkNote: "Proof is one real calendar anchor or inbox item, not a cleaned system.",
+    checkNote: "Check is one real calendar anchor or inbox item, not a cleaned system.",
   },
   {
     match: /(too many|overwhelm|everything|tabs|switching|all of this|list|head|brain|bill|form|kitchen|laundry|dishes|shower|groceries|errand|admin)/i,
@@ -322,7 +322,7 @@ const consolePatterns = [
     move: "Send the messy task pile.",
     moveNote: "Fragments, repeats, and half-words are fine. If the pile is too much, send any three items.",
     check: "Any three items.",
-    checkNote: "Proof is the raw pile leaving the user's head, not a polished plan.",
+    checkNote: "Check is the raw pile leaving the user's head, not a polished plan.",
   },
 ];
 
@@ -334,7 +334,7 @@ const fallbackConsole = {
   move: "Ask one state question.",
   moveNote: "Choose: green, yellow, red, or body-first. Then pick the smallest visible action.",
   check: "One honest signal.",
-  checkNote: "Proof is the user's state answer, not a productivity plan.",
+  checkNote: "Check is the user's state answer, not a productivity plan.",
 };
 
 function renderConsole(result) {
@@ -424,7 +424,7 @@ copyControls.forEach((control) => {
 });
 
 const revealTargets = optionalSelectorAll(
-  ".section-heading, .scope-core, .scope-lanes li, .admin-rhythm-visual, .admin-rhythm-card, .admin-boundary, .coldrun-steps li, .brief-board article, .scorecard-board article, .thesis-points article, .handoff-figure, .setup-board article, .response-pane, .coach-console, .console-output article, .file-node, .behavior-grid article",
+  ".section-heading, .scope-core, .scope-lanes li, .admin-rhythm-visual, .admin-rhythm-card, .admin-boundary, .coldrun-steps li, .brief-board article, .quality-board article, .thesis-points article, .handoff-figure, .setup-board article, .response-pane, .coach-console, .console-output article, .file-node, .behavior-grid article",
 );
 
 revealTargets.forEach((target) => {

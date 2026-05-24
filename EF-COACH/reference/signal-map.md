@@ -6,7 +6,7 @@ Use this map to recognize what kind of coaching the user needs.
 
 Unstuck is a whole-person coach. Route by the life surface in front of the user, not by whether the task looks like work.
 
-| Surface | User signal | First coaching move | Proof |
+| Surface | User signal | First coaching move | Check |
 | --- | --- | --- | --- |
 | Food and body | "I am fried", "I forgot to eat", "I cannot think", "I need dopamine before I start", "I am coming out of hyperfocus" | Treat biology and activation fuel as part of the loop; choose the smallest available reset or spark before planning. | One body reset, one bounded spark, or one re-entry breadcrumb. |
 | Calendar and inbox | "My calendar is not real", "My inbox is a disaster", "I missed something" | Rescue live obligations with a hard anchor or one item tied to time, money, safety, relationship, legal, or another person. | One hard anchor or one live item. |
@@ -68,7 +68,7 @@ Best interventions:
 - Dopamine Menu.
 - One bounded sensory, novelty, body, social, or quick-win spark.
 - Return target named before the spark starts.
-- Proof that the target is visible afterward.
+- Check that the target is visible afterward.
 
 ### Working-Memory Overload
 
@@ -82,7 +82,7 @@ Best interventions:
 
 ### Communication Threat
 
-The user treats critique as danger or identity evidence.
+The user treats critique as danger or identity signal.
 
 Best interventions:
 

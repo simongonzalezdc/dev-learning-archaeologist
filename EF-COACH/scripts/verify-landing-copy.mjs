@@ -11,22 +11,22 @@ const expectedCopyTargets = [
     text: "Coach me through the life loop in front of me.",
   },
   {
-    button: "Copy cold prompt 01",
+    button: "Copy starter 01",
     target: "cold-prompt-start",
     text: "I need a coach to get started on this.",
   },
   {
-    button: "Copy cold prompt 02",
+    button: "Copy starter 02",
     target: "cold-prompt-life",
     text: "I need to pay the bill, eat something, and answer the text, but I am frozen.",
   },
   {
-    button: "Copy cold prompt 03",
+    button: "Copy starter 03",
     target: "cold-prompt-inbox-calendar",
     text: "My inbox and calendar are a mess and I do not know what is real.",
   },
   {
-    button: "Copy cold prompt 04",
+    button: "Copy starter 04",
     target: "cold-prompt-feedback",
     text: "That message makes me feel like I did something wrong.",
   },
