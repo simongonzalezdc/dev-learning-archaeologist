@@ -1,0 +1,14 @@
+{
+  "name": "unstuck-coach-live-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test live-demo/test/*.test.mjs",
+    "live-demo": "node live-demo/server.mjs",
+    "build:hostinger-compose": "node live-demo/scripts/build-hostinger-compose.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

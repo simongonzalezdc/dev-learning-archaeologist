@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Unstuck Coach Live Demo</title>
+    <meta
+      name="description"
+      content="Live chat demo for Unstuck Coach, an executive-function accessibility coach that returns one humane next move."
+    >
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app-shell" aria-labelledby="title">
+      <header class="chat-header">
+        <div>
+          <p class="eyebrow">Unstuck Coach</p>
+          <h1 id="title">Unstuck</h1>
+        </div>
+        <strong id="provider">Checking runtime...</strong>
+      </header>
+
+      <div class="work-surface">
+        <section class="chat-shell" aria-label="Chat">
+          <section id="chat-log" class="chat-log" aria-label="Conversation" aria-live="polite"></section>
+
+          <div class="starter-row" aria-label="Starter prompts">
+            <button type="button" data-prompt="I need a coach to get started on this.">First run</button>
+            <button type="button" data-prompt="I'm frozen and the list is too big.">I'm frozen</button>
+            <button type="button" data-prompt="My inbox and calendar are a mess and I do not know what is real.">
+              Inbox/calendar
+            </button>
+            <button type="button" data-prompt="I need dopamine before I can start.">Need dopamine</button>
+            <button type="button" data-prompt="That message made me feel like I did something wrong.">Bad message</button>
+            <button type="button" data-prompt="Brain dump: ">Brain dump</button>
+          </div>
+
+          <form id="coach-form" class="composer" aria-label="Message composer">
+            <label class="sr-only" for="message">Message Unstuck Coach</label>
+            <div class="composer-row">
+              <button id="voice-button" class="icon-button" type="button" aria-label="Start voice input">Mic</button>
+              <button id="read-button" class="icon-button" type="button" aria-label="Read latest coach reply aloud">Read</button>
+              <button id="stop-audio-button" class="icon-button" type="button" aria-label="Stop read aloud">Stop</button>
+              <textarea
+                id="message"
+                name="message"
+                rows="1"
+                placeholder="Message Unstuck Coach"
+                required
+              ></textarea>
+              <button type="submit" aria-label="Send message">Send</button>
+            </div>
+            <p id="voice-status" class="voice-status" aria-live="polite">Click Mic to talk, Read to hear the latest reply, or use any chip.</p>
+          </form>
+        </section>
+
+        <aside id="coach-dock" class="coach-dock" aria-label="Coach Dock" data-visual-state="ready">
+          <header class="dock-header">
+            <p class="eyebrow">Coach Dock</p>
+            <strong>One move at a time</strong>
+          </header>
+
+          <section id="relief-map" class="dock-card relief-map" aria-label="Energy and relief map" data-visual-state="ready">
+            <div class="relief-topline">
+              <div>
+                <span class="dock-label">Energy now</span>
+                <strong id="energy-read">Pick 1-5</strong>
+              </div>
+              <div id="energy-check" class="energy-check" role="group" aria-label="Energy level">
+                <button type="button" data-energy="1" aria-label="Energy 1 of 5">1</button>
+                <button type="button" data-energy="2" aria-label="Energy 2 of 5">2</button>
+                <button type="button" data-energy="3" aria-label="Energy 3 of 5">3</button>
+                <button type="button" data-energy="4" aria-label="Energy 4 of 5">4</button>
+                <button type="button" data-energy="5" aria-label="Energy 5 of 5">5</button>
+              </div>
+            </div>
+            <svg class="relief-svg" viewBox="0 0 260 112" role="img" aria-label="A calm path showing the next move">
+              <path class="map-echo map-echo-one" d="M20 82 C48 22 92 106 122 46 S204 20 238 72"></path>
+              <path class="map-echo map-echo-two" d="M22 54 C62 82 82 18 128 58 S190 98 238 34"></path>
+              <path class="map-route" d="M18 78 C54 34 78 86 112 54 S182 28 242 68"></path>
+              <g class="map-pile" aria-hidden="true">
+                <path d="M40 28 h18"></path>
+                <path d="M50 38 h30"></path>
+                <path d="M172 82 h24"></path>
+              </g>
+              <circle class="map-marker" cx="112" cy="54" r="5"></circle>
+            </svg>
+          </section>
+
+          <section class="dock-card">
+            <span class="dock-label">State read</span>
+            <strong id="state-read">Ready to start</strong>
+            <p id="state-detail">Pick a chip, talk, or type one messy sentence.</p>
+          </section>
+
+          <section class="dock-card next-card">
+            <span class="dock-label">Next move</span>
+            <p id="next-move">Send one stuck point. Fragments count.</p>
+            <div class="dock-actions">
+              <button type="button" data-prompt="Make this easier.">Make easier</button>
+              <button type="button" data-insert="I need the smallest possible next move.">Insert tiny ask</button>
+            </div>
+          </section>
+
+          <section class="dock-card">
+            <span class="dock-label">Tiny check</span>
+            <div id="tiny-checks" class="tiny-checks"></div>
+          </section>
+
+          <section class="dock-card">
+            <span class="dock-label">Held pile</span>
+            <div id="held-pile" class="held-pile">Nothing parked yet.</div>
+          </section>
+
+          <section class="dock-card">
+            <span class="dock-label">Generative aid</span>
+            <div class="dock-actions">
+              <button type="button" data-insert="Draft a one-sentence reply I can send.">Draft reply</button>
+              <button type="button" data-insert="Give me three softer versions.">3 softer versions</button>
+              <button type="button" data-prompt="Hold the pile and continue with one next move.">Hold pile</button>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
