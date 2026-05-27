@@ -291,6 +291,29 @@ function submitPrompt(text) {
   form.requestSubmit();
 }
 
+function trimForRequest(text, maxLength) {
+  const normalized = String(text || "").replace(/\s+/g, " ").trim();
+  return normalized.length > maxLength ? normalized.slice(0, maxLength) : normalized;
+}
+
+function historyForRequest(turns) {
+  return turns.slice(-4).map((turn) => ({
+    role: turn.role,
+    content: trimForRequest(turn.content, 900),
+  }));
+}
+
+function getErrorMessage(response, body) {
+  const message = body?.message || body?.error;
+  if (response.status === 413) {
+    return "That was a big, real context drop. The demo hit its size limit, not your fault. Please send any three fragments from it and I will keep going from there.";
+  }
+  if (response.status === 429) {
+    return "The demo is busy right now. Your text is still here in the thread; wait a moment and send again.";
+  }
+  return message || "Live demo request failed.";
+}
+
 function setVoiceState(text, busy = false) {
   voiceButton.setAttribute("aria-pressed", String(busy));
   if (busy) {
@@ -434,7 +457,7 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-  const history = [...thread];
+  const history = historyForRequest(thread);
   rememberPile(content);
   thread.push({ role: "user", content });
   message.value = "";
@@ -453,9 +476,9 @@ form.addEventListener("submit", async (event) => {
         history,
       }),
     });
-    const body = await response.json();
+    const body = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(body.message || body.error || "Live demo request failed.");
+      throw new Error(getErrorMessage(response, body));
     }
 
     thread.push({ role: "assistant", content: body.reply });

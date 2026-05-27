@@ -67,6 +67,10 @@ function optionalSelectorAll(selector) {
   }
 }
 
+function trackUnstuck(eventName, properties = {}) {
+  window.UnstuckAnalytics?.track?.(eventName, properties);
+}
+
 const navToggle = optionalSelector(".nav-toggle");
 const navLinks = optionalSelectorAll(".nav-links a");
 
@@ -123,6 +127,11 @@ function setActiveReviewPanel(panelId = defaultReviewPanel, options = {}) {
   });
 
   document.body.classList.add("review-deck-ready");
+
+  trackUnstuck("landing panel viewed", {
+    panel: panelId,
+    source: updateHash ? "navigation" : "load",
+  });
 
   if (updateHash && window.location.hash !== `#${panelId}`) {
     window.history.pushState(null, "", `#${panelId}`);
@@ -192,6 +201,11 @@ function setDemo(index, userInitiated = false) {
   });
 
   if (userInitiated) {
+    trackUnstuck("example selected", {
+      example: demo.label,
+      example_index: index,
+      source: "prompt-tab",
+    });
     restartCycle();
   }
 }
@@ -372,13 +386,28 @@ function coachMoment(text) {
 if (coachConsole && coachInput) {
   coachConsole.addEventListener("submit", (event) => {
     event.preventDefault();
-    renderConsole(coachMoment(coachInput.value));
+    const result = coachMoment(coachInput.value);
+    renderConsole(result);
+    trackUnstuck("coach preview submitted", {
+      input_length_bucket: window.UnstuckAnalytics?.bucketLength?.(coachInput.value) || "unknown",
+      state: result.state,
+      friction: result.friction,
+      move: result.move,
+      source: "manual-input",
+    });
   });
 
   sampleChips.forEach((chip) => {
     chip.addEventListener("click", () => {
       coachInput.value = chip.dataset.sample;
-      renderConsole(coachMoment(coachInput.value));
+      const result = coachMoment(coachInput.value);
+      renderConsole(result);
+      trackUnstuck("sample chip selected", {
+        input_length_bucket: window.UnstuckAnalytics?.bucketLength?.(coachInput.value) || "unknown",
+        state: result.state,
+        friction: result.friction,
+        move: result.move,
+      });
     });
   });
 }
@@ -415,6 +444,10 @@ copyControls.forEach((control) => {
     const original = label.textContent;
     await copyText(target.textContent.trim());
     control.classList.add("copied");
+    trackUnstuck("setup copied", {
+      copy_target: control.dataset.copyTarget || "unknown",
+      copied_length_bucket: window.UnstuckAnalytics?.bucketLength?.(target.textContent) || "unknown",
+    });
     label.textContent = "Copied";
     window.setTimeout(() => {
       control.classList.remove("copied");

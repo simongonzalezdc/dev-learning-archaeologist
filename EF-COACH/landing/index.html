@@ -43,18 +43,18 @@
   </head>
   <body>
     <header class="site-nav" aria-label="Primary">
-      <a class="wordmark" href="#top" aria-label="Unstuck Coach home">
+      <a class="wordmark" href="#top" aria-label="Unstuck Coach home" data-analytics-event="nav link clicked" data-analytics-label="wordmark" data-analytics-destination="#top">
         <img class="wordmark-mark" src="./assets/unstuck-coach-logo.png" alt="" aria-hidden="true" width="64" height="64">
         Unstuck Coach
       </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-links" aria-label="Open navigation">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-links" aria-label="Open navigation" data-analytics-event="nav toggled" data-analytics-label="mobile nav">
         <span class="nav-toggle-line"></span>
         <span class="nav-toggle-line"></span>
       </button>
       <nav class="nav-links" id="primary-links" aria-label="Page sections">
-        <a href="https://unstuck.kyanitelabs.tech/chat/"><span>Live demo</span></a>
-        <a href="#setup"><span>Set it up</span></a>
-        <a href="https://github.com/simongonzalezdc/unstuck-coach"><span>GitHub</span></a>
+        <a href="https://unstuck.kyanitelabs.tech/chat/" data-analytics-event="demo cta clicked" data-analytics-label="nav live demo" data-analytics-destination="/chat/" data-analytics-surface="nav"><span>Live demo</span></a>
+        <a href="#setup" data-analytics-event="nav link clicked" data-analytics-label="set it up" data-analytics-destination="#setup"><span>Set it up</span></a>
+        <a href="https://github.com/simongonzalezdc/unstuck-coach" data-analytics-event="source link clicked" data-analytics-label="nav github" data-analytics-destination="github"><span>GitHub</span></a>
       </nav>
     </header>
 
@@ -140,19 +140,19 @@
             </div>
           </div>
           <div class="hero-actions" aria-label="Primary actions">
-            <a class="action primary" href="https://unstuck.kyanitelabs.tech/chat/">
+            <a class="action primary" href="https://unstuck.kyanitelabs.tech/chat/" data-analytics-event="demo cta clicked" data-analytics-label="hero open live demo" data-analytics-destination="/chat/" data-analytics-surface="hero">
               <span class="icon icon-path" aria-hidden="true"></span>
               Open live demo
             </a>
-            <a class="action primary" href="#setup">
+            <a class="action primary" href="#setup" data-analytics-event="setup cta clicked" data-analytics-label="hero use files" data-analytics-destination="#setup" data-analytics-surface="hero">
               <span class="icon icon-path" aria-hidden="true"></span>
               Use the files
             </a>
-            <a class="action primary" href="#quality">
+            <a class="action primary" href="#quality" data-analytics-event="quality cta clicked" data-analytics-label="hero what it does" data-analytics-destination="#quality" data-analytics-surface="hero">
               <span class="icon icon-path" aria-hidden="true"></span>
               What it does
             </a>
-            <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach">
+            <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach" data-analytics-event="source link clicked" data-analytics-label="hero view source" data-analytics-destination="github" data-analytics-surface="hero">
               <span class="icon icon-source" aria-hidden="true"></span>
               View source
             </a>
@@ -187,11 +187,11 @@
             </p>
           </div>
           <nav class="review-deck-nav" aria-label="Unstuck coaching routes">
-            <a href="#demo" data-panel-link="demo"><span>Try it</span><strong>Same prompt, different intervention</strong></a>
-            <a href="#quality" data-panel-link="quality"><span>Coach quality</span><strong>What to expect</strong></a>
-            <a href="#setup" data-panel-link="setup"><span>Setup</span><strong>Copy and paste</strong></a>
-            <a href="#scope" data-panel-link="scope"><span>Scope</span><strong>Whole-person surface</strong></a>
-            <a href="#admin-ops" data-panel-link="admin-ops"><span>Admin</span><strong>Calendar and inbox</strong></a>
+            <a href="#demo" data-panel-link="demo" data-analytics-event="landing panel opened" data-analytics-panel="demo"><span>Try it</span><strong>Same prompt, different intervention</strong></a>
+            <a href="#quality" data-panel-link="quality" data-analytics-event="landing panel opened" data-analytics-panel="quality"><span>Coach quality</span><strong>What to expect</strong></a>
+            <a href="#setup" data-panel-link="setup" data-analytics-event="landing panel opened" data-analytics-panel="setup"><span>Setup</span><strong>Copy and paste</strong></a>
+            <a href="#scope" data-panel-link="scope" data-analytics-event="landing panel opened" data-analytics-panel="scope"><span>Scope</span><strong>Whole-person surface</strong></a>
+            <a href="#admin-ops" data-panel-link="admin-ops" data-analytics-event="landing panel opened" data-analytics-panel="admin-ops"><span>Admin</span><strong>Calendar and inbox</strong></a>
           </nav>
           <div class="review-deck-panels" aria-live="polite">
 
@@ -718,6 +718,7 @@
       </section>
     </main>
 
+    <script src="./posthog.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

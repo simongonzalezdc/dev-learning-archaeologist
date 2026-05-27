@@ -25,6 +25,11 @@ test("GET routes serve the canonical landing site and chat demo", async (t) => {
   assert.match(landingHtml, /Unstuck Coach \| Executive Function Accessibility Coach/);
   assert.match(landingHtml, /href="https:\/\/unstuck\.kyanitelabs\.tech\/"/);
   assert.match(landingHtml, /href="https:\/\/unstuck\.kyanitelabs\.tech\/chat\/"/);
+  assert.match(landing.headers.get("content-security-policy") || "", /connect-src 'self' https:\/\/puenteworks\.com/);
+
+  const landingTracker = await fetch(`${baseUrl}/posthog.js`);
+  assert.equal(landingTracker.status, 200);
+  assert.match(await landingTracker.text(), /UnstuckAnalytics/);
 
   const chatRedirect = await fetch(`${baseUrl}/chat`, { redirect: "manual" });
   assert.equal(chatRedirect.status, 308);
@@ -36,6 +41,14 @@ test("GET routes serve the canonical landing site and chat demo", async (t) => {
   const chatHtml = await chat.text();
   assert.match(chatHtml, /id="coach-form"/);
   assert.match(chatHtml, /href="https:\/\/unstuck\.kyanitelabs\.tech\/chat\/"/);
+  assert.match(chatHtml, /href="\.\.\/" aria-label="Back to the Unstuck Coach landing page"/);
+  assert.doesNotMatch(chatHtml, /posthog\.js|array\.js|session_replay/i);
+
+  const chatTracker = await fetch(`${baseUrl}/chat/posthog.js`);
+  assert.equal(chatTracker.status, 200);
+  const chatTrackerJs = await chatTracker.text();
+  assert.match(chatTrackerJs, /UnstuckAnalytics/);
+  assert.doesNotMatch(chatTrackerJs, /session_replay\s*:\s*true|autocapture\s*:\s*true/i);
 
   const favicon = await fetch(`${baseUrl}/favicon.ico`);
   assert.equal(favicon.status, 200);
@@ -73,6 +86,53 @@ test("GET routes serve the canonical landing site and chat demo", async (t) => {
     ["view_landing", "view_chat"],
   );
   assert.ok(events.every((event) => event.type === "unstuck_usage"));
+});
+
+
+
+test("server forwards low-volume usage events to PostHog when configured", async (t) => {
+  const captured = [];
+  const captureServer = createLiveDemoServer({
+    usageLogger: () => {},
+  });
+  // Replace the generic demo server handler with a tiny capture endpoint.
+  captureServer.removeAllListeners("request");
+  captureServer.on("request", async (request, response) => {
+    let body = "";
+    for await (const chunk of request) body += chunk;
+    captured.push({ url: request.url, body: JSON.parse(body) });
+    response.writeHead(200, { "content-type": "application/json" });
+    response.end(JSON.stringify({ status: 1 }));
+  });
+  t.after(() => captureServer.close());
+  const captureBaseUrl = await listen(captureServer);
+
+  const server = createLiveDemoServer({
+    env: {
+      POSTHOG_ENABLED: "true",
+      POSTHOG_PROJECT_API_KEY: "phc_test_project_key",
+      POSTHOG_HOST: captureBaseUrl,
+    },
+    usageLogger: () => {},
+  });
+  t.after(() => server.close());
+  const baseUrl = await listen(server);
+
+  const response = await fetch(`${baseUrl}/`);
+  assert.equal(response.status, 200);
+
+  await assert.doesNotReject(async () => {
+    for (let attempt = 0; attempt < 20 && captured.length === 0; attempt += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 10));
+    }
+    assert.ok(captured.length > 0);
+  });
+
+  assert.equal(captured[0].url, "/capture/");
+  assert.equal(captured[0].body.api_key, "phc_test_project_key");
+  assert.equal(captured[0].body.event, "unstuck_usage");
+  assert.equal(captured[0].body.properties.event_name, "view_landing");
+  assert.equal(captured[0].body.properties.posthogEnabled, "true");
 });
 
 test("POST /api/coach rejects empty messages", async (t) => {
@@ -114,7 +174,7 @@ test("POST /api/coach rejects malformed and oversized bodies without internals",
   const oversized = await fetch(`${baseUrl}/api/coach`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ message: "x".repeat(33_000) }),
+    body: JSON.stringify({ message: "x".repeat(90_000) }),
   });
   assert.equal(oversized.status, 413);
   const oversizedText = await oversized.text();
@@ -255,6 +315,47 @@ test("POST /api/coach rate-limits repeated clients before model calls", async (t
   );
 });
 
+test("POST /api/coach accepts engaged long messages before prompt trimming", async (t) => {
+  let modelMessages = [];
+  const server = createLiveDemoServer({
+    callModel: async ({ messages }) => {
+      modelMessages = messages;
+      return {
+        text: "I can still help with the long messy version.",
+        provider: "test-provider",
+        model: "test-model",
+      };
+    },
+  });
+  t.after(() => server.close());
+  const baseUrl = await listen(server);
+
+  const longMessage = [
+    "I am engaged and trying to use this demo seriously.",
+    "Here is a long messy context pile.",
+    "detail ".repeat(2_600),
+  ].join(" ");
+
+  const response = await fetch(`${baseUrl}/api/coach`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      message: longMessage,
+      context: "Energy selected: 3/5.",
+      history: [
+        { role: "user", content: "Earlier context ".repeat(400) },
+        { role: "assistant", content: "Earlier coach reply ".repeat(300) },
+      ],
+    }),
+  });
+
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.reply, "I can still help with the long messy version.");
+  assert.ok(modelMessages.at(-1).content.length < 7_000);
+  assert.ok(modelMessages.slice(0, -1).every((message) => message.content.length <= 1_000));
+});
+
 test("POST /api/coach trims prompt-side inputs before model calls", async (t) => {
   let modelMessages = [];
   const server = createLiveDemoServer({
@@ -285,7 +386,7 @@ test("POST /api/coach trims prompt-side inputs before model calls", async (t) =>
 
   assert.equal(response.status, 200);
   assert.equal(modelMessages.length, 7);
-  assert.ok(modelMessages.at(-1).content.length < 3_400);
+  assert.ok(modelMessages.at(-1).content.length < 6_900);
   assert.ok(modelMessages.slice(0, -1).every((message) => message.content.length <= 1_000));
 });
 

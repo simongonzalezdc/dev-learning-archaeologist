@@ -12,6 +12,9 @@ services:
       COACH_RATE_LIMIT_MAX: "12"
       COACH_RATE_LIMIT_WINDOW_MS: "600000"
       COACH_MAX_CONCURRENT_MODEL_CALLS: "2"
+      POSTHOG_ENABLED: "true"
+      POSTHOG_PROJECT_API_KEY: phc_xCWVuCx8TVyi3YUzfVNX8BwznXbSvN9jesgEMkNs7Bde
+      POSTHOG_HOST: https://us.i.posthog.com
     volumes:
       - ./app:/app:ro
     networks:

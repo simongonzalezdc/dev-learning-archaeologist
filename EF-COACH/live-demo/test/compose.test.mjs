@@ -170,7 +170,7 @@ test("generated inline server rejects malformed and oversized coach requests saf
   const oversized = await fetch(`${baseUrl}/api/coach`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ message: "x".repeat(33_000) }),
+    body: JSON.stringify({ message: "x".repeat(90_000) }),
   });
   assert.equal(oversized.status, 413);
   const oversizedText = await oversized.text();
@@ -371,6 +371,8 @@ test("generated Hostinger demo includes the support panel", () => {
   assert.doesNotMatch(page, /speechSynthesis|SpeechSynthesisUtterance/);
   assert.match(page, /Message Unstuck Coach/);
   assert.match(page, /work-surface/);
+  assert.match(page, /Demo limits/);
+  assert.match(page, /free-tier/);
   assert.doesNotMatch(page, /Optional context|Execution|Coach reply/);
   assert.doesNotMatch(page, /Generative aid|Draft reply|3 softer versions|Hold pile/);
 });

@@ -27,8 +27,12 @@ test("public demo includes the support panel low-friction sidecar", () => {
   assert.match(html, /aria-label="Support panel"/);
   assert.match(html, /class="demo-topbar"/);
   assert.match(html, /Back to landing/);
-  assert.match(html, /href="\/"/);
+  assert.match(html, /href="\.\.\/"/);
   assert.match(html, /id="voice-button"/);
+  assert.match(html, /Demo limits/);
+  assert.match(html, /limited-release demo/);
+  assert.match(html, /rate limits/);
+  assert.match(html, /free-tier friendly/);
   assert.doesNotMatch(html, /id="read-button"|id="stop-audio-button"|Read latest coach reply|Stop read aloud/);
   assert.doesNotMatch(html, /Generative aid|Draft reply|3 softer versions|Hold pile/);
   assert.match(html, /data-prompt="I'?m frozen/i);

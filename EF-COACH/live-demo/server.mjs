@@ -1,7 +1,9 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
+import { createHash, randomUUID } from "node:crypto";
 import { isIP } from "node:net";
 import { extname, join, normalize, resolve } from "node:path";
+import { performance } from "node:perf_hooks";
 import { fileURLToPath } from "node:url";
 
 import { buildCoachInstructions } from "./lib/context.mjs";
@@ -10,8 +12,8 @@ import { callCoachModel, publicProviderConfig, resolveLlmConfig } from "./lib/ll
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const DEFAULT_ROOT = resolve(__dirname, "..");
 const CHAT_PUBLIC_DIR = resolve(__dirname, "public");
-const MAX_BODY_BYTES = 16_000;
-const MAX_MESSAGE_CHARS = 2_500;
+const MAX_BODY_BYTES = 80_000;
+const MAX_MESSAGE_CHARS = 6_000;
 const MAX_SUPPLIED_CONTEXT_CHARS = 800;
 const MAX_HISTORY_TURNS = 6;
 const MAX_HISTORY_MESSAGE_CHARS = 1_000;
@@ -19,6 +21,8 @@ const DEFAULT_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const DEFAULT_RATE_LIMIT_MAX = 12;
 const DEFAULT_MAX_CONCURRENT_MODEL_CALLS = 2;
 const USAGE_LOG_TYPE = "unstuck_usage";
+const POSTHOG_CAPTURE_EVENT = "unstuck_usage";
+const POSTHOG_DEFAULT_HOST = "https://us.i.posthog.com";
 const SECURITY_HEADERS = {
   "x-content-type-options": "nosniff",
   "referrer-policy": "no-referrer",
@@ -31,7 +35,7 @@ const HTML_SECURITY_HEADERS = {
     "script-src 'self'",
     "style-src 'self'",
     "img-src 'self'",
-    "connect-src 'self'",
+    "connect-src 'self' https://puenteworks.com",
     "object-src 'none'",
     "base-uri 'self'",
     "frame-ancestors 'none'",
@@ -128,15 +132,82 @@ function defaultUsageLogger(event) {
   console.log(JSON.stringify(event));
 }
 
-function logUsage(usageLogger, request, event, metadata = {}) {
-  usageLogger({
+function booleanFromEnv(value, fallback = false) {
+  if (value === undefined || value === null) {
+    return fallback;
+  }
+  return ["1", "true", "yes", "on", "enabled"].includes(String(value).toLowerCase());
+}
+
+function resolvePosthogConfig(env) {
+  const apiKey =
+    env.POSTHOG_API_KEY || env.POSTHOG_PROJECT_API_KEY || env.NEXT_PUBLIC_POSTHOG_KEY || "";
+  const host = env.POSTHOG_HOST || POSTHOG_DEFAULT_HOST;
+  const enabled = booleanFromEnv(env.POSTHOG_ENABLED, Boolean(apiKey));
+
+  if (!enabled || !apiKey) {
+    return null;
+  }
+
+  return { apiKey, host };
+}
+
+function createPosthogLogger(env) {
+  const config = resolvePosthogConfig(env);
+  if (!config) {
+    return null;
+  }
+
+  return async (usageEvent) => {
+    const body = {
+      api_key: config.apiKey,
+      event: POSTHOG_CAPTURE_EVENT,
+      properties: {
+        distinct_id: usageEvent.sessionId || "anonymous-demo-session",
+        event_name: usageEvent.event,
+        ...usageEvent,
+      },
+      timestamp: usageEvent.timestamp,
+    };
+
+    try {
+      const response = await fetch(`${config.host}/capture/`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) {
+        return;
+      }
+    } catch {
+      return;
+    }
+  };
+}
+
+function anonymizeSessionId(request, env, salt) {
+  const remoteAddress = clientIdFor(request, env) || "unknown";
+  const userAgent = request.headers["user-agent"] || "unknown";
+  return createHash("sha256")
+    .update(`${remoteAddress}|${userAgent}|${salt || ""}`)
+    .digest("hex")
+    .slice(0, 16);
+}
+
+function logUsage(usageLogger, posthogLogger, request, event, metadata = {}) {
+  const payload = {
     type: USAGE_LOG_TYPE,
     event,
     timestamp: new Date().toISOString(),
     method: request.method,
     path: new URL(request.url, "http://localhost").pathname,
+    posthogEnabled: posthogLogger ? "true" : "false",
     ...metadata,
-  });
+  };
+  usageLogger(payload);
+  if (posthogLogger) {
+    void posthogLogger(payload);
+  }
 }
 
 function normalizeIpAddress(value) {
@@ -302,6 +373,7 @@ async function serveSiteStatic(request, response, rootDir) {
   if (
     url.pathname === "/styles.css" ||
     url.pathname === "/app.js" ||
+    url.pathname === "/posthog.js" ||
     url.pathname.startsWith("/assets/")
   ) {
     await serveStaticFile(request, response, { baseDir: landingDir, requestedPath: url.pathname });
@@ -340,9 +412,14 @@ export function createLiveDemoServer({
     DEFAULT_MAX_CONCURRENT_MODEL_CALLS,
   );
   let activeModelCalls = 0;
+  const posthogLogger = createPosthogLogger(env);
+  const usageSessionSalt = env.USAGE_SESSION_SALT || "unstuck-live-session-salt";
 
   return createServer(async (request, response) => {
     const url = new URL(request.url, "http://localhost");
+    const requestId = randomUUID();
+    const startedAt = performance.now();
+    const sessionId = anonymizeSessionId(request, env, usageSessionSalt);
 
     try {
       if (request.method === "GET" && url.pathname === "/health") {
@@ -373,15 +450,19 @@ export function createLiveDemoServer({
         const message = cleanText(body.message, MAX_MESSAGE_CHARS);
         const suppliedContext = cleanText(body.context, MAX_SUPPLIED_CONTEXT_CHARS);
         const history = cleanConversationHistory(body.history);
+        const chatStartMs = performance.now();
 
         if (!message) {
           sendJson(response, 400, { error: "message is required" });
           return;
         }
 
-        logUsage(usageLogger, request, "chat_started", {
+        logUsage(usageLogger, posthogLogger, request, "chat_started", {
           hasSuppliedContext: Boolean(suppliedContext),
           historyTurns: history.length,
+          requestId,
+          sessionId,
+          queueDepthBefore: activeModelCalls,
         });
 
         const instructions = await buildCoachInstructions({ rootDir });
@@ -401,9 +482,15 @@ export function createLiveDemoServer({
           activeModelCalls -= 1;
         }
 
-        logUsage(usageLogger, request, "llm_reply_ok", {
+        const modelLatencyMs = Math.max(0, Math.round(performance.now() - chatStartMs));
+        logUsage(usageLogger, posthogLogger, request, "llm_reply_ok", {
           provider: result.provider,
           model: result.model,
+          requestId,
+          sessionId,
+          modelLatencyMs,
+          totalLatencyMs: Math.max(0, Math.round(performance.now() - startedAt)),
+          queueDepthAfter: activeModelCalls,
         });
 
         sendJson(response, 200, {
@@ -423,10 +510,16 @@ export function createLiveDemoServer({
 
       if (request.method === "GET" || request.method === "HEAD") {
         if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html")) {
-          logUsage(usageLogger, request, "view_landing");
+          logUsage(usageLogger, posthogLogger, request, "view_landing", {
+            requestId,
+            sessionId,
+          });
         }
         if (request.method === "GET" && (url.pathname === "/chat/" || url.pathname === "/chat/index.html")) {
-          logUsage(usageLogger, request, "view_chat");
+          logUsage(usageLogger, posthogLogger, request, "view_chat", {
+            requestId,
+            sessionId,
+          });
         }
         await serveSiteStatic(request, response, rootDir);
         return;
@@ -435,14 +528,30 @@ export function createLiveDemoServer({
       sendText(response, 405, "Method not allowed");
     } catch (error) {
       if (error instanceof PublicHttpError) {
-        logUsage(usageLogger, request, error.status === 429 ? "rate_limited" : "request_rejected", {
+        logUsage(
+          usageLogger,
+          posthogLogger,
+          request,
+          error.status === 429 ? "rate_limited" : "request_rejected",
+          {
           status: error.status,
-        });
+            requestId,
+            sessionId,
+            totalLatencyMs: Math.max(0, Math.round(performance.now() - startedAt)),
+            rejectionType: error.publicMessage,
+            reason: error.publicMessage,
+          },
+        );
         sendJson(response, error.status, { error: error.publicMessage });
         return;
       }
 
-      logUsage(usageLogger, request, "llm_error");
+      logUsage(usageLogger, posthogLogger, request, "llm_error", {
+        requestId,
+        sessionId,
+        totalLatencyMs: Math.max(0, Math.round(performance.now() - startedAt)),
+        errorType: error?.name || "Error",
+      });
       sendJson(response, 502, { error: "live demo failed" });
     }
   });

@@ -506,6 +506,17 @@ button[aria-busy="true"] {
   background: #fff1d5;
 }
 
+.demo-limits {
+  border-left: 5px solid var(--cyan);
+  background:
+    linear-gradient(135deg, rgba(0, 215, 232, 0.12), rgba(255, 192, 24, 0.1)),
+    var(--surface);
+}
+
+.demo-limits p {
+  font-size: 0.92rem;
+}
+
 .relief-map {
   --energy-progress: 0%;
   overflow: hidden;
