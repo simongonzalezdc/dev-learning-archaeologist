@@ -9,9 +9,19 @@ test("public demo uses a normal chat interface", () => {
   assert.match(html, /id="chat-log"/);
   assert.match(html, /class="composer-row"/);
   assert.match(html, /placeholder="Message Unstuck Coach"/);
+  assert.match(html, /chat-orientation/);
+  assert.match(html, /Paste the messy version/);
+  assert.match(html, /id="draft-status"/);
+  assert.match(html, /id="send-status"/);
+  assert.match(html, /\.\/posthog\.js/);
   assert.doesNotMatch(html, /Optional visible context|result-panel|Coach reply/);
 
   assert.match(script, /renderMessages/);
+  assert.match(script, /function trackChat/);
+  assert.match(script, /chat prompt submitted/);
+  assert.match(script, /coach response received/);
+  assert.match(script, /chat error shown/);
+  assert.match(script, /DRAFT_STORAGE_KEY/);
   assert.match(script, /Live model ready/);
   assert.doesNotMatch(script, /providerLabel\\} · \\$\\{.*model/);
   assert.match(script, /history/);

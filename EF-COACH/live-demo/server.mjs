@@ -297,6 +297,15 @@ function cleanText(value, maxLength) {
   return String(value || "").replace(/\s+/g, " ").trim().slice(0, maxLength);
 }
 
+function lengthBucket(value) {
+  const length = String(value || "").trim().length;
+  if (!length) return "empty";
+  if (length < 120) return "short";
+  if (length < 900) return "detailed";
+  if (length < 4000) return "big-context";
+  return "demo-limit-risk";
+}
+
 function cleanConversationHistory(value) {
   if (!Array.isArray(value)) {
     return [];
@@ -460,6 +469,7 @@ export function createLiveDemoServer({
         logUsage(usageLogger, posthogLogger, request, "chat_started", {
           hasSuppliedContext: Boolean(suppliedContext),
           historyTurns: history.length,
+          messageLengthBucket: lengthBucket(body.message),
           requestId,
           sessionId,
           queueDepthBefore: activeModelCalls,
@@ -486,6 +496,7 @@ export function createLiveDemoServer({
         logUsage(usageLogger, posthogLogger, request, "llm_reply_ok", {
           provider: result.provider,
           model: result.model,
+          messageLengthBucket: lengthBucket(body.message),
           requestId,
           sessionId,
           modelLatencyMs,

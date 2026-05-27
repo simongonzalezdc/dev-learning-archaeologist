@@ -67,7 +67,7 @@ const requiredReadmeText = [
 
 const requiredLandingText = [
   "External executive function for the whole human.",
-  "Open live demo",
+  "Try the live coach",
   "Set it up",
   "View source",
   "Load the coach files.",
