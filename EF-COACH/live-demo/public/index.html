@@ -27,6 +27,16 @@
 
       <div class="work-surface">
         <section class="chat-shell" aria-label="Chat">
+          <section class="chat-orientation" aria-label="How this demo works">
+            <p class="eyebrow">Limited live demo</p>
+            <h2>Paste the messy version. I will hold the pile.</h2>
+            <ul>
+              <li>Best input: real context, fragments, or a brain dump.</li>
+              <li>I compress it into one next move and park the rest.</li>
+              <li>No account memory, no crisis support, occasional rate limits.</li>
+            </ul>
+          </section>
+
           <section id="chat-log" class="chat-log" aria-label="Conversation" aria-live="polite"></section>
 
           <div class="starter-row" aria-label="Starter prompts">
@@ -54,6 +64,10 @@
               <button type="submit" aria-label="Send message">Send</button>
             </div>
             <p id="voice-status" class="voice-status" aria-live="polite">Click Mic to dictate, or use any chip.</p>
+            <div class="composer-meta" aria-live="polite">
+              <span id="draft-status">Empty draft. Messy context is welcome.</span>
+              <span id="send-status">Ready.</span>
+            </div>
           </form>
         </section>
 
@@ -119,6 +133,7 @@
         </aside>
       </div>
     </main>
+    <script src="./posthog.js"></script>
     <script src="./app.js?v=topbar-link" type="module"></script>
   </body>
 </html>

@@ -16,10 +16,15 @@ const stateDetail = document.querySelector("#state-detail");
 const nextMove = document.querySelector("#next-move");
 const heldPile = document.querySelector("#held-pile");
 const tinyChecks = document.querySelector("#tiny-checks");
+const draftStatus = document.querySelector("#draft-status");
+const sendStatus = document.querySelector("#send-status");
 const thread = [];
 const heldItems = [];
 let energyLevel = null;
 let currentRecognition = null;
+let loadingTimers = [];
+
+const DRAFT_STORAGE_KEY = "unstuck_live_demo_draft";
 
 const intro = {
   role: "assistant",
@@ -87,6 +92,98 @@ const pileRules = [
   [/task|list|project|launch/i, "Task pile"],
 ];
 
+function getLengthBucket(text) {
+  const length = String(text || "").trim().length;
+  if (!length) return "empty";
+  if (length < 120) return "short";
+  if (length < 900) return "detailed";
+  if (length < 4000) return "big-context";
+  return "demo-limit-risk";
+}
+
+function trackChat(eventName, properties = {}) {
+  window.UnstuckAnalytics?.track?.(eventName, {
+    surface: "chat",
+    energy_selected: energyLevel || null,
+    thread_turns: thread.length,
+    ...properties,
+  });
+}
+
+function pulseClick(element) {
+  if (!element) return;
+  element.dataset.clicked = "true";
+  window.setTimeout(() => {
+    delete element.dataset.clicked;
+  }, 450);
+}
+
+function setSendStatus(text = "Ready.", state = "ready") {
+  if (!sendStatus) return;
+  sendStatus.textContent = text;
+  sendStatus.dataset.state = state;
+}
+
+function updateDraftStatus() {
+  if (!draftStatus || !message) return;
+  const length = message.value.trim().length;
+  const bucket = getLengthBucket(message.value);
+  const labels = {
+    empty: "Empty draft. Messy context is welcome.",
+    short: "Short draft. Fragments count.",
+    detailed: "Detailed draft. Good — I can work with messy context.",
+    "big-context": "Big context — still okay. I will compress the pile.",
+    "demo-limit-risk": "Very large context. If the demo pushes back, send any three fragments.",
+  };
+  draftStatus.textContent = `${labels[bucket]}${length ? ` (${length} chars)` : ""}`;
+  draftStatus.dataset.state = bucket.startsWith("big") || bucket === "demo-limit-risk" ? "big" : bucket;
+}
+
+function saveDraft() {
+  try {
+    window.localStorage.setItem(DRAFT_STORAGE_KEY, message.value);
+  } catch {
+    // Draft preservation must not block the demo.
+  }
+}
+
+function clearSavedDraft() {
+  try {
+    window.localStorage.removeItem(DRAFT_STORAGE_KEY);
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
+function restoreDraft() {
+  try {
+    const saved = window.localStorage.getItem(DRAFT_STORAGE_KEY);
+    if (saved && !message.value.trim()) {
+      message.value = saved;
+      resizeComposer();
+    }
+  } catch {
+    // Ignore storage failures.
+  }
+  updateDraftStatus();
+}
+
+function clearLoadingTimers() {
+  for (const timer of loadingTimers) {
+    window.clearTimeout(timer);
+  }
+  loadingTimers = [];
+}
+
+function startLoadingProgress() {
+  clearLoadingTimers();
+  setSendStatus("Holding context…", "loading");
+  loadingTimers = [
+    window.setTimeout(() => setSendStatus("Compressing the pile…", "loading"), 1200),
+    window.setTimeout(() => setSendStatus("Finding one next move…", "loading"), 2800),
+  ];
+}
+
 function createTurn(turn, extraClass = "") {
   const article = document.createElement("article");
   article.className = ["turn", turn.role, extraClass].filter(Boolean).join(" ");
@@ -146,6 +243,7 @@ function setEnergy(value) {
   }
 
   energyLevel = nextLevel;
+  trackChat("energy selected", { energy_level: nextLevel });
   renderDock();
 }
 
@@ -283,6 +381,8 @@ async function loadConfig() {
 function insertText(text) {
   message.value = text;
   resizeComposer();
+  updateDraftStatus();
+  saveDraft();
   message.focus();
 }
 
@@ -311,7 +411,10 @@ function getErrorMessage(response, body) {
   if (response.status === 429) {
     return "The demo is busy right now. Your text is still here in the thread; wait a moment and send again.";
   }
-  return message || "Live demo request failed.";
+  if (response.status >= 500) {
+    return "The live model stumbled. Your text is still visible in the thread — try again, or send the smallest chunk.";
+  }
+  return message || "Live demo request failed. Your text is still visible in the thread; try again when ready.";
 }
 
 function setVoiceState(text, busy = false) {
@@ -363,6 +466,7 @@ function startVoiceInput() {
   const SpeechRecognition = getSpeechRecognition();
 
   if (!SpeechRecognition) {
+    trackChat("voice failed", { reason: "unsupported" });
     setVoiceState("Voice typing is not available here. I put a no-typing prompt in the box.");
     insertText("I'm too overloaded to type. Help me start.");
     return;
@@ -376,6 +480,7 @@ function startVoiceInput() {
   currentRecognition = recognition;
 
   recognition.addEventListener("start", () => {
+    trackChat("voice started");
     setVoiceState("Listening. Say the messy version.", true);
   });
 
@@ -387,6 +492,9 @@ function startVoiceInput() {
     if (transcript) {
       message.value = transcript;
       resizeComposer();
+      updateDraftStatus();
+      saveDraft();
+      trackChat("voice transcript received", { input_length_bucket: getLengthBucket(transcript) });
       voiceStatus.textContent = "Captured speech. Send when ready, or keep talking.";
     }
   });
@@ -410,6 +518,7 @@ function startVoiceInput() {
 
   recognition.addEventListener("error", (event) => {
     endedWithError = true;
+    trackChat("voice failed", { reason: event.error || "unknown" });
     setVoiceState(getVoiceErrorMessage(event.error), false);
   });
 
@@ -424,24 +533,38 @@ function startVoiceInput() {
 document.addEventListener("click", (event) => {
   const energyButton = event.target.closest("[data-energy]");
   if (energyButton) {
+    pulseClick(energyButton);
     setEnergy(energyButton.dataset.energy);
     return;
   }
 
   const promptButton = event.target.closest("[data-prompt]");
   if (promptButton) {
+    pulseClick(promptButton);
+    const promptLabel = promptButton.textContent.trim().slice(0, 40);
+    trackChat(promptLabel === "Make easier" ? "make easier clicked" : "starter prompt clicked", {
+      prompt_label: promptLabel,
+      input_length_bucket: getLengthBucket(promptButton.dataset.prompt),
+    });
     submitPrompt(promptButton.dataset.prompt);
     return;
   }
 
   const insertButton = event.target.closest("[data-insert]");
   if (insertButton) {
+    pulseClick(insertButton);
+    trackChat("tiny ask inserted", { input_length_bucket: getLengthBucket(insertButton.dataset.insert) });
     insertText(insertButton.dataset.insert);
   }
 });
 
 voiceButton.addEventListener("click", startVoiceInput);
-message.addEventListener("input", resizeComposer);
+message.addEventListener("input", () => {
+  resizeComposer();
+  updateDraftStatus();
+  saveDraft();
+  trackChat("draft length bucket changed", { input_length_bucket: getLengthBucket(message.value) });
+});
 message.addEventListener("keydown", (event) => {
   if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault();
@@ -458,13 +581,23 @@ form.addEventListener("submit", async (event) => {
   }
 
   const history = historyForRequest(thread);
+  const inputLengthBucket = getLengthBucket(content);
+  trackChat("chat prompt submitted", {
+    input_length_bucket: inputLengthBucket,
+    history_turns: history.length,
+    has_energy: Boolean(energyLevel),
+  });
   rememberPile(content);
   thread.push({ role: "user", content });
   message.value = "";
+  clearSavedDraft();
+  updateDraftStatus();
   resizeComposer();
-  renderMessages({ pendingText: "Thinking with the thread..." });
+  renderMessages({ pendingText: "Holding context..." });
+  startLoadingProgress();
   submit.setAttribute("aria-busy", "true");
   submit.disabled = true;
+  const startedAt = performance.now();
 
   try {
     const response = await fetch("/api/coach", {
@@ -478,15 +611,29 @@ form.addEventListener("submit", async (event) => {
     });
     const body = await response.json().catch(() => ({}));
     if (!response.ok) {
+      trackChat("chat error shown", {
+        status: response.status,
+        error_type: body?.error || "http_error",
+        input_length_bucket: inputLengthBucket,
+      });
       throw new Error(getErrorMessage(response, body));
     }
 
     thread.push({ role: "assistant", content: body.reply });
     setRuntimeStatus("Live model ready", getRuntimeDetail(body));
+    trackChat("coach response received", {
+      latency_ms: Math.round(performance.now() - startedAt),
+      provider: body.provider || null,
+      model: body.model || null,
+      input_length_bucket: inputLengthBucket,
+    });
+    setSendStatus("Response received.", "ready");
     renderMessages();
   } catch (error) {
+    setSendStatus("Recovery path shown.", "ready");
     renderMessages({ errorText: error.message });
   } finally {
+    clearLoadingTimers();
     submit.removeAttribute("aria-busy");
     submit.disabled = false;
     message.focus();
@@ -494,6 +641,9 @@ form.addEventListener("submit", async (event) => {
 });
 
 renderMessages();
+restoreDraft();
+trackChat("chat opened");
 loadConfig().catch(() => {
   setRuntimeStatus("Runtime unavailable");
+  trackChat("runtime status changed", { status: "unavailable" });
 });

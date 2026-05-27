@@ -42,7 +42,8 @@ test("GET routes serve the canonical landing site and chat demo", async (t) => {
   assert.match(chatHtml, /id="coach-form"/);
   assert.match(chatHtml, /href="https:\/\/unstuck\.kyanitelabs\.tech\/chat\/"/);
   assert.match(chatHtml, /href="\.\.\/" aria-label="Back to the Unstuck Coach landing page"/);
-  assert.doesNotMatch(chatHtml, /posthog\.js|array\.js|session_replay/i);
+  assert.match(chatHtml, /\.\/posthog\.js/);
+  assert.doesNotMatch(chatHtml, /array\.js|session_replay/i);
 
   const chatTracker = await fetch(`${baseUrl}/chat/posthog.js`);
   assert.equal(chatTracker.status, 200);

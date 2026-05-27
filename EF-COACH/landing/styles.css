@@ -724,6 +724,41 @@ h1 {
   gap: 0.72rem;
 }
 
+.demo-preview {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1.35rem;
+  border: 1px solid rgba(6, 9, 16, 0.16);
+  border-left: 5px solid var(--taste-cyan);
+  border-radius: var(--radius);
+  background: rgba(255, 253, 246, 0.74);
+  padding: 0.9rem 1rem;
+  box-shadow: 0 12px 28px rgba(36, 33, 31, 0.07);
+}
+
+.demo-preview span {
+  color: var(--taste-teal);
+  font-size: 0.76rem;
+  font-weight: 860;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.demo-preview ol {
+  display: grid;
+  gap: 0.32rem;
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--ink);
+  font-weight: 720;
+}
+
+.demo-preview p {
+  margin: 0;
+  color: var(--muted-strong);
+  font-size: 0.9rem;
+}
+
 .hero-actions {
   margin-top: 2rem;
 }

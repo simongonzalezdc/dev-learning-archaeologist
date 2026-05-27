@@ -338,6 +338,33 @@ h1 {
   color: var(--muted);
 }
 
+.chat-orientation {
+  border: 1px solid rgba(6, 9, 16, 0.18);
+  border-left: 5px solid var(--gold);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(255, 192, 24, 0.13), rgba(0, 215, 232, 0.08)),
+    var(--surface);
+  padding: 0.82rem 0.92rem;
+  box-shadow: 0 12px 28px rgba(36, 33, 31, 0.07);
+}
+
+.chat-orientation h2 {
+  margin: 0 0 0.48rem;
+  font-family: var(--editorial);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 540;
+  line-height: 1.02;
+}
+
+.chat-orientation ul {
+  display: grid;
+  gap: 0.28rem;
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--muted-strong);
+}
+
 .turn.error {
   border-color: var(--taste-coral);
   color: var(--taste-clay);
@@ -445,11 +472,36 @@ button[aria-busy="true"] {
   opacity: 0.72;
 }
 
+button[data-clicked="true"] {
+  border-color: var(--steel);
+  box-shadow: 0 0 0 3px rgba(47, 142, 134, 0.12);
+}
+
 .voice-status {
   min-height: 1.2em;
   margin: 0.42rem 0.25rem 0;
   color: var(--muted);
   font-size: 0.82rem;
+}
+
+.composer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0.42rem 0.25rem 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+#draft-status[data-state="big"] {
+  color: var(--taste-clay);
+  font-weight: 760;
+}
+
+#send-status[data-state="loading"] {
+  color: var(--steel);
+  font-weight: 760;
 }
 
 .coach-dock {
