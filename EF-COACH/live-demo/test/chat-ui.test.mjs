@@ -97,6 +97,7 @@ test("public demo uses the landing design language", () => {
   assert.match(css, /border: 2px solid var\(--ink\)/);
   assert.match(css, /linear-gradient\(145deg, rgba\(6, 9, 16, 0\.98\), rgba\(6, 67, 74, 0\.96\)\)/);
   assert.match(css, /font-family: var\(--editorial\)/);
+  assert.doesNotMatch(css, /\.coach-dock \{[\s\S]*?order: -1/);
 
   assert.doesNotMatch(css, /color-scheme: dark/);
   assert.doesNotMatch(css, /--bg: #0c0e0c/);
