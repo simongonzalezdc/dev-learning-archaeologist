@@ -23,6 +23,7 @@ const heldItems = [];
 let energyLevel = null;
 let currentRecognition = null;
 let loadingTimers = [];
+let lastTrackedDraftBucket = null;
 
 const DRAFT_STORAGE_KEY = "unstuck_live_demo_draft";
 
@@ -125,7 +126,7 @@ function setSendStatus(text = "Ready.", state = "ready") {
 }
 
 function updateDraftStatus() {
-  if (!draftStatus || !message) return;
+  if (!draftStatus || !message) return null;
   const length = message.value.trim().length;
   const bucket = getLengthBucket(message.value);
   const labels = {
@@ -137,6 +138,7 @@ function updateDraftStatus() {
   };
   draftStatus.textContent = `${labels[bucket]}${length ? ` (${length} chars)` : ""}`;
   draftStatus.dataset.state = bucket.startsWith("big") || bucket === "demo-limit-risk" ? "big" : bucket;
+  return bucket;
 }
 
 function saveDraft() {
@@ -561,9 +563,12 @@ document.addEventListener("click", (event) => {
 voiceButton.addEventListener("click", startVoiceInput);
 message.addEventListener("input", () => {
   resizeComposer();
-  updateDraftStatus();
+  const bucket = updateDraftStatus();
   saveDraft();
-  trackChat("draft length bucket changed", { input_length_bucket: getLengthBucket(message.value) });
+  if (bucket !== lastTrackedDraftBucket) {
+    lastTrackedDraftBucket = bucket;
+    trackChat("draft length bucket changed", { input_length_bucket: bucket });
+  }
 });
 message.addEventListener("keydown", (event) => {
   if (event.key === "Enter" && !event.shiftKey) {
@@ -590,7 +595,6 @@ form.addEventListener("submit", async (event) => {
   rememberPile(content);
   thread.push({ role: "user", content });
   message.value = "";
-  clearSavedDraft();
   updateDraftStatus();
   resizeComposer();
   renderMessages({ pendingText: "Holding context..." });
@@ -627,9 +631,15 @@ form.addEventListener("submit", async (event) => {
       model: body.model || null,
       input_length_bucket: inputLengthBucket,
     });
+    clearSavedDraft();
     setSendStatus("Response received.", "ready");
     renderMessages();
   } catch (error) {
+    if (!message.value.trim()) {
+      message.value = content;
+      resizeComposer();
+      updateDraftStatus();
+    }
     setSendStatus("Recovery path shown.", "ready");
     renderMessages({ errorText: error.message });
   } finally {
@@ -642,6 +652,7 @@ form.addEventListener("submit", async (event) => {
 
 renderMessages();
 restoreDraft();
+lastTrackedDraftBucket = getLengthBucket(message?.value || "");
 trackChat("chat opened");
 loadConfig().catch(() => {
   setRuntimeStatus("Runtime unavailable");

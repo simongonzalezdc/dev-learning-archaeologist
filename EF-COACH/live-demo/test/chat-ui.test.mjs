@@ -22,6 +22,11 @@ test("public demo uses a normal chat interface", () => {
   assert.match(script, /coach response received/);
   assert.match(script, /chat error shown/);
   assert.match(script, /DRAFT_STORAGE_KEY/);
+  assert.match(script, /lastTrackedDraftBucket/);
+  assert.match(script, /bucket !== lastTrackedDraftBucket/);
+  assert.match(script, /clearSavedDraft\(\);\n    setSendStatus\("Response received\./);
+  assert.doesNotMatch(script, /message\.value = "";\n  clearSavedDraft\(\);/);
+  assert.match(script, /message\.value = content/);
   assert.match(script, /Live model ready/);
   assert.doesNotMatch(script, /providerLabel\\} · \\$\\{.*model/);
   assert.match(script, /history/);
