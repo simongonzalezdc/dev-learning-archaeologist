@@ -712,7 +712,6 @@ button[data-clicked="true"] {
   }
 
   .coach-dock {
-    order: -1;
     overflow: visible;
   }
 
