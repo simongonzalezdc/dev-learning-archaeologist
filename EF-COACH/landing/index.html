@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Unstuck Coach | Executive Function Accessibility Coach</title>
+    <meta
+      name="description"
+      content="Unstuck Coach is an executive-function accessibility coach for task initiation, working memory overload, calendar and inbox reality, re-entry, and closure without shame."
+    >
+    <meta name="robots" content="index,follow">
+    <meta name="keywords" content="executive function coach, ADHD task initiation, executive-function accessibility, working memory support, body doubling, re-entry after avoidance, calendar inbox coach, AI coach">
+    <link rel="canonical" href="https://unstuck.kyanitelabs.tech/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Unstuck Coach">
+    <meta property="og:title" content="Unstuck Coach | Executive Function Accessibility Coach">
+    <meta property="og:description" content="A coach that turns a messy stuck point into one concrete next move, held context, and a tiny check.">
+    <meta property="og:url" content="https://unstuck.kyanitelabs.tech/">
+    <meta property="og:image" content="https://unstuck.kyanitelabs.tech/assets/unstuck-coach-logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Unstuck Coach | Executive Function Accessibility Coach">
+    <meta name="twitter:description" content="A coach for starting, switching, remembering, regulating, recovering, and closing loops without shame.">
+    <meta name="twitter:image" content="https://unstuck.kyanitelabs.tech/assets/unstuck-coach-logo.png">
+    <link rel="icon" type="image/png" href="./assets/unstuck-coach-logo.png">
+    <link rel="stylesheet" href="./styles.css?v=top-header-fix">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Unstuck Coach",
+        "applicationCategory": "AccessibilityApplication",
+        "operatingSystem": "Claude Project, Codex, AI IDE, local model",
+        "url": "https://unstuck.kyanitelabs.tech/",
+        "image": "https://unstuck.kyanitelabs.tech/assets/unstuck-coach-logo.png",
+        "description": "A whole-person executive-function accessibility coach that helps people turn messy stuck points into one concrete next move, held context, a tiny check, and clean re-entry.",
+        "keywords": "executive function coach, ADHD task initiation, working memory support, body doubling, re-entry after avoidance, calendar inbox coach, AI coach",
+        "audience": {
+          "@type": "Audience",
+          "audienceType": "People who need executive-function access support for task initiation, task switching, working memory, body-state routing, re-entry, and closure"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-nav" aria-label="Primary">
+      <a class="wordmark" href="#top" aria-label="Unstuck Coach home" data-analytics-event="nav link clicked" data-analytics-label="wordmark" data-analytics-destination="#top">
+        <img class="wordmark-mark" src="./assets/unstuck-coach-logo.png" alt="" aria-hidden="true" width="64" height="64">
+        Unstuck Coach
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-links" aria-label="Open navigation" data-analytics-event="nav toggled" data-analytics-label="mobile nav">
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+      </button>
+      <nav class="nav-links" id="primary-links" aria-label="Page sections">
+        <a href="https://unstuck.kyanitelabs.tech/chat/" data-analytics-event="demo cta clicked" data-analytics-label="nav live demo" data-analytics-destination="/chat/" data-analytics-surface="nav"><span>Live demo</span></a>
+        <a href="#setup" data-analytics-event="nav link clicked" data-analytics-label="set it up" data-analytics-destination="#setup"><span>Set it up</span></a>
+        <a href="https://github.com/simongonzalezdc/unstuck-coach" data-analytics-event="source link clicked" data-analytics-label="nav github" data-analytics-destination="github"><span>GitHub</span></a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="workbench-scene" aria-hidden="true">
+          <div class="mola-bridge bridge-one"></div>
+          <div class="mola-bridge bridge-two"></div>
+          <div class="runway-line"></div>
+          <div class="scene-panel task-stack">
+            <span class="panel-kicker">Held context</span>
+            <div class="task-row active"><span></span><strong>Calendar hard anchor</strong></div>
+            <div class="task-row"><span></span><strong>Inbox live item</strong></div>
+            <div class="task-row"><span></span><strong>Food before planning</strong></div>
+            <div class="task-row"><span></span><strong>Reply without shame tax</strong></div>
+            <div class="task-row"><span></span><strong>Leave breadcrumb</strong></div>
+          </div>
+          <div class="scene-panel coach-dialogue">
+            <span class="panel-kicker">Coach response</span>
+            <p>You do not need to make this clear first.</p>
+            <p>Send the messy task pile. I will sort it.</p>
+            <div class="check-line"><span></span>Waiting for tiny check</div>
+          </div>
+          <div class="scene-panel life-ledger">
+            <span class="panel-kicker">Life loop</span>
+            <p class="ledger-note">body: hungry / yellow</p>
+            <div class="ledger-status-grid" aria-label="Life ledger status">
+              <span>Body</span>
+              <strong>food first</strong>
+              <span>Admin</span>
+              <strong>one hard anchor</strong>
+              <span>Message</span>
+              <strong>literal ask</strong>
+            </div>
+            <ul class="ledger-list" aria-label="Held life loops">
+              <li>Food before planning</li>
+              <li>Text without meaning-making</li>
+              <li>Bill gets one concrete next step</li>
+              <li>Shutdown gets a breadcrumb</li>
+            </ul>
+            <div class="ledger-close">
+              <span>Re-entry</span>
+              <strong>Leave one restart mark.</strong>
+            </div>
+          </div>
+          <div class="scene-panel state-meter">
+            <span class="panel-kicker">State</span>
+            <div class="meter-track"><span></span></div>
+            <p>Yellow. Regulate, then choose one move.</p>
+          </div>
+        </div>
+
+        <div class="hero-copy">
+          <p class="eyebrow">Whole-person executive-function accessibility coach</p>
+          <h1 id="hero-title">External executive function for the whole human.</h1>
+          <p class="hero-deck">
+            Unstuck Coach helps people start, switch, remember, regulate,
+            capture ideas, recover, and close loops when intention fails to become action.
+            Food, messages, bills, transitions, and re-entry all count as access work.
+            Calendar blocks and inbox triage are not an add-on; they are where a lot of life becomes real again.
+          </p>
+          <div class="hero-life-rail" aria-label="Whole-person support surfaces">
+            <span>Food/body</span>
+            <span>Calendar/inbox</span>
+            <span>Messages</span>
+            <span>Admin</span>
+            <span>Shutdown</span>
+          </div>
+          <div class="mobile-check-panel" aria-label="Unstuck coach preview">
+            <span class="panel-kicker">Coach preview</span>
+            <div class="mobile-life-signal" aria-label="Mobile whole-person life signal">
+              <span><i></i><strong>Food first</strong><small>body before plan</small></span>
+              <span><i></i><strong>Hard anchor</strong><small>calendar before cleanup</small></span>
+              <span><i></i><strong>Literal ask</strong><small>message before meaning</small></span>
+              <span><i></i><strong>Restart mark</strong><small>re-entry before shame</small></span>
+            </div>
+            <p>You do not need to make this clear first.</p>
+            <div class="mobile-check-grid">
+              <span>Move</span>
+              <strong>Send the messy task pile.</strong>
+              <span>Check</span>
+              <strong>Any three items.</strong>
+            </div>
+          </div>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="action primary" href="https://unstuck.kyanitelabs.tech/chat/" data-analytics-event="demo cta clicked" data-analytics-label="hero open live demo" data-analytics-destination="/chat/" data-analytics-surface="hero">
+              <span class="icon icon-path" aria-hidden="true"></span>
+              Open live demo
+            </a>
+            <a class="action primary" href="#setup" data-analytics-event="setup cta clicked" data-analytics-label="hero use files" data-analytics-destination="#setup" data-analytics-surface="hero">
+              <span class="icon icon-path" aria-hidden="true"></span>
+              Use the files
+            </a>
+            <a class="action primary" href="#quality" data-analytics-event="quality cta clicked" data-analytics-label="hero what it does" data-analytics-destination="#quality" data-analytics-surface="hero">
+              <span class="icon icon-path" aria-hidden="true"></span>
+              What it does
+            </a>
+            <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach" data-analytics-event="source link clicked" data-analytics-label="hero view source" data-analytics-destination="github" data-analytics-surface="hero">
+              <span class="icon icon-source" aria-hidden="true"></span>
+              View source
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="check-strip" aria-label="Unstuck fit">
+        <div>
+          <span class="check-label">Form</span>
+          <strong>Portable Claude Project setup</strong>
+        </div>
+        <div>
+          <span class="check-label">Person</span>
+          <strong>Whole person under executive load</strong>
+        </div>
+        <div>
+          <span class="check-label">Help</span>
+          <strong>Start, switch, remember, regulate, recover, close</strong>
+        </div>
+      </section>
+
+      <section class="review-deck" aria-labelledby="review-deck-title">
+        <div class="review-deck-shell">
+          <div class="review-deck-intro">
+            <p class="eyebrow">Unstuck routes</p>
+            <h2 id="review-deck-title">Start with the loop that is real right now.</h2>
+            <p>
+              Unstuck meets executive load where it shows up: the first stuck sentence,
+              the overloaded inbox, the hungry body, the message spiral, the unfinished
+              bill, or the re-entry point after a lost thread.
+            </p>
+          </div>
+          <nav class="review-deck-nav" aria-label="Unstuck coaching routes">
+            <a href="#demo" data-panel-link="demo" data-analytics-event="landing panel opened" data-analytics-panel="demo"><span>Try it</span><strong>Same prompt, different intervention</strong></a>
+            <a href="#quality" data-panel-link="quality" data-analytics-event="landing panel opened" data-analytics-panel="quality"><span>Coach quality</span><strong>What to expect</strong></a>
+            <a href="#setup" data-panel-link="setup" data-analytics-event="landing panel opened" data-analytics-panel="setup"><span>Setup</span><strong>Copy and paste</strong></a>
+            <a href="#scope" data-panel-link="scope" data-analytics-event="landing panel opened" data-analytics-panel="scope"><span>Scope</span><strong>Whole-person surface</strong></a>
+            <a href="#admin-ops" data-panel-link="admin-ops" data-analytics-event="landing panel opened" data-analytics-panel="admin-ops"><span>Admin</span><strong>Calendar and inbox</strong></a>
+          </nav>
+          <div class="review-deck-panels" aria-live="polite">
+
+      <section id="scope" class="section review-panel scope-section" aria-labelledby="scope-title">
+        <div class="scope-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow">Whole-person operating surface</p>
+            <h2 id="scope-title">The first move can be food, a text, a calendar anchor, or a bill.</h2>
+            <p>
+              Unstuck does not turn accessibility support into more output for work.
+              It protects the person carrying the loops, then chooses the smallest humane
+              move that makes the next minute more real. A brain dump counts, and so
+              does a bounded spark when the state system needs activation fuel.
+            </p>
+            <div class="inline-actions">
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/reference/signal-map.md">
+                <span class="icon icon-path" aria-hidden="true"></span>
+                Test six life surfaces
+              </a>
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/reference/admin-ops-playbooks.md">
+                <span class="icon icon-path" aria-hidden="true"></span>
+                Calendar + inbox playbooks
+              </a>
+            </div>
+          </div>
+
+          <div class="scope-board" aria-label="Unstuck whole-person coaching modes">
+            <div class="scope-core">
+              <span class="pane-label">Unstuck loop</span>
+              <strong>State -> friction -> one humane concrete move -> tiny check -> re-entry trail.</strong>
+              <p>The coach holds the rest so the person does not have to hold it all at once.</p>
+            </div>
+
+            <ol class="scope-lanes">
+              <li>
+                <span class="scope-signal signal-body" aria-hidden="true"></span>
+                <div>
+                  <strong>Food and body</strong>
+                  <p>Hungry, fried, understimulated, overstimulated, late, or coming out of hyperfocus.</p>
+                </div>
+                <small>Reset or spark</small>
+              </li>
+              <li>
+                <span class="scope-signal signal-admin" aria-hidden="true"></span>
+                <div>
+                  <strong>Calendar and inbox</strong>
+                  <p>Hard anchors, live obligations, reply debt, missed commitments, scheduling friction.</p>
+                </div>
+                <small>Reality before cleanup</small>
+              </li>
+              <li>
+                <span class="scope-signal signal-message" aria-hidden="true"></span>
+                <div>
+                  <strong>Messages and shame</strong>
+                  <p>Separate what was said from what it means before meaning-making takes over.</p>
+                </div>
+                <small>Literal ask first</small>
+              </li>
+              <li>
+                <span class="scope-signal signal-home" aria-hidden="true"></span>
+                <div>
+                  <strong>Home and admin loops</strong>
+                  <p>Dishes, forms, bills, bags, errands, and surfaces that become too loud to enter.</p>
+                </div>
+                <small>One relief mark</small>
+              </li>
+              <li>
+                <span class="scope-signal signal-capture" aria-hidden="true"></span>
+                <div>
+                  <strong>Capture and re-entry</strong>
+                  <p>Park the idea, sort the brain dump, close the loop, and make restart visible.</p>
+                </div>
+                <small>No lost thread</small>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="admin-ops" class="section review-panel admin-rhythm-section" aria-labelledby="admin-rhythm-title">
+        <div class="admin-rhythm-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow">Calendar and inbox layer</p>
+            <h2 id="admin-rhythm-title">Calendar and inbox are part of the life loop.</h2>
+            <p>
+              The coach does not need account access to be useful. It helps the user
+              turn calendar drift, inbox noise, reply debt, missed obligations, and
+              scheduling friction into one concrete decision at a time, without
+              pretending it can read accounts or run the user's life.
+            </p>
+            <div class="inline-actions">
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/reference/admin-ops-playbooks.md">
+                <span class="icon icon-path" aria-hidden="true"></span>
+                Open admin playbooks
+              </a>
+            </div>
+          </div>
+
+          <div class="admin-rhythm-board" aria-label="Unstuck calendar and inbox coaching rhythm">
+            <figure class="admin-rhythm-visual">
+              <img
+                src="./assets/unstuck-admin-bridge.jpg"
+                alt="Layered bridge-style operating map with mail, calendar, reply, money, settings, and dashboard surfaces connected as one workflow."
+              >
+            </figure>
+            <article class="admin-rhythm-card">
+              <span class="pane-label">Calendar reality</span>
+              <strong>Find the next hard anchor before rebuilding the week.</strong>
+              <p>Meetings, deadlines, travel, pickup, sleep, meals, medication, and recovery buffers become the map.</p>
+            </article>
+            <article class="admin-rhythm-card">
+              <span class="pane-label">Inbox live obligation</span>
+              <strong>Rescue consequence before cleanup.</strong>
+              <p>One sender, subject, date, or deadline cue. Reply, schedule, delegate, park, archive, or mark not live.</p>
+            </article>
+            <article class="admin-rhythm-card">
+              <span class="pane-label">Reply debt recovery</span>
+              <strong>Repair trust without shame theater.</strong>
+              <p>Literal ask, real consequence, smallest honest reply, and a close status the user can believe.</p>
+            </article>
+            <div class="admin-boundary" aria-label="Admin operations safety boundary">
+              <span>Boundary</span>
+              <strong>No autonomous reading, sending, scheduling, or inbox-zero promises.</strong>
+              <p>Unstuck coaches the management pass and asks for a tiny check: one hard anchor, one live item, one draft, or one parked re-entry time.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cold-run" class="section review-panel coldrun-section" aria-labelledby="coldrun-title">
+        <div class="coldrun-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow">Quick start</p>
+            <h2 id="coldrun-title">Start before you read everything.</h2>
+            <p>
+              The path is deliberately small: open the live demo or paste the setup
+              instructions into Claude Project, then start with one stuck sentence.
+              The coach should cross one real threshold, not ask the user to admire
+              the whole system first.
+            </p>
+            <div class="inline-actions">
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/START_HERE.md">
+                <span class="icon icon-path" aria-hidden="true"></span>
+                View source
+              </a>
+            </div>
+          </div>
+
+          <ol class="coldrun-steps">
+            <li>
+              <span>01</span>
+              <strong>Open the live demo or GitHub source.</strong>
+              <p>The start path is visible without making someone decode the whole repo first.</p>
+            </li>
+            <li>
+              <span>02</span>
+              <strong>Paste `coach/PROJECT_INSTRUCTIONS.md`.</strong>
+              <p>The coach starts from state, friction, one concrete move, held context, check, and closure.</p>
+            </li>
+            <li>
+              <span>03</span>
+              <strong>Try the stuck-loop prompt.</strong>
+              <p>`I need a coach to get started on this.` The coach should help immediately, not explain productivity.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="brief" class="section review-panel brief-section" aria-labelledby="brief-title">
+        <div class="brief-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow">What makes it Unstuck</p>
+            <h2 id="brief-title">The coach has a clear operating loop.</h2>
+            <p>
+              Unstuck works because the coach has a stable job: plain language,
+              one humane next move, held context, safety boundaries, and life-surface
+              protocols that keep help from turning into homework.
+            </p>
+          </div>
+
+          <div class="brief-board" aria-label="Unstuck product anchors">
+            <article>
+              <span>Coach contract</span>
+              <strong>Identity, rules, examples, and reference files each carry one job.</strong>
+              <a href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/README.md">View source</a>
+            </article>
+            <article>
+              <span>Operating loop</span>
+              <strong>State, friction, move, held context, check, close.</strong>
+              <a href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/rules.md">Read rules</a>
+            </article>
+            <article>
+              <span>Examples</span>
+              <strong>One stuck sentence should become one usable next move.</strong>
+              <a href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/demo/before-after.md">See examples</a>
+            </article>
+            <article>
+              <span>Whole-person scope</span>
+              <strong>Food, messages, bills, calendar reality, shutdown, and re-entry all count.</strong>
+              <a href="https://github.com/simongonzalezdc/unstuck-coach">Read the thesis</a>
+            </article>
+            <article>
+              <span>Boundaries</span>
+              <strong>The coach helps with access; it does not pretend to be therapy or account automation.</strong>
+              <a href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/reference/safety-boundaries.md">Read boundaries</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="thesis" class="section review-panel thesis-section" aria-labelledby="thesis-title">
+        <div class="thesis-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow">Point of view</p>
+            <h2 id="thesis-title">The design is simple: reduce the next threshold.</h2>
+            <p>
+              Unstuck is built around a simple bet: the right next move is often
+              smaller than the user can find alone. The coach keeps the context
+              visible and turns the moment into something the person can actually do.
+            </p>
+            <div class="inline-actions">
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach">
+                <span class="icon icon-path" aria-hidden="true"></span>
+                View source
+              </a>
+            </div>
+          </div>
+
+          <div class="thesis-points" aria-label="Unstuck product thesis">
+            <article>
+              <span class="pane-label">Context</span>
+              <strong>The project files give the coach a stable job.</strong>
+              <p>Claude Project knowledge becomes the operating surface, so every file has one coaching purpose.</p>
+            </article>
+            <article>
+              <span class="pane-label">Operating loop</span>
+              <strong>The coach covers start, switch, remember, regulate, capture, recover, and close.</strong>
+              <p>The stuck-loop prompt is only the fastest example; the product is broader accessibility scaffolding for a whole person.</p>
+            </article>
+            <article>
+              <span class="pane-label">Boundary</span>
+              <strong>The coach stops before therapy or execution.</strong>
+              <p>It protects dignity, reduces the first move, and leaves re-entry visible.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="handoff" class="section review-panel handoff-section" aria-labelledby="handoff-title">
+        <div class="handoff-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow">Shareable setup</p>
+            <h2 id="handoff-title">A new user can test the coach without a call.</h2>
+            <p>
+              The setup keeps the promise legible: when to use it, what good coaching
+              looks like, where the limits are, and where to start.
+            </p>
+            <div class="inline-actions">
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/PROJECT_INSTRUCTIONS.md">
+                <span class="icon icon-path" aria-hidden="true"></span>
+                Read setup notes
+              </a>
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach">
+                <span class="icon icon-source" aria-hidden="true"></span>
+                View source
+              </a>
+            </div>
+          </div>
+          <figure class="handoff-figure">
+            <img src="./assets/unstuck-handoff-card.svg" alt="Unstuck Coach handoff card showing the coaching loop: state, friction, move, hold, check, close.">
+          </figure>
+        </div>
+      </section>
+
+      <section id="setup" class="section review-panel setup-section" aria-labelledby="setup-title">
+        <div class="setup-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow">Set it up</p>
+            <h2 id="setup-title">Load the coach files.</h2>
+            <p>
+              Unstuck runs through the project context. Add the coach files to
+              Claude Project or another AI workspace, use the project instructions,
+              and begin with the stuck point in front of you.
+            </p>
+            <div class="inline-actions">
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/PROJECT_INSTRUCTIONS.md">
+                <span class="icon icon-path" aria-hidden="true"></span>
+                Project instructions
+              </a>
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach">
+                <span class="icon icon-source" aria-hidden="true"></span>
+                View source
+              </a>
+            </div>
+          </div>
+
+          <div class="setup-board setup-flow" aria-label="Unstuck project context paths">
+            <div class="setup-path-list" aria-label="Runner paths">
+              <article>
+                <span class="pane-label">Claude Project path</span>
+                <strong>Add the project files as knowledge.</strong>
+                <p>Use `coach/PROJECT_INSTRUCTIONS.md` as the project instruction, then start with whatever is stuck.</p>
+              </article>
+              <article>
+                <span class="pane-label">Codex path</span>
+                <strong>Open this project as the workspace.</strong>
+                <p>Ask Codex to read `coach/PROJECT_INSTRUCTIONS.md`, `coach/START_HERE.md`, `coach/identity.md`, `coach/rules.md`, `coach/examples.md`, and `reference/` before coaching.</p>
+              </article>
+              <article>
+                <span class="pane-label">Antigravity / AI IDE path</span>
+                <strong>Create a project from the Unstuck files.</strong>
+                <p>Keep file access scoped to this project, then load the same coach contract.</p>
+              </article>
+              <article>
+                <span class="pane-label">Local model path</span>
+                <strong>Paste the operating files into context.</strong>
+                <p>Use `coach/PROJECT_INSTRUCTIONS.md`, `coach/identity.md`, `coach/rules.md`, `coach/examples.md`, `reference/coaching-protocols.md`, `reference/signal-map.md`, and `reference/safety-boundaries.md`.</p>
+              </article>
+            </div>
+
+            <article class="setup-note">
+              <span class="pane-label">What good help does</span>
+              <strong>It should make the next move easier.</strong>
+              <p>Name the friction, give one concrete move, and ask for tiny check. No article, no menu, no moralizing.</p>
+              <p>`coach/PROJECT_INSTRUCTIONS.md` routes concrete stuck signals directly. The coach should not ask the traffic-light question first.</p>
+              <a href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/PROJECT_INSTRUCTIONS.md">Read setup instructions</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="quality" class="section review-panel quality-section" aria-labelledby="quality-title">
+        <div class="quality-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow">Coach quality</p>
+            <h2 id="quality-title">Know whether the coach is helping.</h2>
+            <p>
+              The fastest signal is the response to a stuck prompt. It should
+              change the next move, not explain executive dysfunction.
+            </p>
+            <div class="inline-actions">
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach">
+                <span class="icon icon-path" aria-hidden="true"></span>
+                View source
+              </a>
+              <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/reference/safety-boundaries.md">
+                <span class="icon icon-path" aria-hidden="true"></span>
+                Read boundaries
+              </a>
+            </div>
+          </div>
+
+          <div class="quality-board" aria-label="Useful coach behavior">
+            <article>
+              <span class="pane-label">Pass 01</span>
+              <strong>Names friction.</strong>
+              <p>Task-start friction, overload, communication threat, capture, recovery, or calibration need.</p>
+            </article>
+            <article>
+              <span class="pane-label">Pass 02</span>
+              <strong>Gives one move.</strong>
+              <p>One concrete action the user can do now, not a list of competing tactics.</p>
+            </article>
+            <article>
+              <span class="pane-label">Pass 03</span>
+              <strong>Holds context.</strong>
+              <p>The coach keeps the rest of the task list out of working memory.</p>
+            </article>
+            <article>
+              <span class="pane-label">Pass 04</span>
+              <strong>Asks for a tiny check.</strong>
+              <p>The reply ends with one answer or one state signal.</p>
+            </article>
+            <article class="fail-card">
+              <span class="pane-label">Not good enough</span>
+              <strong>Article, menu, moralizing, vague continuation, or unsafe clinical advice.</strong>
+              <p>If the response does that, the coach is not doing enough.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="section review-panel faq-section" aria-labelledby="faq-title">
+        <div class="section-heading compact">
+          <p class="eyebrow">Boundaries</p>
+          <h2 id="faq-title">The coach helps with the next move, not someone else's life.</h2>
+          <p>
+            Unstuck does not read accounts, send messages, schedule events, or
+            promise inbox zero. It helps the user name what is real and choose one
+            humane next action.
+          </p>
+          <div class="inline-actions">
+            <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/reference/safety-boundaries.md">
+              <span class="icon icon-path" aria-hidden="true"></span>
+              Read boundaries
+            </a>
+            <a class="action secondary" href="https://github.com/simongonzalezdc/unstuck-coach/blob/main/coach/rules.md">
+              <span class="icon icon-source" aria-hidden="true"></span>
+              Read rules
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="demo" class="section review-panel demo-section" aria-labelledby="demo-title">
+        <div class="section-heading">
+          <p class="eyebrow">The difference in the first minute</p>
+          <h2 id="demo-title">Same prompt. Different intervention.</h2>
+          <p>
+            A knowledge base explains executive dysfunction. A coach changes the next humane move and preserves the loop.
+          </p>
+        </div>
+
+        <div class="demo-shell">
+          <div class="prompt-rail" role="tablist" aria-label="Demo prompts">
+            <button class="prompt-tab active" type="button" data-demo="0" role="tab" aria-selected="true">
+              Life freeze
+            </button>
+            <button class="prompt-tab" type="button" data-demo="1" role="tab" aria-selected="false">
+              Get started
+            </button>
+            <button class="prompt-tab" type="button" data-demo="2" role="tab" aria-selected="false">
+              Message spiral
+            </button>
+            <button class="prompt-tab" type="button" data-demo="3" role="tab" aria-selected="false">
+              Inbox/calendar
+            </button>
+            <button class="prompt-tab" type="button" data-demo="4" role="tab" aria-selected="false">
+              Too many loops
+            </button>
+            <button class="prompt-tab" type="button" data-demo="5" role="tab" aria-selected="false">
+              Failed plan
+            </button>
+          </div>
+
+          <div class="comparison-grid">
+            <article class="response-pane user-pane">
+              <span class="pane-label">User says</span>
+              <p id="demo-prompt">I need to pay the bill, eat something, and answer the text, but I am frozen.</p>
+            </article>
+            <article class="response-pane generic-pane">
+              <span class="pane-label">Generic assistant</span>
+              <p id="demo-generic">Make a list, decide what is most important, set a timer, and reward yourself when you finish.</p>
+            </article>
+            <article class="response-pane unstuck-pane">
+              <span class="pane-label">Unstuck Coach</span>
+              <p id="demo-unstuck">I am holding the three loops. Biology comes first because planning on empty is false data. Eat the smallest available food, then reply with one word: fed.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="method" class="section review-panel method-section" aria-labelledby="method-title">
+        <div class="section-heading compact">
+          <p class="eyebrow">Interpretable context methodology</p>
+          <h2 id="method-title">Each file owns one coaching job.</h2>
+        </div>
+
+        <div class="file-map" aria-label="Source structure">
+          <article class="file-node">
+            <span class="file-index">01</span>
+            <h3>coach/identity.md</h3>
+            <p>Defines the athlete, coaching promise, voice, and boundaries.</p>
+          </article>
+          <article class="file-node">
+            <span class="file-index">02</span>
+            <h3>coach/rules.md</h3>
+            <p>Turns executive-function signals into state, friction, move, hold, check, close.</p>
+          </article>
+          <article class="file-node">
+            <span class="file-index">03</span>
+            <h3>coach/examples.md</h3>
+            <p>Shows calibrated coaching under shame, overload, communication threat, and task-start friction.</p>
+          </article>
+          <article class="file-node">
+            <span class="file-index">04</span>
+            <h3>reference/</h3>
+            <p>Holds protocols, admin operations playbooks, safety boundaries, source notes, and the signal map.</p>
+          </article>
+          <article class="file-node">
+            <span class="file-index">05</span>
+            <h3>README.md</h3>
+            <p>Gives a stranger the setup path and starter messages.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="behavior" class="section review-panel behavior-section" aria-labelledby="behavior-title">
+        <div class="section-heading">
+          <p class="eyebrow">Research made behavioral</p>
+          <h2 id="behavior-title">The coach does not describe friction. It handles it.</h2>
+        </div>
+
+        <div class="behavior-grid">
+          <article>
+            <h3>Working memory overload</h3>
+            <p>Holds the list, returns one next move, and parks the rest visibly.</p>
+          </article>
+          <article>
+            <h3>Time blindness</h3>
+            <p>Budgets setup, resistance, testing, transitions, and re-entry before the hard stop.</p>
+          </article>
+          <article>
+            <h3>Shame after avoidance</h3>
+            <p>Reconstructs from artifacts, not memory, and removes the shame tax.</p>
+          </article>
+          <article>
+            <h3>Novelty pull</h3>
+            <p>Uses a tangent firewall: chase, bookmark, or discard.</p>
+          </article>
+          <article>
+            <h3>Hyperfocus crash</h3>
+            <p>Closes the loop with biological recovery and one re-entry breadcrumb.</p>
+          </article>
+          <article>
+            <h3>Communication threat</h3>
+            <p>Sorts comments into correctness, style, scope, or confusion before meaning-making.</p>
+          </article>
+        </div>
+      </section>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./posthog.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
