@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { createServer as createNetServer } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -263,6 +263,15 @@ test("generated Hostinger compose targets GLM-5.1 with medium reasoning", () => 
   assert.match(result.stdout, /OPENAI_MODEL: glm-5\.1/);
   assert.match(result.stdout, /thinking:\{type:"enabled"\}/);
   assert.doesNotMatch(result.stdout, /test-zai-secret/);
+});
+
+test("VPS compose keeps PostHog keys in deploy-time environment only", () => {
+  const compose = readFileSync(new URL("../deploy/docker-compose.vps.yml", import.meta.url), "utf8");
+
+  assert.doesNotMatch(compose, /phc_[A-Za-z0-9_]+/);
+  assert.match(compose, /POSTHOG_ENABLED: \$\{POSTHOG_ENABLED:-false\}/);
+  assert.match(compose, /POSTHOG_PROJECT_API_KEY: \$\{POSTHOG_PROJECT_API_KEY:-\}/);
+  assert.match(compose, /POSTHOG_HOST: \$\{POSTHOG_HOST:-https:\/\/us\.i\.posthog\.com\}/);
 });
 
 test("generated Hostinger demo preserves ongoing conversation history", () => {

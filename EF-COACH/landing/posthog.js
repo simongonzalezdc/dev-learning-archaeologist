@@ -3,7 +3,7 @@
   "use strict";
 
   var PH_PROXY = "https://puenteworks.com/ph";
-  var PH_KEY = "phc_xCWVuCx8TVyi3YUzfVNX8BwznXbSvN9jesgEMkNs7Bde";
+  var PH_KEY = getPosthogKey();
   var MAX_EVENTS_PER_SESSION = 24;
   var MAX_REPEATS_PER_EVENT = 5;
   var EVENT_VERSION = "2026-05-27";
@@ -22,6 +22,13 @@
     } catch (_) {
       return "uas_ephemeral";
     }
+  }
+
+  function getPosthogKey() {
+    var config = window.UnstuckAnalyticsConfig || {};
+    var meta = document.querySelector('meta[name="posthog-project-key"]');
+    var key = config.posthogProjectKey || (meta && meta.getAttribute("content")) || "";
+    return String(key).trim();
   }
 
   function getVisitorId() {
@@ -80,18 +87,21 @@
   }
 
   function sendViaBeacon(eventName, properties) {
+    if (!PH_KEY) return false;
     var payload = JSON.stringify({ api_key: PH_KEY, event: eventName, properties: properties });
     if (navigator.sendBeacon) {
       var blob = new Blob([payload], { type: "application/json" });
-      if (navigator.sendBeacon(PH_PROXY + "/e/", blob)) return;
+      if (navigator.sendBeacon(PH_PROXY + "/e/", blob)) return true;
     }
     try {
       var xhr = new XMLHttpRequest();
       xhr.open("POST", PH_PROXY + "/e/", true);
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.send(payload);
+      return true;
     } catch (_) {
       // Analytics must never break the product surface.
+      return false;
     }
   }
 
@@ -106,8 +116,7 @@
         // Fall back to direct ingestion.
       }
     }
-    sendViaBeacon(eventName, safeProperties);
-    return true;
+    return sendViaBeacon(eventName, safeProperties);
   }
 
   window.UnstuckAnalytics = {
@@ -118,6 +127,7 @@
       max_repeats_per_event: MAX_REPEATS_PER_EVENT,
       session_replay_enabled: false,
       autocapture_enabled: false,
+      configured: Boolean(PH_KEY),
     },
   };
 

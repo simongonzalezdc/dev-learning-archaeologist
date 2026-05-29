@@ -26,6 +26,20 @@ Unstuck is working when:
 - Each file has one clear job, so the method is easy to inspect and reuse.
 - A new reader can open this README, try the live demo, or load the project files without needing private keys or an npm setup.
 
+## Live Demo Configuration
+
+The live demo can send low-volume anonymous usage events to PostHog, but the repo
+does not ship a project key. Keep analytics keys in deploy-time environment
+variables:
+
+- `POSTHOG_ENABLED=true`
+- `POSTHOG_PROJECT_API_KEY=<set in the deploy environment>`
+- `POSTHOG_HOST=https://us.i.posthog.com`
+
+The browser tracker also refuses to send direct analytics unless the deployed
+page provides `window.UnstuckAnalyticsConfig.posthogProjectKey` or a
+`posthog-project-key` meta tag. Do not commit live analytics keys to source.
+
 ## Use It Through Project Context
 
 Unstuck Coach is meant to run from the project files themselves. There is no npm
