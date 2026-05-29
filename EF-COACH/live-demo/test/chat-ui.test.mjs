@@ -16,6 +16,7 @@ test("public demo uses a normal chat interface", () => {
   assert.match(html, /\.\/posthog\.js/);
   assert.doesNotMatch(html, /Optional visible context|result-panel|Coach reply/);
 
+  assert.doesNotMatch(script, /phc_[A-Za-z0-9_]+/);
   assert.match(script, /renderMessages/);
   assert.match(script, /function trackChat/);
   assert.match(script, /chat prompt submitted/);
@@ -32,6 +33,18 @@ test("public demo uses a normal chat interface", () => {
   assert.match(script, /history/);
   assert.match(script, /thread\.push\(\{ role: "user"/);
   assert.match(script, /thread\.push\(\{ role: "assistant"/);
+});
+
+test("analytics trackers require runtime config instead of embedding a PostHog key", () => {
+  const chatTracker = readFileSync(new URL("../public/posthog.js", import.meta.url), "utf8");
+  const landingTracker = readFileSync(new URL("../../landing/posthog.js", import.meta.url), "utf8");
+
+  for (const tracker of [chatTracker, landingTracker]) {
+    assert.doesNotMatch(tracker, /phc_[A-Za-z0-9_]+/);
+    assert.match(tracker, /UnstuckAnalyticsConfig/);
+    assert.match(tracker, /posthog-project-key/);
+    assert.match(tracker, /if \(!PH_KEY\) return false/);
+  }
 });
 
 test("public demo includes the support panel low-friction sidecar", () => {
