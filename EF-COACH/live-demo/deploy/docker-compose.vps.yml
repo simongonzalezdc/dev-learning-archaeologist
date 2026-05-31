@@ -8,7 +8,7 @@ services:
       PORT: "3000"
       LLM_PROVIDER: zai-coding-plan
       ZAI_API_KEY: ${ZAI_API_KEY:?ZAI_API_KEY required}
-      OPENAI_MODEL: glm-5.1
+      OPENAI_MODEL: glm-4.5-air
       COACH_RATE_LIMIT_MAX: "12"
       COACH_RATE_LIMIT_WINDOW_MS: "600000"
       COACH_MAX_CONCURRENT_MODEL_CALLS: "2"

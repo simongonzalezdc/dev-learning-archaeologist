@@ -22,6 +22,8 @@ const thread = [];
 const heldItems = [];
 let energyLevel = null;
 let currentRecognition = null;
+let voiceBaseDraft = "";
+let lastVoiceTranscript = "";
 let loadingTimers = [];
 let lastTrackedDraftBucket = null;
 
@@ -448,20 +450,46 @@ function getSpeechRecognition() {
 
 function getVoiceErrorMessage(error) {
   if (error === "not-allowed" || error === "service-not-allowed") {
-    return "Microphone permission was blocked. You can still type or use a chip.";
+    return "Microphone permission was blocked. I focused the box for keyboard dictation or fragments.";
   }
   if (error === "no-speech") {
-    return "No speech caught. Try Mic again and say the messy version.";
+    return "No speech caught. Try Mic again, or use keyboard dictation in the box.";
   }
   if (error === "audio-capture") {
-    return "No microphone was found. The chips still work.";
+    return "No microphone was found. I focused the box for keyboard dictation or fragments.";
   }
-  return "Voice typing did not start. The chips still work.";
+  return "Voice typing did not start. I focused the box for keyboard dictation or fragments.";
+}
+
+function focusManualDictationFallback(status, starterText = "") {
+  if (starterText && !message.value.trim()) {
+    insertText(starterText);
+  } else {
+    message.focus();
+    message.setSelectionRange?.(message.value.length, message.value.length);
+  }
+  setVoiceState(status, false);
+}
+
+function extractRecognitionTranscript(event) {
+  return Array.from(event.results || [])
+    .map((result) => result[0]?.transcript || "")
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function applyVoiceTranscript(transcript) {
+  lastVoiceTranscript = transcript;
+  message.value = [voiceBaseDraft, transcript].filter(Boolean).join(" ").trim();
+  resizeComposer();
+  updateDraftStatus();
+  saveDraft();
 }
 
 function startVoiceInput() {
   if (currentRecognition) {
-    stopVoiceInput();
+    stopVoiceInput("Stopped listening. Captured text stays in the box.");
     return;
   }
 
@@ -469,33 +497,39 @@ function startVoiceInput() {
 
   if (!SpeechRecognition) {
     trackChat("voice failed", { reason: "unsupported" });
-    setVoiceState("Voice typing is not available here. I put a no-typing prompt in the box.");
-    insertText("I'm too overloaded to type. Help me start.");
+    focusManualDictationFallback(
+      "Voice typing is not available in this browser. I focused the box for keyboard dictation.",
+      "I'm too overloaded to type. Help me start.",
+    );
     return;
   }
 
-  const recognition = new SpeechRecognition();
+  let recognition;
+  try {
+    recognition = new SpeechRecognition();
+  } catch {
+    trackChat("voice failed", { reason: "constructor" });
+    focusManualDictationFallback("Voice typing did not initialize. I focused the box for keyboard dictation.");
+    return;
+  }
   let endedWithError = false;
-  recognition.lang = "en-US";
+  voiceBaseDraft = message.value.trim();
+  lastVoiceTranscript = "";
+  recognition.lang = navigator.language || "en-US";
   recognition.interimResults = true;
-  recognition.continuous = false;
+  recognition.continuous = true;
+  recognition.maxAlternatives = 1;
   currentRecognition = recognition;
 
   recognition.addEventListener("start", () => {
     trackChat("voice started");
-    setVoiceState("Listening. Say the messy version.", true);
+    setVoiceState("Listening. Say the messy version. Tap Mic again to stop.", true);
   });
 
   recognition.addEventListener("result", (event) => {
-    const transcript = Array.from(event.results)
-      .map((result) => result[0]?.transcript || "")
-      .join(" ")
-      .trim();
+    const transcript = extractRecognitionTranscript(event);
     if (transcript) {
-      message.value = transcript;
-      resizeComposer();
-      updateDraftStatus();
-      saveDraft();
+      applyVoiceTranscript(transcript);
       trackChat("voice transcript received", { input_length_bucket: getLengthBucket(transcript) });
       voiceStatus.textContent = "Captured speech. Send when ready, or keep talking.";
     }
@@ -510,7 +544,7 @@ function startVoiceInput() {
     setVoiceState(
       endedWithError
         ? voiceStatus.textContent
-        : message.value.trim()
+        : lastVoiceTranscript || message.value.trim()
           ? "Captured. Press Enter or Send."
           : "No speech captured. Try Mic again or use a chip.",
       false,
@@ -521,14 +555,15 @@ function startVoiceInput() {
   recognition.addEventListener("error", (event) => {
     endedWithError = true;
     trackChat("voice failed", { reason: event.error || "unknown" });
-    setVoiceState(getVoiceErrorMessage(event.error), false);
+    focusManualDictationFallback(getVoiceErrorMessage(event.error));
   });
 
   try {
     recognition.start();
   } catch {
     currentRecognition = null;
-    setVoiceState("Voice typing did not start. Try a chip or type fragments.", false);
+    trackChat("voice failed", { reason: "start" });
+    focusManualDictationFallback("Voice typing did not start. I focused the box for keyboard dictation.");
   }
 }
 

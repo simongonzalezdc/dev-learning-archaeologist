@@ -75,7 +75,7 @@ async function startGeneratedServer(t) {
       CONTEXT_BASE_URL: "http://127.0.0.1:9",
       OPENAI_BASE_URL: "http://127.0.0.1:9/v1",
       OPENAI_API_KEY: "test-key",
-      OPENAI_MODEL: "glm-5.1",
+      OPENAI_MODEL: "glm-4.5-air",
     },
     stdio: ["ignore", "ignore", "pipe"],
   });
@@ -246,7 +246,7 @@ test("generated VPS-local server forces plain coach output instead of protocol l
   assert.match(result.stdout, /AbortSignal\.timeout/);
 });
 
-test("generated Hostinger compose targets GLM-5.1 with medium reasoning", () => {
+test("generated Hostinger compose targets GLM-4.5-Air with thinking mode", () => {
   const result = spawnSync("node", ["live-demo/scripts/build-hostinger-compose.mjs"], {
     cwd: new URL("../..", import.meta.url),
     encoding: "utf8",
@@ -260,7 +260,7 @@ test("generated Hostinger compose targets GLM-5.1 with medium reasoning", () => 
   assert.ok(result.stdout.length < 8192, `compose was ${result.stdout.length} bytes`);
 
   assert.match(result.stdout, /OPENAI_BASE_URL: https:\/\/api\.z\.ai\/api\/coding\/paas\/v4/);
-  assert.match(result.stdout, /OPENAI_MODEL: glm-5\.1/);
+  assert.match(result.stdout, /OPENAI_MODEL: glm-4\.5-air/);
   assert.match(result.stdout, /thinking:\{type:"enabled"\}/);
   assert.doesNotMatch(result.stdout, /test-zai-secret/);
 });
