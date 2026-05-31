@@ -22,15 +22,15 @@ test("resolveLlmConfig supports OpenAI-compatible VPS-local endpoints", () => {
   assert.equal(config.chatCompletionsUrl, "http://host.docker.internal:8085/v1/chat/completions");
 });
 
-test("resolveLlmConfig supports GLM-5.1 with medium reasoning", () => {
+test("resolveLlmConfig supports GLM-4.5-Air with thinking mode", () => {
   const config = resolveLlmConfig({
     LLM_PROVIDER: "zai-coding-plan",
     ZAI_API_KEY: "zai-secret",
   });
 
   assert.equal(config.provider, "zai-coding-plan");
-  assert.equal(config.providerLabel, "Z.AI GLM-5.1 (medium reasoning)");
-  assert.equal(config.model, "glm-5.1");
+  assert.equal(config.providerLabel, "Z.AI GLM-4.5-Air");
+  assert.equal(config.model, "glm-4.5-air");
   assert.equal(config.chatCompletionsUrl, "https://api.z.ai/api/coding/paas/v4/chat/completions");
   assert.equal(config.chatMaxTokens, 1200);
   assert.deepEqual(config.chatExtraBody, {
@@ -83,7 +83,7 @@ test("request builders put the coach contract in server-side instructions", () =
   const glm = buildChatCompletionsRequest({
     instructions,
     messages,
-    model: "glm-5.1",
+    model: "glm-4.5-air",
     maxTokens: 1200,
     extraBody: { thinking: { type: "enabled" } },
   });

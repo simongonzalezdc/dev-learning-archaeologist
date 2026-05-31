@@ -1,7 +1,7 @@
 const DEFAULT_RESPONSES_MODEL = "gpt-5.5";
 const DEFAULT_COMPATIBLE_MODEL = "Qwen3.5-0.8B-Q4_K_M";
 const ZAI_CODING_PLAN_BASE_URL = "https://api.z.ai/api/coding/paas/v4";
-const ZAI_GLM_51_MODEL = "glm-5.1";
+const ZAI_GLM_AIR_MODEL = "glm-4.5-air";
 const DEFAULT_LLM_TIMEOUT_MS = 25_000;
 const GLM_THINKING_MAX_TOKENS = 1200;
 const HOME_OPENAI_PROVIDERS = new Set(["home-openai", "nucbox-openai"]);
@@ -26,13 +26,13 @@ export function resolveLlmConfig(env = process.env) {
 
   if (provider === "zai-coding-plan") {
     const apiKey = env.ZAI_API_KEY || env.OPENAI_API_KEY || env.LLM_API_KEY;
-    const model = env.OPENAI_MODEL || env.LLM_MODEL || ZAI_GLM_51_MODEL;
+    const model = env.OPENAI_MODEL || env.LLM_MODEL || ZAI_GLM_AIR_MODEL;
     if (!apiKey) {
       throw new Error("ZAI_API_KEY is required for Z.AI GLM Coding Plan mode.");
     }
     return {
       provider,
-      providerLabel: "Z.AI GLM-5.1 (medium reasoning)",
+      providerLabel: "Z.AI GLM-4.5-Air",
       model,
       apiKey,
       chatCompletionsUrl: `${ZAI_CODING_PLAN_BASE_URL}/chat/completions`,

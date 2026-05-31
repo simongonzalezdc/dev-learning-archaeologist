@@ -73,8 +73,17 @@ test("public demo includes the support panel low-friction sidecar", () => {
   assert.match(script, /function startVoiceInput/);
   assert.match(script, /function stopVoiceInput/);
   assert.match(script, /function getSpeechRecognition/);
+  assert.match(script, /function focusManualDictationFallback/);
+  assert.match(script, /function extractRecognitionTranscript/);
+  assert.match(script, /function applyVoiceTranscript/);
+  assert.match(script, /let voiceBaseDraft/);
   assert.match(script, /interimResults = true/);
+  assert.match(script, /continuous = true/);
+  assert.match(script, /maxAlternatives = 1/);
+  assert.match(script, /navigator\.language \|\| "en-US"/);
   assert.match(script, /Microphone permission was blocked/);
+  assert.match(script, /keyboard dictation/);
+  assert.match(script, /message\.setSelectionRange/);
   assert.match(script, /function inferState/);
   assert.match(script, /const state = inferState\(lastUser\)/);
   assert.doesNotMatch(script, /inferState\(`\\$\\{lastUser\\} \\$\\{lastAssistant\\}`\)/);
