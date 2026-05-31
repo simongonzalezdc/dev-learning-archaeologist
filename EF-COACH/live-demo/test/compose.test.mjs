@@ -333,6 +333,24 @@ test("generated Hostinger demo presents a normal chat interface", () => {
   assert.doesNotMatch(page, /Optional context|Execution|Coach reply/);
 });
 
+test("generated Hostinger demo uses the Unstuck product design tokens", () => {
+  const result = spawnSync("node", ["live-demo/scripts/build-hostinger-compose.mjs"], {
+    cwd: new URL("../..", import.meta.url),
+    encoding: "utf8",
+    env: {
+      ...process.env,
+      UNSTUCK_LIVE_PROVIDER: "zai-coding-plan",
+    },
+  });
+  assert.equal(result.status, 0, result.stderr);
+
+  const page = extractInlinePage(result.stdout);
+  assert.match(page, /#08758d/);
+  assert.match(page, /#064b5f/);
+  assert.match(page, /Atkinson Hyperlegible/);
+  assert.doesNotMatch(page, /#2f8e86|#d9a72f|Georgia|magenta|rainbow/i);
+});
+
 test("generated Hostinger demo has parseable browser JavaScript", () => {
   const result = spawnSync("node", ["live-demo/scripts/build-hostinger-compose.mjs"], {
     cwd: new URL("../..", import.meta.url),
