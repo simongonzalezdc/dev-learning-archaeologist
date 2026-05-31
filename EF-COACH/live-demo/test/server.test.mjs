@@ -22,7 +22,8 @@ test("GET routes serve the canonical landing site and chat demo", async (t) => {
   const landing = await fetch(`${baseUrl}/`);
   assert.equal(landing.status, 200);
   const landingHtml = await landing.text();
-  assert.match(landingHtml, /Unstuck Coach \| Executive Function Accessibility Coach/);
+  assert.match(landingHtml, /Unstuck Coach \| Paste the stuck sentence/);
+  assert.match(landingHtml, /Paste the stuck sentence\./);
   assert.match(landingHtml, /href="https:\/\/unstuck\.kyanitelabs\.tech\/"/);
   assert.match(landingHtml, /href="https:\/\/unstuck\.kyanitelabs\.tech\/chat\/"/);
   assert.match(landing.headers.get("content-security-policy") || "", /connect-src 'self' https:\/\/puenteworks\.com/);

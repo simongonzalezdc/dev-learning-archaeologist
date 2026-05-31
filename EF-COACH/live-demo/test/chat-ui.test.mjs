@@ -94,17 +94,20 @@ test("public demo includes a one-click energy check", () => {
 test("public demo uses the landing design language", () => {
   const css = readFileSync(new URL("../public/styles.css", import.meta.url), "utf8");
 
-  assert.match(css, /--paper: #fff8ec/);
-  assert.match(css, /--ink: #060910/);
-  assert.match(css, /--gold: #ffc018/);
-  assert.match(css, /--magenta: #ff147f/);
-  assert.match(css, /body::after/);
-  assert.match(css, /border: 2px solid var\(--ink\)/);
-  assert.match(css, /linear-gradient\(145deg, rgba\(6, 9, 16, 0\.98\), rgba\(6, 67, 74, 0\.96\)\)/);
-  assert.match(css, /font-family: var\(--editorial\)/);
+  assert.match(css, /--paper: #f7f3ea/);
+  assert.match(css, /--ink: #101317/);
+  assert.match(css, /--apatite-700: #08758d/);
+  assert.match(css, /--apatite-50: #eaf8f7/);
+  assert.match(css, /--font-sans: "Atkinson Hyperlegible"/);
+  assert.match(css, /--measure: 66ch/);
+  assert.match(css, /body::before/);
+  assert.match(css, /button\[type="submit"\]/);
+  assert.match(css, /background: var\(--apatite-700\)/);
   assert.doesNotMatch(css, /\.coach-dock \{[\s\S]*?order: -1/);
 
   assert.doesNotMatch(css, /color-scheme: dark/);
   assert.doesNotMatch(css, /--bg: #0c0e0c/);
   assert.doesNotMatch(css, /#000\b/i);
+  assert.doesNotMatch(css, /--magenta|--cyan|--lime|--orange|--gold/);
+  assert.doesNotMatch(css, /font-family: var\(--editorial\)/);
 });
