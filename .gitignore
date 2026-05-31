@@ -1,7 +1,13 @@
 .DS_Store
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
 .omx/
 .omc/
 .playwright-mcp/
 *.omc
 learning-archaeologist-report.html
 report-*.png
+.worktrees/
