@@ -132,3 +132,15 @@ For the installable, CLI-driven archaeology pipeline with SQLite databases, Data
 ## License
 
 MIT
+
+---
+
+## Part of KyaniteLabs
+
+Open-source tools by [KyaniteLabs](https://kyanitelabs.tech). Related projects:
+
+- **[devarch-framework](https://github.com/KyaniteLabs/devarch-framework)** — git-repository archaeology framework
+- **[checkyourself](https://github.com/KyaniteLabs/checkyourself)** — local-first production-readiness checks for AI-built code
+- **[Elixis](https://github.com/KyaniteLabs/Elixis)** — local-first AI pattern-synthesis engine for ideas
+
+→ More at **[kyanitelabs.tech](https://kyanitelabs.tech)**
