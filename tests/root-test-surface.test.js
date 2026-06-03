@@ -5,11 +5,10 @@ const test = require("node:test");
 
 const repoRoot = join(__dirname, "..");
 
-test("root test command exposes the nested live-demo suite", () => {
+test("root test command stays scoped to Dev Learning Archaeologist", () => {
   const pkg = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8"));
 
-  assert.equal(pkg.scripts.test, "node --test tests/*.test.js && npm --prefix EF-COACH test");
-  assert.ok(existsSync(join(repoRoot, "EF-COACH", "live-demo", "test", "server.test.mjs")));
-  assert.ok(existsSync(join(repoRoot, "EF-COACH", "live-demo", "test", "chat-ui.test.mjs")));
-  assert.ok(existsSync(join(repoRoot, "EF-COACH", "live-demo", "test", "compose.test.mjs")));
+  assert.equal(pkg.name, "dev-learning-archaeologist");
+  assert.equal(pkg.scripts.test, "node --test tests/*.test.js");
+  assert.equal(existsSync(join(repoRoot, "EF-COACH")), false);
 });
