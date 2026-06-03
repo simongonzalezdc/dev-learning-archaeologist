@@ -137,7 +137,7 @@ MIT
 
 ## Part of KyaniteLabs
 
-Open-source tools by [KyaniteLabs](https://kyanitelabs.tech). Related projects:
+More from [KyaniteLabs](https://kyanitelabs.tech). Related projects:
 
 - **[devarch-framework](https://github.com/KyaniteLabs/devarch-framework)** — git-repository archaeology framework
 - **[checkyourself](https://github.com/KyaniteLabs/checkyourself)** — local-first production-readiness checks for AI-built code
