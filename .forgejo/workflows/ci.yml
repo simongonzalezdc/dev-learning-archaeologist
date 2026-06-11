@@ -6,7 +6,7 @@ jobs:
   test:
     runs-on: docker
     container:
-      image: node:22-slim
+      image: node:26-slim
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
