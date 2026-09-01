@@ -1,5 +1,9 @@
 # Dev Learning Archaeologist
 
+> Dev Learning Archaeologist is a tool for excavating and structuring developer learning history that helps developers reflecting on learning paths and skill archaeology mine and structure learning history into usable insight.
+
+**TL;DR:** Dev Learning Archaeologist — tool for excavating and structuring developer learning history. Best for developers reflecting on learning paths and skill archaeology.
+
 > **Drop this folder into any project, open Claude Code, and get a full forensic learning diagnostic in 60 seconds.**
 
 <p align="center">
@@ -132,3 +136,86 @@ For the installable, CLI-driven archaeology pipeline with SQLite databases, Data
 ## License
 
 MIT
+
+---
+
+## Part of KyaniteLabs
+
+More from [KyaniteLabs](https://kyanitelabs.tech). Related projects:
+
+- **[devarch-framework](https://github.com/KyaniteLabs/devarch-framework)** — git-repository archaeology framework
+- **[checkyourself](https://github.com/KyaniteLabs/checkyourself)** — local-first production-readiness checks for AI-built code
+- **[Elixis](https://github.com/KyaniteLabs/Elixis)** — local-first AI pattern-synthesis engine for ideas
+
+→ More at **[kyanitelabs.tech](https://kyanitelabs.tech)**
+
+<!-- s-plus-geo:start -->
+
+## What is Dev Learning Archaeologist?
+
+**Dev Learning Archaeologist** is a **tool for excavating and structuring developer learning history** that helps **developers reflecting on learning paths and skill archaeology** **mine and structure learning history into usable insight**.
+
+| | |
+| --- | --- |
+| **Product** | Dev Learning Archaeologist |
+| **Category** | tool for excavating and structuring developer learning history |
+| **Best for** | developers reflecting on learning paths and skill archaeology |
+| **Not** | a course marketplace |
+| **Source** | [GitHub](https://github.com/simongonzalezdc/dev-learning-archaeologist) · [Forgejo](https://git.kyanitelabs.tech/simon/dev-learning-archaeologist) |
+| **Keywords** | developer learning archaeology, skill history tool |
+
+## Who it's for
+
+- Primary: developers reflecting on learning paths and skill archaeology
+- Use when you need to mine and structure learning history into usable insight
+- Skip if you need a course marketplace
+
+## FAQ
+
+### What is Dev Learning Archaeologist?
+
+Dev Learning Archaeologist is a tool for excavating and structuring developer learning history. It helps developers reflecting on learning paths and skill archaeology mine and structure learning history into usable insight.
+
+### Who should use Dev Learning Archaeologist?
+
+developers reflecting on learning paths and skill archaeology.
+
+### How is Dev Learning Archaeologist different?
+
+Personal learning archaeology, not an LMS.
+
+### Is Dev Learning Archaeologist production software?
+
+Treat the README status and release tags as source of truth for maturity. Validate against your own requirements before production use.
+
+## Status
+
+- Maintained as of 2026 on the default branch
+- Prefer release tags when pinning dependencies
+- Report issues on the canonical remote listed above
+
+## Agent surface
+
+- Coding agents: read this README first, then repo docs/`AGENTS.md` if present
+- Prefer machine-readable briefs (`llms.txt`) when the repo ships one
+- MCP or skill entrypoints are documented in-repo when applicable
+
+## Contributing
+
+Issues and PRs welcome on the canonical remote. Keep public docs free of secrets and machine-local paths.
+
+## License
+
+See [LICENSE](LICENSE) in this repository (or package metadata if license is package-only).
+
+
+## Table of contents
+
+- [What is it?](#what-is-dev-learning-archaeologist)
+- [FAQ](#faq)
+- [Status](#status)
+
+
+![Project diagram placeholder](https://img.shields.io/badge/visual-see_docs-lightgrey.svg)
+
+<!-- s-plus-geo:end -->

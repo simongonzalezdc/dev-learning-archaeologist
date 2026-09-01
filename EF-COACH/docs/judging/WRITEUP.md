@@ -1,7 +1,0 @@
-# Unstuck Coach Writeup
-
-Unstuck Coach is a folder-based whole-person executive-function accessibility coach for people whose lives stall at start, switch, memory, body-state, re-entry, overload, capture, and closure thresholds. The domain is intentionally specific without being extractive: it is not "make the person more productive at work," it is portable access support for the loops a real person has to live through. It is not an ADHD encyclopedia. It is a coach for the live threshold moment where intention, care, or responsibility needs accessible scaffolding.
-
-The core coaching loop is simple enough to inspect: state, friction, move, hold, check, close. `coach/identity.md` defines the athlete and voice, `coach/rules.md` teaches the loop and routing behavior, `coach/examples.md` calibrates the style under stress, `reference/` holds protocols and boundaries, and `README.md` gives a stranger the cold-start path. The folder is built so Claude can coach directly from context instead of pretending to be an app.
-
-The above-and-beyond layer is proof. The landing page shows the difference between generic advice and Unstuck coaching, `demo/before-after.md` makes that contrast explicit, `evals/red-face-tests.md` stress-tests the coach under the moments where assistants usually fail, and `evals/research-to-behavior-checklist.md` shows how the research became actual coaching moves. The entry should be judged by whether a stranger can drop the folder into Claude, try the test prompts, and feel the difference quickly without reducing the person to work output.
