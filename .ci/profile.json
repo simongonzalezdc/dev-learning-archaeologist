@@ -48,7 +48,7 @@
         "-euo",
         "pipefail",
         "-c",
-        "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=.ci-results/tests.xml tests/*.test.js"
+        "mkdir -p .ci-results && node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=.ci-results/tests.xml tests/*.test.js"
       ]
     },
     {
