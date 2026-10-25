@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "test_globs": [
+    "tests/*.test.js"
+  ],
+  "dependency_files": [
+    "package.json",
+    ".ci/profile.json"
+  ],
+  "junit_reports": [
+    ".ci-results/tests.xml"
+  ],
+  "steps": [
+    {
+      "name": "Confirm Node satisfies engines (no dependencies to install)",
+      "phase": "install",
+      "argv": [
+        "node",
+        "-e",
+        "const [major] = process.versions.node.split('.').map(Number); console.log('node ' + process.version); if (major < 22) process.exit(1);"
+      ]
+    },
+    {
+      "name": "Syntax-check JavaScript",
+      "phase": "verify",
+      "argv": [
+        "bash",
+        "-euo",
+        "pipefail",
+        "-c",
+        "for f in scripts/*.js tests/*.js; do node --check \"$f\"; done"
+      ]
+    },
+    {
+      "name": "Pack the skill files",
+      "phase": "build",
+      "argv": [
+        "npm",
+        "pack",
+        "--dry-run"
+      ]
+    },
+    {
+      "name": "Run all tests",
+      "phase": "test",
+      "argv": [
+        "bash",
+        "-euo",
+        "pipefail",
+        "-c",
+        "mkdir -p .ci-results && node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=.ci-results/tests.xml tests/*.test.js"
+      ]
+    },
+    {
+      "name": "Check relative documentation links",
+      "phase": "acceptance",
+      "argv": [
+        "node",
+        "scripts/check-doc-links.js"
+      ]
+    }
+  ]
+}
