@@ -1,26 +1,14 @@
+name: CI
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
-  test:
-    runs-on: docker
-    container:
-      image: node:26-slim
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: |
-          if [ -f package.json ]; then
-            npm ci || npm install
-          fi
-      - name: Lint
-        run: |
-          if [ -f package.json ]; then
-            npx --no eslint . || true
-          fi
-      - name: Test
-        run: |
-          if [ -f package.json ]; then
-            npm test || true
-          fi
+  ci:
+    uses: KyaniteLabs/.github/.forgejo/workflows/ci-profile.yml@0209ffe2feb69190760cc31491a097fea174550f
