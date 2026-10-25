@@ -12,3 +12,4 @@ learning-archaeologist-report.html
 report-*.png
 .worktrees/
 .ci-results/
+.ci-contract/
