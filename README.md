@@ -8,7 +8,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Claude_Code-Compatible-38bdf8?style=flat-square" />
-  <img src="https://img.shields.io/badge/Pipeline-5_phases-34d399?style=flat-square" />
+  <img src="https://img.shields.io/badge/Pipeline-6_phases-34d399?style=flat-square" />
   <img src="https://img.shields.io/badge/Vectors-7_analysis-a78bfa?style=flat-square" />
   <img src="https://img.shields.io/badge/Report-HTML_auto_open-fbbf24?style=flat-square" />
 </p>
@@ -50,7 +50,7 @@ cd /path/to/your-project && claude
 Then paste:
 ```
 Analyze this repository's git history using the Dev Learning Archaeologist
-methodology. Start with Phase 0 (ground truth), then proceed through all 5 phases.
+methodology. Start with Phase 0 (ground truth), then proceed through all 6 phases.
 ```
 
 That's it. The report opens in your browser automatically.
@@ -59,13 +59,14 @@ That's it. The report opens in your browser automatically.
 
 ## How It Works
 
-The archaeologist runs a **5-phase forensic pipeline** on your repo:
+The archaeologist runs a **6-phase forensic pipeline (Phases 0-5)** on your repo:
 
 1. **Ground Truth** — Count commits, consolidate identities, establish baseline metrics
 2. **Excavate** — Extract commit types, temporal patterns, burst-gap cycles, file hotspots
 3. **Stratify** — Detect behavioral eras by velocity shifts, intent changes, and technology adoption
 4. **Analyze** — Run 7 independent analysis vectors in parallel
-5. **Deliver** — Generate a self-contained HTML report and open it in your browser
+5. **Synthesize** — Cross-reference vectors, resolve contradictions, identify meta-patterns spanning 2+ vectors
+6. **Deliver** — Generate a self-contained HTML report and open it in your browser
 
 ### The 7 Analysis Vectors
 
@@ -103,7 +104,7 @@ This is an [Interpretable Context Methodology](https://arxiv.org/abs/2603.16021)
 | File | Job |
 |------|-----|
 | `identity.md` | Who the specialist is — loads first |
-| `rules.md` | The 5-phase pipeline, 7 vectors, output constraints |
+| `rules.md` | The 6-phase pipeline, 7 vectors, output constraints |
 | `examples.md` | Conversational demos showing the specialist in action |
 | `reference/signal-heuristics.md` | Era classification, frustration levels, formulas |
 | `reference/output-schemas.md` | JSON schemas for structured outputs |

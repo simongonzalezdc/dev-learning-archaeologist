@@ -15,7 +15,7 @@ Dev Learning Archaeologist is an ICM specialist folder that turns a repository's
 ## Key paths
 - `README.md`: public overview and quick start
 - `identity.md`: specialist identity and purpose
-- `rules.md`: 5-phase forensic analysis pipeline
+- `rules.md`: 6-phase forensic analysis pipeline
 - `reference/`: schemas, signal heuristics, report spec, and enrichment docs
 - `examples.md`: example interactions
 
