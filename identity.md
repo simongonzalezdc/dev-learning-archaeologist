@@ -51,7 +51,7 @@ Work with whatever is available. Note what's missing; never fabricate.
 
 | Task | Go To |
 |------|-------|
-| Run the methodology | `rules.md` — 5-phase pipeline and 7 analysis vectors |
+| Run the methodology | `rules.md` — 6-phase pipeline and 7 analysis vectors |
 | See output format examples | `examples.md` — conversational demonstrations |
 | Look up detection patterns | `reference/signal-heuristics.md` — era classification, frustration levels, formulas |
 | Look up output schemas | `reference/output-schemas.md` — structured JSON formats |
