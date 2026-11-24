@@ -1,11 +1,12 @@
 name: Sync Forgejo mirror
 
 # GitHub is this repo's trunk; the Forgejo copy (KyaniteLabs/dev-learning-archaeologist) is a read-only
-# mirror. After trunk CI passes on main, the shared workflow fast-forwards
-# the mirror to that exact commit (fleet GIT-CI-STRATEGY-20261123). Runs when
-# the repo variable FORGEJO_SYNC_ACTIVE is 'true' and pushes as the
-# kyanite-mirror bot from the forgejo-mirror environment (armed 2026-11-23).
-# See KyaniteLabs/.github docs/sync-forgejo.md.
+# mirror. After trunk CI passes on main, this fast-forwards the mirror to that
+# exact commit, as the kyanite-mirror bot from the main-only forgejo-mirror
+# environment (fleet GIT-CI-STRATEGY-20261123). Same logic as the shared
+# KyaniteLabs/.github sync-forgejo.yml, inlined because GitHub does not pass
+# environment secrets to a reusable workflow owned by another account. The
+# fail-closed checks live in KyaniteLabs/.github scripts/forgejo_sync.py, pinned.
 on:
   workflow_run:
     workflows: ["CI"]
@@ -21,18 +22,73 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  sync:
+  gate:
+    name: Require exact-head trunk CI
     if: vars.FORGEJO_SYNC_ACTIVE == 'true' && github.event.workflow_run.conclusion == 'success'
-    uses: KyaniteLabs/.github/.github/workflows/sync-forgejo.yml@a9070204d393afce800230b4eefc809569b45a4a # main 2026-11-23
-    with:
-      trunk: main
-      trigger-workflow-id: 285659812
-      trigger-workflow-name: "CI"
-      trigger-workflow-path: .github/workflows/ci.yml
-      required-workflows: |
-        285659812:.github/workflows/ci.yml
-      forgejo-repository: KyaniteLabs/dev-learning-archaeologist
-      downstream-workflow: none
-      dry-run: false
-      toolkit-ref: a9070204d393afce800230b4eefc809569b45a4a
-    secrets: inherit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    outputs:
+      sha: ${{ steps.primary.outputs.sha }}
+    steps:
+      - name: Check out the sync toolkit (pinned)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: KyaniteLabs/.github
+          ref: a9070204d393afce800230b4eefc809569b45a4a
+          persist-credentials: false
+      - id: primary
+        name: Validate event, tip, and the trunk CI run
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/forgejo_sync.py github-gate \
+            --event "$GITHUB_EVENT_PATH" \
+            --repository "$GITHUB_REPOSITORY" \
+            --api-url "$GITHUB_API_URL" \
+            --trunk main \
+            --trigger-workflow-id 285659812 \
+            --trigger-workflow-name "CI" \
+            --trigger-workflow-path .github/workflows/ci.yml \
+            --required-workflow "285659812:.github/workflows/ci.yml" >>"$GITHUB_OUTPUT"
+
+  push:
+    name: Fast-forward the Forgejo mirror
+    needs: gate
+    if: needs.gate.result == 'success' && needs.gate.outputs.sha != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    environment: forgejo-mirror
+    steps:
+      - name: Check out the sync toolkit (pinned)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: KyaniteLabs/.github
+          ref: a9070204d393afce800230b4eefc809569b45a4a
+          persist-credentials: false
+      - name: Check out the source repository at the validated SHA
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.gate.outputs.sha }}
+          path: source
+          persist-credentials: false
+      - name: Revalidate current GitHub trunk before credentials
+        env:
+          SOURCE_SHA: ${{ needs.gate.outputs.sha }}
+        run: python scripts/forgejo_sync.py source-tip --repository-dir "$GITHUB_WORKSPACE/source" --source-sha "$SOURCE_SHA" --trunk main
+      - name: Fast-forward Forgejo mirror
+        env:
+          SOURCE_SHA: ${{ needs.gate.outputs.sha }}
+          MIRROR_FORGEJO_USERNAME: ${{ vars.MIRROR_FORGEJO_USERNAME }}
+          MIRROR_FORGEJO_TOKEN: ${{ secrets.MIRROR_FORGEJO_TOKEN }}
+        run: |
+          python scripts/forgejo_sync.py sync \
+            --repository-dir "$GITHUB_WORKSPACE/source" \
+            --source-sha "$SOURCE_SHA" \
+            --trunk main \
+            --forgejo-git-url "https://git.kyanitelabs.tech/KyaniteLabs/dev-learning-archaeologist.git" \
+            --forgejo-api-url "https://git.kyanitelabs.tech/api/v1" \
+            --forgejo-repository "KyaniteLabs/dev-learning-archaeologist" \
+            --downstream-workflow none
